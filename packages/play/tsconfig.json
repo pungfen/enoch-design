@@ -1,0 +1,9 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "compilerOptions": {
+    "sourceMap": true
+  },
+  "include": ["vite.config.ts", "src/**/*.ts", "src/**/*.vue"],
+  "exclude": ["node_modules"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "importsNotUsedAsValues": "error",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "strict": true,
+    "target": "ESNext",
+    "types": [
+      "node"
+    ],
+    "useDefineForClassFields": true
+  },
+  "extends": "../../tsconfig.json",
+  "include": [
+    "src"
+  ]
+}

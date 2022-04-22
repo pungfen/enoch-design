@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "composite": true
+  },
+  "include": ["play/vite.config.ts"]
+}
