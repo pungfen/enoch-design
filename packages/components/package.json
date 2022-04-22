@@ -5,6 +5,7 @@
   "main": "index.ts",
   "author": "pung <fp94214@gmail.com>",
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
     "element-plus": "^2.1.9",
     "lodash": "^4.17.21",
     "vue": "^3.2.25"
