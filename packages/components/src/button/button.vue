@@ -3,8 +3,6 @@ import { defineComponent, h } from 'vue'
 import { ElButton } from 'element-plus'
 import { buttonProps } from './button'
 
-// import 'element-plus/theme-chalk/src/button.scss'
-
 export default defineComponent({
   name: 'EnButton',
 

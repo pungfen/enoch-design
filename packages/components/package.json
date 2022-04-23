@@ -1,8 +1,8 @@
 {
-  "name": "@enoch-design/components",
+  "name": "@enoch/components",
   "version": "1.0.0",
-  "description": "enoch-design components",
-  "main": "index.ts",
+  "description": "enoch components",
+  "main": "src/index.ts",
   "author": "pung <fp94214@gmail.com>",
   "devDependencies": {
     "@types/lodash": "^4.14.182",

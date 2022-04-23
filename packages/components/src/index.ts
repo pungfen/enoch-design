@@ -1,4 +1,4 @@
-import { EnButton } from './src/button'
+import { EnButton } from './button'
 
 const components = [EnButton]
 
