@@ -4,14 +4,13 @@
     "forceConsistentCasingInFileNames": true,
     "importsNotUsedAsValues": "error",
     "isolatedModules": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "strict": true,
-    "target": "ESNext",
+    "target": "esnext",
     "types": ["node", "vite/client"],
     "useDefineForClassFields": true
   },
-  "extends": "../../tsconfig.json",
-  "include": ["src"]
+  "include": ["src/**/*.ts"]
 }

@@ -1,81 +1,113 @@
 import { resolve } from 'path'
-import { build, defineConfig } from 'vite'
+import { rollup } from 'rollup'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import esbuild from 'rollup-plugin-esbuild'
+
 import { parallel, series } from 'gulp'
 import vue from '@vitejs/plugin-vue'
 
+import glob from 'fast-glob'
+
 import { componentsOutput, pkgComponentsRoot } from '../config'
-import { withTaskName } from '../utils'
+import { excludeFiles, withTaskName } from '../utils'
 
-import type { BuildOptions, InlineConfig } from 'vite'
+import type { OutputOptions } from 'rollup'
 
-const baseConfig = defineConfig({ plugins: [vue()] })
+const bundleTask = (minify: boolean) => async () => {
+  const bundle = await rollup({
+    input: resolve(pkgComponentsRoot, 'src', 'index.ts'),
+    plugins: [
+      vue({ isProduction: true }),
+      nodeResolve({ extensions: ['.mjs', '.js', '.json', '.ts'] }),
+      commonjs(),
+      esbuild({
+        minify,
+        sourceMap: minify,
+        target: 'esnext',
+        loaders: { '.vue': 'ts' }
+      })
+    ],
+    external: ['vue', 'lodash', 'element-plus']
+  })
 
-const baseBuildConfig: BuildOptions = {
-  emptyOutDir: false,
-  rollupOptions: {
+  await Promise.all(
+    (
+      [
+        {
+          format: 'umd',
+          file: resolve(componentsOutput, 'dist', `index.full${minify ? '.min' : ''}.js`),
+          exports: 'named',
+          name: '@enoch/components',
+          globals: { 'element-plus': 'ElementPlus', lodash: 'lodash', vue: 'Vue' },
+          sourcemap: minify,
+          banner: '/* umd----- */'
+        },
+        {
+          format: 'esm',
+          file: resolve(componentsOutput, 'dist', `index.full${minify ? '.min' : ''}.mjs`),
+          sourcemap: minify,
+          banner: '/* esm----- */'
+        }
+      ] as OutputOptions[]
+    ).map((option) => bundle.write(option))
+  )
+}
+
+const modulesTask = async () => {
+  const input = excludeFiles(
+    await glob('**/*.{js,ts,vue}', { cwd: pkgComponentsRoot, absolute: true, onlyFiles: true })
+  )
+
+  const bundle = await rollup({
+    input,
+    plugins: [
+      vue({ isProduction: true }),
+      nodeResolve({ extensions: ['.mjs', '.js', '.json', '.ts'] }),
+      commonjs(),
+      esbuild({
+        sourceMap: true,
+        target: 'esnext',
+        loaders: { '.vue': 'ts' }
+      })
+    ],
     external: ['vue', 'lodash', 'element-plus'],
-    output: {
-      globals: { 'element-plus': 'ElementPlus', lodash: 'lodash', vue: 'Vue' }
-    }
-  }
+    treeshake: false
+  })
+
+  await Promise.all(
+    (
+      [
+        {
+          format: 'esm',
+          dir: resolve(componentsOutput, 'es'),
+          preserveModules: true,
+          preserveModulesRoot: resolve(componentsOutput, 'src'),
+          sourcemap: true,
+          entryFileNames: `[name].mjs`
+        },
+        {
+          format: 'cjs',
+          dir: resolve(componentsOutput, 'lib'),
+          exports: 'named',
+          preserveModules: true,
+          preserveModulesRoot: resolve(componentsOutput, 'src'),
+          sourcemap: true,
+          entryFileNames: `[name].js`
+        }
+      ] as OutputOptions[]
+    ).map((option) => bundle.write(option))
+  )
 }
 
-const buildBundleMinifyConfig: InlineConfig = {
-  ...baseConfig,
-  configFile: false,
-  esbuild: { minify: true },
-  build: {
-    ...baseBuildConfig,
-    lib: {
-      entry: resolve(pkgComponentsRoot, 'src', 'index.ts'),
-      name: '@enoch/components',
-      fileName: 'index.min',
-      formats: ['es', 'umd']
-    },
-    outDir: resolve(componentsOutput, 'dist'),
-    sourcemap: false
-  }
-}
-
-const buildBundleConfig: InlineConfig = {
-  ...baseConfig,
-  configFile: false,
-  build: {
-    ...baseBuildConfig,
-    lib: {
-      entry: resolve(pkgComponentsRoot, 'src', 'index.ts'),
-      name: '@enoch/components',
-      fileName: 'index',
-      formats: ['es', 'umd']
-    },
-    outDir: resolve(componentsOutput, 'dist'),
-    sourcemap: false
-  }
-}
-
-const buildModulesConfig: InlineConfig = {
-  ...baseConfig,
-  configFile: false,
-  build: {
-    ...baseBuildConfig,
-    lib: {
-      entry: resolve(pkgComponentsRoot, 'src', 'index.ts'),
-      name: '@enoch/components',
-      fileName: 'index',
-      formats: ['es', 'umd']
-    },
-    outDir: componentsOutput,
-    sourcemap: true
-  }
-}
-
-const bundleTask = (minify: Boolean) => async () => await build(minify ? buildBundleMinifyConfig : buildBundleConfig)
-const modulesTask = async () => await build(buildModulesConfig)
+const typesTask = async () => {}
 
 export const buildComponents = series(
   parallel(
     withTaskName('buildComponentsBundleMinify', bundleTask(true)),
-    withTaskName('buildComponentsBundle', bundleTask(false))
+    withTaskName('buildComponentsBundle', bundleTask(false)),
+    withTaskName('buildTypes', typesTask)
   ),
+
   withTaskName('buildComponentsModules', modulesTask)
 )
