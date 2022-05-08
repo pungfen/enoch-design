@@ -1,7 +1,8 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "compilerOptions": {
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["vite/client", "vite-plugin-pages/client", "vite-plugin-vue-layouts/client"]
   },
   "include": ["vite.config.ts", "src/**/*.ts", "src/**/*.vue"],
   "exclude": ["node_modules"],
