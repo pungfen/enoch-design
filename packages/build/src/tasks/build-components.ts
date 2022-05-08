@@ -5,11 +5,9 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 
-import { parallel, series } from 'gulp'
+import { parallel } from 'gulp'
 import vue from '@vitejs/plugin-vue'
 
-// import consola from 'consola'
-// import chalk from 'chalk'
 import { Project } from 'ts-morph'
 
 import glob from 'fast-glob'
@@ -110,7 +108,13 @@ const modulesTask = async () => {
 }
 
 const typesTask = async () => {
-  const project = new Project({ tsConfigFilePath: resolve(pkgComponentsRoot, 'tsconfig.json') })
+  const project = new Project({
+    compilerOptions: {
+      outDir: resolve(componentsOutput, 'types')
+    },
+    tsConfigFilePath: resolve(pkgComponentsRoot, 'tsconfig.json'),
+    skipAddingFilesFromTsConfig: true
+  })
 
   const sourceFiles: SourceFile[] = []
 
@@ -134,39 +138,35 @@ const typesTask = async () => {
           const sourceFile = project.createSourceFile(`${relative(process.cwd(), file)}.${lang}`, content)
           sourceFiles.push(sourceFile)
         }
+      } else if (file.endsWith('.ts')) {
+        const sourceFile = project.addSourceFileAtPath(file)
+        sourceFiles.push(sourceFile)
       }
     })
   )
 
-  await project.emit({ emitOnlyDtsFiles: true })
+  const diagnostics = project.getPreEmitDiagnostics()
 
-  const tasks = sourceFiles.map(async (sourceFile) => {
-    const relativePath = relative(pkgComponentsRoot, sourceFile.getFilePath())
-    // consola.trace(chalk.yellow(`Generating definition for file: ${chalk.bold(relativePath)}`))
+  console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
+  project.emitToMemory()
+
+  for (const sourceFile of sourceFiles) {
     const emitOutput = sourceFile.getEmitOutput()
-    const emitFiles = emitOutput.getOutputFiles()
-    // if (!emitFiles.length) throw new Error(`Emit no file: ${chalk.bold(relativePath)}`)
-
-    const tasks = emitFiles.map(async (outputFile) => {
+    for (const outputFile of emitOutput.getOutputFiles()) {
       const filepath = outputFile.getFilePath()
       await mkdir(dirname(filepath), { recursive: true })
-      console.log('~~~')
-      await writeFile(dirname(filepath), outputFile.getText(), 'utf8')
-    })
-
-    await Promise.all(tasks)
-  })
-
-  await Promise.all(tasks)
+      await writeFile(filepath, outputFile.getText(), 'utf8')
+    }
+  }
 }
 
-export const buildComponents = series(
-  parallel(
-    withTaskName('buildComponentsBundleMinify', bundleTask(true)),
-    withTaskName('buildComponentsBundle', bundleTask(false)),
-    withTaskName('buildTypes', typesTask)
-  ),
+const helperTask = async () => {}
 
-  withTaskName('buildComponentsModules', modulesTask)
+export const buildComponents = parallel(
+  withTaskName('buildComponentsBundleMinify', bundleTask(true)),
+  withTaskName('buildComponentsBundle', bundleTask(false)),
+  withTaskName('buildComponentsModules', modulesTask),
+  withTaskName('buildTypes', typesTask),
+  withTaskName('buildHelper', helperTask)
 )

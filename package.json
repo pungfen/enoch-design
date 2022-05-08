@@ -6,7 +6,9 @@
   ],
   "scripts": {
     "dev": "pnpm -C play dev",
-    "build": "pnpm -C packages/build start"
+    "build": "pnpm -C packages/build start",
+    "docs:dev": "pnpm -C packages/docs dev",
+    "docs:build": "pnpm -C packages/docs build"
   },
   "devDependencies": {
     "prettier": "^2.6.2",

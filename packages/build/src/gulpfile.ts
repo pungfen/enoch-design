@@ -1,4 +1,4 @@
 import { series } from 'gulp'
-import { buildComponents, clean } from './tasks'
+import { clean, buildComponents, buildHooks } from './tasks'
 
-export default series(clean, buildComponents)
+export default series(clean, buildComponents, buildHooks)

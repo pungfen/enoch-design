@@ -1,16 +1,13 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "strict": true,
     "target": "esnext",
-    "types": ["node", "vite/client"],
-    "useDefineForClassFields": true
+    "types": ["node"]
   },
   "include": ["src/**/*.ts"]
 }

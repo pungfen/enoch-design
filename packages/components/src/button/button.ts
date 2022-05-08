@@ -1,5 +1,6 @@
 import type { PropType } from 'vue'
-import type { ButtonType } from 'element-plus'
+
+type ButtonType = '' | 'default' | 'primary' | 'success' | 'warning' | 'info' | 'danger' | 'text'
 
 export const buttonProps = {
   type: { type: String as PropType<ButtonType>, default: 'default' }
