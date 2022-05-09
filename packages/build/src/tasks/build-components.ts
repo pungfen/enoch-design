@@ -170,7 +170,7 @@ export const buildComponents = series(
     withTaskName('build-components-bundle-minify', bundleTask(true)),
     withTaskName('build-components-bundle', bundleTask(false)),
     withTaskName('build-components-modules', modulesTask),
-    withTaskName('build-types', typesTask),
-    withTaskName('build-helper', helperTask)
+    withTaskName('build-components-types', typesTask),
+    withTaskName('build-components-helper', helperTask)
   )
 )
