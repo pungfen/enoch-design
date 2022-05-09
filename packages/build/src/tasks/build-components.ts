@@ -1,11 +1,12 @@
 import { mkdir, readFile, writeFile } from 'fs/promises'
 import { resolve, relative, dirname } from 'path'
+import rimraf from 'rimraf'
 import { rollup } from 'rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 
-import { parallel } from 'gulp'
+import { parallel, series } from 'gulp'
 import vue from '@vitejs/plugin-vue'
 
 import { Project } from 'ts-morph'
@@ -163,10 +164,13 @@ const typesTask = async () => {
 
 const helperTask = async () => {}
 
-export const buildComponents = parallel(
-  withTaskName('buildComponentsBundleMinify', bundleTask(true)),
-  withTaskName('buildComponentsBundle', bundleTask(false)),
-  withTaskName('buildComponentsModules', modulesTask),
-  withTaskName('buildTypes', typesTask),
-  withTaskName('buildHelper', helperTask)
+export const buildComponents = series(
+  withTaskName('clean-components', (done) => rimraf(componentsOutput, done)),
+  parallel(
+    withTaskName('build-components-bundle-minify', bundleTask(true)),
+    withTaskName('build-components-bundle', bundleTask(false)),
+    withTaskName('build-components-modules', modulesTask),
+    withTaskName('build-types', typesTask),
+    withTaskName('build-helper', helperTask)
+  )
 )

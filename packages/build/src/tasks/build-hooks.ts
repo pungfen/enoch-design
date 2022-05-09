@@ -1,5 +1,12 @@
+import { parallel, series } from 'gulp'
+import rimraf from 'rimraf'
+
 import { build } from 'vite'
 
-export const buildHooks = async () => {
-  // await build()
-}
+import { docsOutput } from '../config'
+import { withTaskName } from '../utils'
+
+export const buildHooks = series(
+  withTaskName('clean-components', (done) => rimraf(docsOutput, done)),
+  parallel(async () => {})
+)
