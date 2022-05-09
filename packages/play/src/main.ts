@@ -6,10 +6,6 @@ import App from './app.vue'
 
 import routes from '~pages'
 
-// import EnochComponents from '@enoch/components'
-
-// console.log(EnochComponents)
-
 export const router = createRouter({
   routes: setupLayouts(routes),
   history: createWebHashHistory()

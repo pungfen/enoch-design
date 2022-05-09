@@ -37,7 +37,7 @@ export default defineConfig({
             const esComponentsFolder = 'element-plus/es/components'
             return {
               name: componentName,
-              from: '@enoch-design/components',
+              from: '@enoch/components',
               sideEffects: [`${esComponentsFolder}/${kebabCase(name)}/style/index`]
             }
           }
