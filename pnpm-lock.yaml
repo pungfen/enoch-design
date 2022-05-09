@@ -5,11 +5,13 @@ importers:
   .:
     specifiers:
       '@enoch/components': workspace:*
+      husky: ^8.0.0
       prettier: ^2.6.2
       typescript: ^4.6.3
     dependencies:
       '@enoch/components': link:packages/components
     devDependencies:
+      husky: 8.0.0
       prettier: 2.6.2
       typescript: 4.6.3
 
@@ -2179,6 +2181,12 @@ packages:
       domhandler: 4.3.0
       domutils: 2.8.0
       entities: 3.0.1
+    dev: true
+
+  /husky/8.0.0:
+    resolution: {integrity: sha512-4qbE/5dzNDNxFEkX9MNRPKl5+omTXQzdILCUWiqG/lWIAioiM5vln265/l6I2Zx8gpW8l1ukZwGQeCFbBZ6+6w==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /immutable/4.0.0:

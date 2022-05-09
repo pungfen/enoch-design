@@ -11,6 +11,15 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pungfen/enoch-design.git",
+    "directory": "packages/components"
+  },
+  "bugs": {
+    "url": "https://github.com/pungfen/enoch-design/issues"
+  },
+  "homepage": "https://github.com/pungfen/enoch-design/tree/main/#readme",
   "keywords": [
     "vue3",
     "UI",
