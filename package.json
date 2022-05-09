@@ -11,7 +11,8 @@
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "pnpm build && changeset publish",
     "docs:dev": "pnpm -C packages/docs dev",
-    "docs:build": "pnpm -C packages/docs build"
+    "docs:build": "pnpm -C packages/docs build",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@enoch/components": "workspace:*"
