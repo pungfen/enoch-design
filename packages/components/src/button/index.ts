@@ -8,5 +8,3 @@ export * from './button'
 export const EnButton = assign(Button, {
   install: (app: App) => app.component(Button.name, Button)
 })
-
-// test
