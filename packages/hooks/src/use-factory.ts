@@ -1,6 +1,4 @@
-import { getCurrentInstance, reactive, useSlots } from 'vue'
-
-import type { UnwrapRef, SetupContext } from 'vue'
+import { getCurrentInstance, reactive, useSlots, type UnwrapRef, type SetupContext } from 'vue'
 
 interface FactoryBaseState {
   $emit?: SetupContext['emit']

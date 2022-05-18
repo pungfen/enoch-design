@@ -1,0 +1,9 @@
+{
+  "name": "@enoch/prettier-config",
+  "version": "1.0.0",
+  "description": "My personal Prettier config",
+  "main": "index.json",
+  "repository": "git@github.com:azz/prettier-config.git",
+  "license": "MIT",
+  "author": "pung <fp94214@gmail.com>"
+}
