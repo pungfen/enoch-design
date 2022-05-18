@@ -3,7 +3,7 @@
   "description": "Enoch frontend Prettier config",
   "license": "MIT",
   "main": "index.json",
-  "name": "@enoch/prettier-config",
+  "name": "@enochfe/prettier-config",
   "repository": {
     "directory": "packages/prettier-config",
     "type": "git",
