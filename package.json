@@ -15,7 +15,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@enoch/components": "workspace:*"
+    "@enoch/components": "workspace:*",
+    "@enoch/prettier-config": "workspace:*"
   },
   "devDependencies": {
     "@changesets/cli": "^2.22.0",
@@ -30,5 +31,6 @@
     "commitizen": {
       "path": "@commitlint/cz-commitlint"
     }
-  }
+  },
+  "prettier": "@enoch/prettier-config"
 }
