@@ -1,7 +1,7 @@
 {
-  "name": "@enoch/components",
+  "name": "@enochfe/components",
   "version": "0.0.1",
-  "description": "enoch components",
+  "description": "enochfe components",
   "author": "pung <fp94214@gmail.com>",
   "type": "module",
   "main": "src/index.ts",

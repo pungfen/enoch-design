@@ -1,7 +1,7 @@
 {
-  "name": "@enoch/docs",
+  "name": "@enochfe/docs",
   "version": "1.0.0",
-  "description": "enoch docs",
+  "description": "enochfe docs",
   "main": "src/index.ts",
   "author": "pung <fp94214@gmail.com>",
   "scripts": {
