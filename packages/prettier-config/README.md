@@ -7,7 +7,7 @@
 **Install**:
 
 ```bash
-$ pnpm add --dev @enochfe/prettier-config
+$ pnpm add @enochfe/prettier-config -D
 ```
 
 **Edit `package.json`**:
