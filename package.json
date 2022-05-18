@@ -1,21 +1,34 @@
 {
   "author": "pung <fp94214@gmail.com>",
   "private": true,
+  "type": "module",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "dev": "pnpm -C packages/play dev",
     "build": "pnpm -C packages/build start",
+    "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
+    "ci:publish": "pnpm build && changeset publish",
     "docs:dev": "pnpm -C packages/docs dev",
-    "docs:build": "pnpm -C packages/docs build"
+    "docs:build": "pnpm -C packages/docs build",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@enoch/components": "workspace:*"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.22.0",
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
+    "@commitlint/cz-commitlint": "^16.2.4",
     "husky": "^8.0.0",
     "prettier": "^2.6.2",
     "typescript": "^4.6.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
   }
 }

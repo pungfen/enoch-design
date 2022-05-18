@@ -1,11 +1,12 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.node.json",
+  "extends": "@vue/tsconfig/tsconfig.web.json",
   "compilerOptions": {
     "declaration": true,
     "emitDeclarationOnly": true,
     "sourceMap": true,
-    "noEmitOnError": true
+    "noEmitOnError": true,
+    "strictNullChecks": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.vue"],
   "exclude": ["node_modules"]
 }
