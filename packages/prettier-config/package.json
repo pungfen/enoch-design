@@ -1,9 +1,13 @@
 {
-  "name": "@enoch/prettier-config",
-  "version": "1.0.0",
-  "description": "My personal Prettier config",
-  "main": "index.json",
-  "repository": "git@github.com:azz/prettier-config.git",
+  "author": "pung <fp94214@gmail.com>",
+  "description": "Enoch frontend Prettier config",
   "license": "MIT",
-  "author": "pung <fp94214@gmail.com>"
+  "main": "index.json",
+  "name": "@enoch/prettier-config",
+  "repository": {
+    "directory": "packages/prettier-config",
+    "type": "git",
+    "url": "git+https://github.com/pungfen/enoch-design.git"
+  },
+  "version": "1.0.0"
 }
