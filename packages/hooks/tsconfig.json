@@ -4,7 +4,8 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "sourceMap": true,
-    "noEmitOnError": true
+    "noEmitOnError": true,
+    "strictNullChecks": true
   },
   "include": ["src/**/*.ts", "src/**/*.vue"],
   "exclude": ["node_modules"]
