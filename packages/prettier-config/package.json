@@ -9,5 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/pungfen/enoch-design.git"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "version": "1.0.0"
 }
