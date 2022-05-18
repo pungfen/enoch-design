@@ -1,4 +1,4 @@
-# `@enoch/prettier-config`
+# `@enochfe/prettier-config`
 
 > Enoch [Prettier](https://prettier.io) config.
 
@@ -7,7 +7,7 @@
 **Install**:
 
 ```bash
-$ yarn add --dev @enoch/prettier-config
+$ pnpm add --dev @enochfe/prettier-config
 ```
 
 **Edit `package.json`**:
@@ -15,6 +15,6 @@ $ yarn add --dev @enoch/prettier-config
 ```jsonc
 {
   // ...
-  "prettier": "@enoch/prettier-config"
+  "prettier": "@enochfe/prettier-config"
 }
 ```
