@@ -1,10 +1,9 @@
 import { EnButton } from './button'
+import { EnInput } from './input'
 
 import type { App } from 'vue'
 
-const version = '0.0.1'
-
-const components = [EnButton]
+const components = [EnButton, EnInput]
 
 const install = (app: App) => {
   components.forEach((component) => {
@@ -12,6 +11,6 @@ const install = (app: App) => {
   })
 }
 
-export { EnButton }
+export { EnButton, EnInput }
 
-export default { version, install }
+export default { install }

@@ -7,6 +7,7 @@
     "start": "gulp --require sucrase/register/ts -f src/gulpfile.ts"
   },
   "type": "module",
+  "main": "src/index.ts",
   "version": "0.0.1",
   "dependencies": {
     "@rollup/plugin-commonjs": "^22.0.0",

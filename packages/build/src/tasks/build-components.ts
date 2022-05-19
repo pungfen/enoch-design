@@ -61,9 +61,7 @@ const bundleTask = (minify: boolean) => async () => {
 }
 
 const modulesTask = async () => {
-  const input = excludeFiles(
-    await glob('**/*.{js,ts,vue}', { cwd: pkgComponentsRoot, absolute: true, onlyFiles: true })
-  )
+  const input = excludeFiles(await glob('**/*.{js,ts,vue}', { cwd: pkgComponentsRoot, absolute: true, onlyFiles: true }))
 
   const bundle = await rollup({
     input,
@@ -119,9 +117,7 @@ const typesTask = async () => {
 
   const sourceFiles: SourceFile[] = []
 
-  const filePaths = excludeFiles(
-    await glob('**/*.{js,ts,vue}', { cwd: pkgComponentsRoot, absolute: true, onlyFiles: true })
-  )
+  const filePaths = excludeFiles(await glob('**/*.{js,ts,vue}', { cwd: pkgComponentsRoot, absolute: true, onlyFiles: true }))
 
   await Promise.all(
     filePaths.map(async (file) => {
@@ -169,8 +165,8 @@ export const buildComponents = series(
   parallel(
     withTaskName('build-components-bundle-minify', bundleTask(true)),
     withTaskName('build-components-bundle', bundleTask(false)),
-    withTaskName('build-components-modules', modulesTask),
-    withTaskName('build-components-types', typesTask),
-    withTaskName('build-components-helper', helperTask)
+    // withTaskName('build-components-modules', modulesTask),
+    withTaskName('build-components-types', typesTask)
+    // withTaskName('build-components-helper', helperTask)
   )
 )

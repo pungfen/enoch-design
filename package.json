@@ -15,6 +15,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@enochfe/build": "workspace:*",
     "@enochfe/components": "workspace:*",
     "@enochfe/prettier-config": "workspace:*"
   },
