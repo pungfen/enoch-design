@@ -9,11 +9,13 @@ importers:
       '@commitlint/config-conventional': ^16.2.4
       '@commitlint/cz-commitlint': ^16.2.4
       '@enoch/components': workspace:*
+      '@enoch/prettier-config': workspace:*
       husky: ^8.0.0
       prettier: ^2.6.2
       typescript: ^4.6.3
     dependencies:
       '@enoch/components': link:packages/components
+      '@enoch/prettier-config': link:packages/prettier-config
     devDependencies:
       '@changesets/cli': 2.22.0
       '@commitlint/cli': 16.2.4
@@ -136,6 +138,9 @@ importers:
       vite-plugin-pages: 0.22.0_vite@2.9.5
       vite-plugin-vue-layouts: 0.6.0_yztj673kfoy6jtim4id3vxsvyy
       vue-tsc: 0.29.8_typescript@4.6.4
+
+  packages/prettier-config:
+    specifiers: {}
 
 packages:
 

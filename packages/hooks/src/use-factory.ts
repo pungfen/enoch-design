@@ -1,6 +1,5 @@
 import { getCurrentInstance, reactive, useSlots, type UnwrapRef, type SetupContext } from 'vue'
 
-import type { Any, Object } from 'ts-toolbelt'
 import type { Method } from 'axios'
 
 type ComponentType = 'table' | 'form' | 'tree' | 'dialog' | 'drawer'
@@ -84,14 +83,6 @@ type ConvertIndexConfig<Config extends object = object> = {
   [Key in keyof Config]: { name: string }
 }[keyof Config]
 
-let testIndex: FactoryConfig = {
-  type: { name: '' },
-  data: {},
-  obj: {
-    name: ''
-  }
-}
-
 type ConvertTypeConfig<Config extends object> = 'type' extends keyof Config
   ? 'table' extends Config['type']
     ? TableConfig & ConvertIndexConfig<Omit<Config, keyof TableConfig>>
@@ -151,22 +142,3 @@ export const useFactory = <Config extends object>(config: FactoryConfig<Config>)
 
   return stateProxy
 }
-
-const xx = useFactory({
-  name: '2',
-  obj: {
-    type: 'table',
-    data: [],
-    ajax: {
-      get: {
-        action: 'GET /xx'
-      }
-    },
-    xxx: {
-      type: 'form',
-      data: {}
-    }
-  }
-})
-
-type A = Any.Equals<Record<string, any>, Record<string, any>>
