@@ -1,4 +1,6 @@
-import { getCurrentInstance, reactive, useSlots, type UnwrapRef, type SetupContext } from 'vue'
+import { getCurrentInstance, reactive, useSlots, inject, type UnwrapRef, type SetupContext } from 'vue'
+
+import { FactoryConfigInjectionKey, type FactoryConfigCtx } from './config'
 
 import type { Method } from 'axios'
 
@@ -133,6 +135,8 @@ type FactoryConfig<Config extends object = object> = ConvertIndexConfig<Config>
 type UseFactoryReturn<Config> = UnwrapRef<FactoryBaseState>
 
 export const useFactory = <Config extends object>(config: FactoryConfig<Config>): UseFactoryReturn<Config> => {
+  const factoryConfig = inject<FactoryConfigCtx>(FactoryConfigInjectionKey)
+
   const vm = getCurrentInstance()
   const slots = useSlots()
 

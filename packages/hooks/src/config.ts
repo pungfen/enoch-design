@@ -1,7 +1,17 @@
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, onMounted, onUnmounted } from 'vue'
 
-export interface UserConfigExport {}
+export interface UserConfigFactory {
+  onMounted?: typeof onMounted
+  onUnmounted?: typeof onUnmounted
+  hooks?: ('onMounted' | 'onUnmounted')[]
+}
 
-export interface FactoryConfigCtx {}
+export interface FactoryConfigCtx extends UserConfigFactory {}
 
-export const FactoryConfigInjectionKey: InjectionKey<FactoryConfigCtx> = Symbol('FactoryConfig')
+export const FactoryConfigInjectionKey: InjectionKey<FactoryConfigCtx> = Symbol('FactoryConfigProvider')
+
+export const getDefaultConfig = (): UserConfigFactory => {
+  return {
+    hooks: ['onMounted', 'onUnmounted']
+  }
+}

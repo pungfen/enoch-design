@@ -1,14 +1,12 @@
 <script lang="ts">
 import { defineComponent, h, provide, type PropType } from 'vue'
 
-import { FactoryConfigInjectionKey, type UserConfigExport } from './config'
-
-const getDefaultConfig = () => {}
+import { getDefaultConfig, FactoryConfigInjectionKey, type UserConfigFactory } from './config'
 
 export default defineComponent({
   props: {
     config: {
-      type: Object as PropType<UserConfigExport>,
+      type: Object as PropType<UserConfigFactory>,
       default: getDefaultConfig
     }
   },
