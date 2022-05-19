@@ -3,16 +3,15 @@
   "description": "Enoch frontend Prettier config",
   "license": "MIT",
   "main": "index.json",
-  "name": "@enoch/prettier-config",
+  "name": "@enochfe/prettier-config",
   "repository": {
     "directory": "packages/prettier-config",
     "type": "git",
     "url": "git+https://github.com/pungfen/enoch-design.git"
   },
   "publishConfig": {
-    "name": "@enochfe/prettier-config",
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "version": "0.0.3"
+  "version": "0.0.5"
 }

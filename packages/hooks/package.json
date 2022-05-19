@@ -1,7 +1,7 @@
 {
-  "name": "@enoch/hooks",
+  "name": "@enochfe/hooks",
   "version": "1.0.0",
-  "description": "enoch hooks",
+  "description": "enochfe hooks",
   "main": "src/index.ts",
   "author": "pung <fp94214@gmail.com>",
   "devDependencies": {

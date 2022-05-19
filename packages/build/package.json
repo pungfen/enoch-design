@@ -1,7 +1,7 @@
 {
   "author": "pung <fp94214@gmail.com>",
   "description": "Build Toolchain for enoch-design",
-  "name": "@enoch/build",
+  "name": "@enochfe/build",
   "private": true,
   "scripts": {
     "start": "gulp --require sucrase/register/ts -f src/gulpfile.ts"
