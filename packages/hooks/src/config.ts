@@ -6,7 +6,9 @@ export interface UserConfigFactory {
   hooks?: ('onMounted' | 'onUnmounted')[]
 }
 
-export interface FactoryConfigCtx extends UserConfigFactory {}
+export interface FactoryConfigCtx {
+  config: UserConfigFactory
+}
 
 export const FactoryConfigInjectionKey: InjectionKey<FactoryConfigCtx> = Symbol('FactoryConfigProvider')
 

@@ -3,16 +3,22 @@
   "description": "Build Toolchain for enoch-design",
   "name": "@enochfe/build",
   "private": true,
-  "scripts": {
-    "start": "gulp --require sucrase/register/ts -f src/gulpfile.ts"
-  },
   "type": "module",
+  "engines": {
+    "node": ">=14.16"
+  },
+  "scripts": {
+    "start": "gulp --require sucrase/register/ts -f src/gulpfile.ts",
+    "tsup": "tsup src/xx.vue --format cjs,esm --dts --clean"
+  },
   "main": "src/index.ts",
   "version": "0.0.1",
   "dependencies": {
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "@vitejs/plugin-vue": "^2.2.0",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "chalk": "^5.0.1",
+    "consola": "^2.15.3",
     "esbuild": "^0.14.38",
     "fast-glob": "^3.2.11",
     "gulp": "^4.0.2",

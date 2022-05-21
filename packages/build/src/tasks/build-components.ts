@@ -1,5 +1,4 @@
-import { mkdir, readFile, writeFile } from 'fs/promises'
-import { resolve, relative, dirname } from 'path'
+import { resolve } from 'path'
 import rimraf from 'rimraf'
 import { rollup } from 'rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
@@ -9,16 +8,13 @@ import esbuild from 'rollup-plugin-esbuild'
 import { parallel, series } from 'gulp'
 import vue from '@vitejs/plugin-vue'
 
-import { Project } from 'ts-morph'
-
 import glob from 'fast-glob'
-import * as vueCompiler from 'vue/compiler-sfc'
 
 import { componentsOutput, pkgComponentsRoot } from '../config'
 import { excludeFiles, withTaskName } from '../utils'
+import { buildTypes } from './build-types'
 
 import type { OutputOptions } from 'rollup'
-import type { SourceFile } from 'ts-morph'
 
 const bundleTask = (minify: boolean) => async () => {
   const bundle = await rollup({
@@ -106,67 +102,15 @@ const modulesTask = async () => {
   )
 }
 
-const typesTask = async () => {
-  const project = new Project({
-    compilerOptions: {
-      outDir: resolve(componentsOutput, 'types')
-    },
-    tsConfigFilePath: resolve(pkgComponentsRoot, 'tsconfig.json'),
-    skipAddingFilesFromTsConfig: true
-  })
-
-  const sourceFiles: SourceFile[] = []
-
-  const filePaths = excludeFiles(await glob('**/*.{js,ts,vue}', { cwd: pkgComponentsRoot, absolute: true, onlyFiles: true }))
-
-  await Promise.all(
-    filePaths.map(async (file) => {
-      if (file.endsWith('.vue')) {
-        const content = await readFile(file, 'utf-8')
-        const sfc = vueCompiler.parse(content)
-        const { script, scriptSetup } = sfc.descriptor
-        if (script || scriptSetup) {
-          let content = script?.content ?? ''
-          if (scriptSetup) {
-            const compiled = vueCompiler.compileScript(sfc.descriptor, { id: 'xxx' })
-            content += compiled.content
-          }
-          const lang = scriptSetup?.lang || script?.lang || 'js'
-          const sourceFile = project.createSourceFile(`${relative(process.cwd(), file)}.${lang}`, content)
-          sourceFiles.push(sourceFile)
-        }
-      } else if (file.endsWith('.ts')) {
-        const sourceFile = project.addSourceFileAtPath(file)
-        sourceFiles.push(sourceFile)
-      }
-    })
-  )
-
-  const diagnostics = project.getPreEmitDiagnostics()
-
-  console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
-
-  project.emitToMemory()
-
-  for (const sourceFile of sourceFiles) {
-    const emitOutput = sourceFile.getEmitOutput()
-    for (const outputFile of emitOutput.getOutputFiles()) {
-      const filepath = outputFile.getFilePath()
-      await mkdir(dirname(filepath), { recursive: true })
-      await writeFile(filepath, outputFile.getText(), 'utf8')
-    }
-  }
-}
-
 const helperTask = async () => {}
 
-export const buildComponents = series(
+export default series(
   withTaskName('clean-components', (done) => rimraf(componentsOutput, done)),
   parallel(
     withTaskName('build-components-bundle-minify', bundleTask(true)),
     withTaskName('build-components-bundle', bundleTask(false)),
-    // withTaskName('build-components-modules', modulesTask),
-    withTaskName('build-components-types', typesTask)
-    // withTaskName('build-components-helper', helperTask)
+    withTaskName('build-components-modules', modulesTask),
+    withTaskName('build-components-types', buildTypes({ input: pkgComponentsRoot, out: componentsOutput })),
+    withTaskName('build-components-helper', helperTask)
   )
 )

@@ -1,13 +1,4 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "strict": true,
-    "target": "esnext",
-    "types": ["node"]
-  },
+  "extends": "@vue/tsconfig/tsconfig.node.json",
   "include": ["src/**/*.ts"]
 }

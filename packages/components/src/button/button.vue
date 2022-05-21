@@ -13,7 +13,7 @@ export default defineComponent({
       return h(
         ElButton,
         {
-          type: props.type
+          ...props
         },
         { default: slots.default }
       )

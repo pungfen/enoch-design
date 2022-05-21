@@ -6,8 +6,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "test": "vitest",
-    "build": "vite build"
+    "test": "vitest"
   },
   "files": [
     "dist"
@@ -31,7 +30,6 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitest/ui": "^0.12.0",
     "@vue/test-utils": "2.0.0-rc.21",
-    "@vue/tsconfig": "^0.1.3",
     "element-plus": "^2.1.9",
     "lodash": "^4.17.21",
     "vite": "^2.8.0",
@@ -41,12 +39,14 @@
   "peerDependencies": {
     "element-plus": "^2.1.9",
     "lodash": "^4.17.21",
-    "vue": "^3.2.25"
+    "vue": "^3.2.0"
   },
   "publishConfig": {
+    "access": "public",
     "main": "lib/index.js",
     "module": "es/index.mjs",
     "typings": "types/index.d.ts",
+    "registry": "https://registry.npmjs.org/",
     "exports": {
       ".": {
         "require": "./lib/index.js",
@@ -60,5 +60,8 @@
       "./lib/*": "./lib/*.js",
       "./*": "./*"
     }
-  }
+  },
+  "sideEffects": [
+    "dist/*"
+  ]
 }

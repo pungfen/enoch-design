@@ -1,3 +1,3 @@
-export * from './build-components'
+export { default as buildComponents } from './build-components'
 export * from './build-docs'
-export * from './build-hooks'
+export { default as buildHooks } from './build-hooks'
