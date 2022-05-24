@@ -36,7 +36,6 @@ export const buildTypes =
       tsConfigFilePath: resolve(input, 'tsconfig.json'),
       skipAddingFilesFromTsConfig: true
     })
-    console.log(resolve(input, 'tsconfig.json'))
 
     const files = excludeFiles(await glob('**/*.{js,ts,vue}', { cwd: input, absolute: true, onlyFiles: true }))
 
