@@ -350,7 +350,10 @@ export const useFactory = <Config extends object>(config: FactoryConfig<Config>)
   const route = useRoute()
   const router = useRouter()
 
-  _.assign(config, {
+  const state = reactive(config)
+  convertConfig.call(state, '', config, state)
+
+  _.assign(state, {
     route,
     router,
     store: factoryConfig?.store,
@@ -362,8 +365,6 @@ export const useFactory = <Config extends object>(config: FactoryConfig<Config>)
     $hooks: hookIndexs.reduce((acc, key) => ({ ...acc, [key]: {} }), {} as Record<string, any>)
   })
 
-  const state = reactive(config)
-  convertConfig.call(state, '', config, state)
   makeHookEffective.call(state, state.$hooks)
 
   return state
