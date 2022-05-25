@@ -11,9 +11,7 @@ import {
   onMounted,
   onUnmounted,
   onBeforeUpdate,
-  computed,
-  type UnwrapRef,
-  type SetupContext
+  computed
 } from 'vue'
 import { useRouter, useRoute, onBeforeRouteLeave, onBeforeRouteUpdate, type RouteLocationNormalizedLoaded, type Router } from 'vue-router'
 
@@ -21,95 +19,8 @@ import _ from 'lodash'
 
 import { FactoryConfigInjectionKey, type FactoryConfigCtx } from './config'
 
-import type { Method } from 'axios'
-
-type ComponentType = 'table' | 'form' | 'tree' | 'dialog' | 'drawer'
-type HookNameType = 'watch' | 'computed' | 'onMounted' | 'onUnmounted' | 'onBeforeUpdate' | 'onBeforeRouteUpdate' | 'onBeforeRouteLeave'
-
-type ComponentTypeConfig<U> = {
-  [SubType in keyof U]: {
-    type?: SubType
-  } & U[SubType]
-}[keyof U]
-
-type TypeName<T> = T extends string
-  ? 'string'
-  : T extends number
-  ? 'number'
-  : T extends boolean
-  ? 'boolean'
-  : T extends undefined
-  ? 'undefined'
-  : T extends Function
-  ? 'function'
-  : 'object'
-
-type TablePaging = { current: number; size: number }
-
-type AjaxActionConfig = {
-  action: `${Method} /${string}`
-  params?: string | ((this: Record<string, any>, ...args: []) => any) | any[]
-  discriminant?: string
-  slient?: boolean
-  message?: string | string[]
-  convert?: {
-    client?: (...args: any) => any
-    server?: (...args: any) => any
-  }
-}
-
-interface IndexConfig {
-  type?: ComponentType
-  ajax?: Record<string, AjaxActionConfig>
-}
-
-interface TableConfig {
-  table: string
-  data?: any[]
-}
-
-interface TableReturn {
-  data: unknown[]
-  paging: TablePaging
-}
-
-interface FormConfig {
-  data?: Record<string, any>
-  initializer?: () => Record<string, any>
-}
-
-interface FormReturn {
-  data: object
-}
-
-interface FactoryBaseState {
-  $emit?: SetupContext['emit']
-  $slots?: SetupContext['slots']
-  setRef?: (expression: string) => (el: any) => void
-  $hooks: Record<HookNameType, any>
-  route: RouteLocationNormalizedLoaded
-  router: Router
-}
-
-type FactoryThisConfig<Config extends object = object> = {
-  [Key in keyof Config]: any
-}
-
-type FactoryConfig<Config extends object = object> = ThisType<FactoryBaseState & FactoryThisConfig<Config>> & {
-  [K in keyof Config]: TypeName<Config[K]> extends 'object'
-    ? Config[K] extends object
-      ? ComponentTypeConfig<{
-          ['table']: TableConfig
-          ['form']: FormConfig
-        }> &
-          IndexConfig &
-          FactoryConfig<Omit<Config[K], keyof TableConfig | keyof FormConfig | keyof IndexConfig>>
-      : Config[K]
-    : Config[K]
-}
-
-type UseFactoryReturn<Config extends object> = ThisType<FactoryBaseState & FactoryThisConfig<Config>> &
-  UnwrapRef<FactoryBaseState & Record<string, any>>
+type FactoryConfig<Config extends object = object> = ThisType<any> & any
+type UseFactoryReturn<Config extends object = object> = ThisType<any> & any
 
 const configIndexs = ['ajax', 'initializer', 'ruiles']
 const hookIndexs = ['watch', 'computed', 'onMounted', 'onBeforeRouteUpdate', 'onBeforeRouteLeave', 'onBeforeRouteLeave']
@@ -247,13 +158,14 @@ const convertAjaxConfigProcessor = function (
 const convertInitializerConfigProcessor = function (this: Record<string, any>, expression: string, config: Function, data: Record<PropertyKey, any>) {
   data.data = config()
   data.initializer = config
-  data.init = () => {
+  data.init = async () => {
     data.data = config()
-    nextTick(_.eq(_.get(data, 'type'), 'form') && _.get(data, 'ref')?.clearValidate)
+    await nextTick()
+    _.eq(_.get(data, 'type'), 'form') && _.get(data, 'ref')?.clearValidate
   }
 }
 
-const convertHookConfigProcessor = function (this: Record<string, any>, expression: string, config: Function, hookName: HookNameType) {
+const convertHookConfigProcessor = function (this: Record<string, any>, expression: string, config: Function, hookName: string) {
   if (
     hookName === 'onMounted' ||
     hookName === 'onUnmounted' ||
@@ -329,12 +241,15 @@ const convertConfig = function (this: Record<string, any>, expression: string, c
               get: _.bind(subConfig.effect.fn, this),
               set: _.bind(subConfig._setter, this)
             }
-            this.$hooks.computed[key] = _.get(this.$hooks.computed, key)
-              ? _.concat(toRaw(_.get(this.$hooks.computed, key)), [{ source: expression, cb, options: {} }])
-              : { source: expression, cb, options: {} }
-            return
+            return _.set(
+              this.$hooks.computed,
+              key,
+              _.get(this.$hooks.computed, key)
+                ? _.concat(toRaw(_.get(this.$hooks.computed, key)), [{ source: expression, cb, options: {} }])
+                : { source: expression, cb, options: {} }
+            )
           }
-          return (data[subKey] = subConfig)
+          return _.set(data, subKey, subConfig)
         }
         if (isReadonly(subConfig)) {
           const recursion = function (this: Record<PropertyKey, any>, config: any, expression: string, target: Record<PropertyKey, any>) {
@@ -342,7 +257,7 @@ const convertConfig = function (this: Record<string, any>, expression: string, c
               _.set(target, _.trimStart(`${expression}.${subKey}`, '.'), {})
               if (!_.isPlainObject(subConfig)) {
                 if (_.isFunction(subConfig)) {
-                  return _.set(target, _.trimStart(`${expression}.${subKey}`, '.'), subConfig.bind(this))
+                  return _.set(target, _.trimStart(`${expression}.${subKey}`, '.'), _.bind(subConfig, this))
                 }
                 return _.set(target, _.trimStart(`${expression}.${subKey}`, '.'), subConfig)
               }
@@ -367,9 +282,7 @@ const convertConfig = function (this: Record<string, any>, expression: string, c
             }
             subData.loading = false
             subData.currentRow = null
-            subData.currentChange = function (currentRow: any) {
-              subData.currentRow = currentRow
-            }
+            subData.currentChange = (currentRow: any) => (subData.currentRow = currentRow)
             subData.ref = null
             subData.setRef = (el: any) => (subData.ref = el)
             break
@@ -377,9 +290,7 @@ const convertConfig = function (this: Record<string, any>, expression: string, c
             subData.data = []
             subData.loading = false
             subData.currentRow = null
-            subData.currentChange = function (currentRow: any) {
-              subData.currentRow = currentRow
-            }
+            subData.currentChange = (currentRow: any) => (subData.currentRow = currentRow)
             subData.ref = null
             subData.setRef = (el: any) => (subData.ref = el)
             break
@@ -397,11 +308,9 @@ const convertConfig = function (this: Record<string, any>, expression: string, c
           default:
             if (!_.isPlainObject(subConfig)) {
               if (_.isFunction(subConfig)) {
-                data[subKey] = subConfig.bind(this)
-                return data[subKey]
+                return _.set(data, subKey, _.bind(subConfig, this))
               }
-
-              return (data[subKey] = subConfig)
+              return _.set(data, subKey, subConfig)
             }
         }
         convertConfig.call(this, `${expression}.${subKey}`, subConfig, subData)
@@ -414,7 +323,7 @@ const convertConfig = function (this: Record<string, any>, expression: string, c
   _.forEach(_.entries(config), convert)
 }
 
-const makeHookEffective = function (this: Record<string, any>, config: Record<HookNameType, any>) {
+const makeHookEffective = function (this: Record<string, any>, config: Record<string, any>) {
   _.forEach(_.entries(config), ([hookName, hookConfig]) => {
     _.entries(hookConfig).forEach(([subKey, subConfig]) => {
       if (!_.isArray(subConfig)) subConfig = [subConfig]
@@ -440,23 +349,22 @@ export const useFactory = <Config extends object>(config: FactoryConfig<Config>)
   const slots = useSlots()
   const route = useRoute()
   const router = useRouter()
-  const state: FactoryBaseState = {
+
+  _.assign(config, {
     route,
     router,
+    store: factoryConfig?.store,
     $emit: vm?.emit,
     $slots: slots,
-    setRef: (expression: string) => (el) => {
+    setRef: (expression: string) => (el: any) => {
       el && _.set(state, expression, el)
     },
-    $hooks: hookIndexs.reduce((acc, key) => ({ ...acc, [key]: {} }), {} as Record<HookNameType, any>)
-  }
+    $hooks: hookIndexs.reduce((acc, key) => ({ ...acc, [key]: {} }), {} as Record<string, any>)
+  })
 
-  const stateProxy = reactive(state)
-
+  const state = reactive(config)
   convertConfig.call(state, '', config, state)
   makeHookEffective.call(state, state.$hooks)
 
-  return stateProxy
+  return state
 }
-
-const fa = useFactory({})

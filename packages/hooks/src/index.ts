@@ -9,4 +9,3 @@ export const FactoryConfigProvider = assign(ConfigProvider, {
 
 export * from './config'
 export * from './use-factory'
-export * from './use-store'
