@@ -29,7 +29,7 @@ const modulesTask = async () => {
         loaders: { '.vue': 'ts' }
       })
     ],
-    external: ['vue', 'lodash', 'element-plus'],
+    external: ['vue', 'vue-router', 'vue-demi', 'pinia', 'lodash', 'element-plus'],
     treeshake: false
   })
 

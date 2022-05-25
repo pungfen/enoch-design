@@ -1,18 +1,11 @@
 {
   "name": "@enochfe/hooks",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "enochfe hooks",
   "main": "src/index.ts",
   "author": "pung <fp94214@gmail.com>",
   "type": "module",
-  "scripts": {},
-  "unbuild": {},
-  "exports": {
-    ".": {
-      "require": "./index.cjs",
-      "import": "./index.mjs"
-    }
-  },
+  "license": "MIT",
   "devDependencies": {
     "@types/lodash": "^4.14.182",
     "axios": "^0.27.2",
@@ -24,6 +17,42 @@
   "peerDependencies": {
     "axios": "^0.27.2",
     "lodash": "^4.17.21",
-    "vue": "^3.2.25"
-  }
+    "pinia": "^2.0.14",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.13"
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "lib/index.js",
+    "module": "es/index.mjs",
+    "exports": {
+      ".": {
+        "require": "./lib/index.js",
+        "import": "./es/index.mjs"
+      },
+      "./es": "./es/index.mjs",
+      "./lib": "./lib/index.js",
+      "./es/*.mjs": "./es/*.mjs",
+      "./es/*": "./es/*.mjs",
+      "./lib/*.js": "./lib/*.js",
+      "./lib/*": "./lib/*.js",
+      "./*": "./*"
+    }
+  },
+  "keywords": [
+    "vue",
+    "hooks"
+  ],
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pungfen/enoch-design.git",
+    "directory": "packages/hooks"
+  },
+  "bugs": {
+    "url": "https://github.com/pungfen/enoch-design/issues"
+  },
+  "homepage": "https://github.com/pungfen/enoch-design/tree/main/#readme"
 }
