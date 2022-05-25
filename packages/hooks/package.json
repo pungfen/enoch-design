@@ -1,6 +1,6 @@
 {
   "name": "@enochfe/hooks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "enochfe hooks",
   "main": "src/index.ts",
   "author": "pung <fp94214@gmail.com>",
