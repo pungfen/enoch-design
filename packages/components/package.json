@@ -7,7 +7,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "vitest",
-    "build": "enochfe-build build"
+    "build": "vant-cli build"
   },
   "files": [
     "dist"
@@ -29,6 +29,7 @@
   "devDependencies": {
     "@enochfe/build": "workspace:*",
     "@types/lodash": "^4.14.182",
+    "@vant/cli": "^4.0.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitest/ui": "^0.12.0",
     "@vue/test-utils": "2.0.0-rc.21",
