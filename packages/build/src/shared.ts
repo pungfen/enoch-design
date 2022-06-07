@@ -35,8 +35,6 @@ export const getBuildConfigAsync = async (): Promise<Partial<BuildConfig>> => {
   }
 }
 
-const buildConfig = await getBuildConfigAsync()
-
 const normalizedbuildConfig = (config: Partial<BuildConfig>): BuildConfig => {
   return Object.assign({}, config, {
     build: Object.assign(config.build, {
@@ -45,17 +43,17 @@ const normalizedbuildConfig = (config: Partial<BuildConfig>): BuildConfig => {
   })
 }
 
-export const getBuildConfig = () => normalizedbuildConfig(buildConfig)
+export const getBuildConfig = async () => normalizedbuildConfig(await getBuildConfigAsync())
 
-const getPackageManager = () => {
-  const { build } = getBuildConfig()
+const getPackageManager = async () => {
+  const { build } = await getBuildConfig()
   if (build.packageManager) return build?.packageManager
 }
 
 export const installDependencies = async () => {
   consola.info('Install Dependencies\n')
   try {
-    const manager = getPackageManager()
+    const manager = await getPackageManager()
     execaSync(manager, ['install', '--prod=false'], { stdio: 'inherit' })
     consola.log('')
   } catch (err) {

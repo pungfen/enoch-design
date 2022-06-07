@@ -6,7 +6,8 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "build": "enochfe-build build"
   },
   "files": [
     "dist"
@@ -26,6 +27,7 @@
     "element-plus"
   ],
   "devDependencies": {
+    "@enochfe/build": "workspace:*",
     "@types/lodash": "^4.14.182",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitest/ui": "^0.12.0",

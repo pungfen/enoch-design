@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "pnpm -C packages/play dev",
     "build": "pnpm -C packages/build build",
+    "build:c": "pnpm -C packages/components build",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "pnpm build && changeset publish",
     "docs:dev": "pnpm -C packages/docs dev",
@@ -16,8 +17,6 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@enochfe/build": "workspace:*",
-    "@enochfe/components": "workspace:*",
     "@enochfe/prettier-config": "workspace:*"
   },
   "devDependencies": {
