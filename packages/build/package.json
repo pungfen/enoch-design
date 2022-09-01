@@ -2,55 +2,21 @@
   "name": "@enochfe/build",
   "version": "0.0.1",
   "type": "module",
-  "main": "dist/index.cjs",
-  "typings": "dist/index.d.ts",
-  "bin": {
-    "enochfe-build": "dist/index.cjs"
-  },
   "engines": {
     "node": ">=16.0.0"
   },
   "scripts": {
-    "build": "rimraf dist && tsup src/index.ts --sourcemap --format cjs --minify"
+    "build": "tsup"
   },
-  "files": [
-    "lib",
-    "cjs",
-    "site",
-    "template",
-    "bin.js"
-  ],
-  "keywords": [
-    "enoch",
-    "enochfe",
-    "build-cli"
-  ],
   "author": "pung <fp94214@gmail.com>",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pungfen/enoch-design.git",
-    "directory": "packages/build"
-  },
-  "bugs": {
-    "url": "https://github.com/pungfen/enoch-design/issues"
-  },
-  "homepage": "https://github.com/pungfen/enoch-design/tree/main/#readme",
-  "dependencies": {
-    "commander": "^9.3.0",
-    "consola": "^2.15.3",
-    "execa": "^6.1.0",
-    "fs-extra": "^10.1.0",
-    "ora": "^6.1.0",
-    "rimraf": "^3.0.2",
-    "tsup": "^6.1.0"
-  },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.13",
-    "@types/node": "^17.0.40"
+    "commander": "^9.4.0",
+    "consola": "^2.15.3",
+    "rimraf": "^3.0.2",
+    "tsup": "^6.2.3"
+  },
+  "bin": {
+    "build-cli": "./bin/build-cli.sh"
   }
 }

@@ -1,25 +1,20 @@
 {
   "author": "pung <fp94214@gmail.com>",
-  "description": "Enoch frontend Prettier config",
+  "description": "Enoch frontend tsconfig",
   "license": "MIT",
-  "main": "index.json",
-  "name": "@enochfe/prettier-config",
+  "main": "tsconfig.json",
+  "name": "@enochfe/tsconfig",
   "repository": {
     "type": "git",
-    "directory": "packages/prettier-config",
+    "directory": "packages/tsconfig",
     "url": "git+https://github.com/pungfen/enoch-design.git"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "version": "0.0.6",
+  "version": "0.0.1",
   "peerDependencies": {
-    "prettier": "*"
-  },
-  "peerDependenciesMeta": {
-    "prettier": {
-      "optional": true
-    }
+    "@types/node": "*"
   }
 }

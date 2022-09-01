@@ -1,14 +1,15 @@
-#!/usr/bin/env node
-import { Command } from 'commander'
+import { program } from 'commander'
 
-import { build } from './commands/build'
+import { build } from './build'
+import { errorAndExit } from './consola'
 
-const version = '0.0.1'
+import { version } from '../package.json'
 
-const program = new Command()
+program.name('Enoch Build CLI').version(version)
 
-program.version(`@enochfe/build ${version}`)
+program
+  .command('build [packageName]')
+  .description('build package')
+  .action((name: string) => build(name).catch((err) => errorAndExit(err)))
 
-program.command('build').description('build task').action(build)
-
-program.parse()
+program.parse(process.argv)

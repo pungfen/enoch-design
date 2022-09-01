@@ -6,13 +6,13 @@
 
 **Install**:
 
-```bash
+```sh
 $ pnpm add @enochfe/prettier-config -D
 ```
 
 **Edit `package.json`**:
 
-```jsonc
+```json
 {
   // ...
   "prettier": "@enochfe/prettier-config"

@@ -1,0 +1,3 @@
+{
+  "extends": "@enochfe/tsconfig/tsconfig.web.json"
+}
