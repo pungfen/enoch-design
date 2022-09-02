@@ -2,21 +2,41 @@
   "name": "@enochfe/build",
   "version": "0.0.1",
   "type": "module",
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "scripts": {
     "build": "tsup"
   },
   "author": "pung <fp94214@gmail.com>",
   "license": "MIT",
+  "main": "src/index.ts",
   "devDependencies": {
+    "@pnpm/find-workspace-dir": "^4.0.2",
+    "@pnpm/find-workspace-packages": "^4.0.31",
+    "@pnpm/logger": "^4.0.0",
+    "@yarnpkg/core": "^4.0.0-rc.14",
     "commander": "^9.4.0",
     "consola": "^2.15.3",
     "rimraf": "^3.0.2",
-    "tsup": "^6.2.3"
+    "tsup": "^6.2.3",
+    "unconfig": "^0.3.5",
+    "unplugin-vue": "3.0.3-1"
   },
   "bin": {
-    "build-cli": "./bin/build-cli.sh"
+    "enoch-cli": "./dist/cli.cjs"
+  },
+  "tsup": {
+    "clean": true,
+    "entry": [
+      "src/cli.ts",
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "dts": {
+      "compilerOptions": {
+        "moduleResolution": "node",
+        "resolveJsonModule": true
+      }
+    }
   }
 }

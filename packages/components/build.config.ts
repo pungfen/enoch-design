@@ -1,6 +1,3 @@
 import { defineConfig } from '@enochfe/build'
 
-export default defineConfig({
-  vue: true,
-  dts: false
-})
+export default defineConfig({})

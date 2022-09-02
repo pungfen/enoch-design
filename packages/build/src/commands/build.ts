@@ -1,42 +1,44 @@
+import { rm } from 'fs/promises'
 import consola from 'consola'
-import ora from 'ora'
-import { copy } from 'fs-extra'
-import { installDependencies, SRC_DIR, ES_DIR, LIB_DIR } from '../shared'
+import { build as tsup } from 'tsup'
+import vue from 'unplugin-vue/esbuild'
 
-const copySourceCode = async () => {
-  return Promise.all([copy(SRC_DIR, ES_DIR), copy(SRC_DIR, LIB_DIR)])
-}
+import { getPackageInfo } from '../pkg'
+import { getUserConfig } from '../config'
 
-const tasks = [
-  {
-    text: 'Copy Source code',
-    task: copySourceCode()
-  }
-]
+import type { Options } from 'tsup'
 
-const runBuildTasks = async () => {
-  for (let i = 0; i < tasks.length; i++) {
-    const { task, text } = tasks[i]
-    const spinner = ora(text).start()
-
-    try {
-      // @ts-ignore
-      await task()
-      spinner.succeed(text)
-    } catch (err) {
-      spinner.fail(text)
-      consola.log(err)
-      throw err
-    }
-  }
-}
-
-export const build = async () => {
+export async function build() {
   try {
-    await installDependencies()
-    await runBuildTasks()
+    const pkgInfo = await getPackageInfo()
+    const userConfig = await getUserConfig(pkgInfo)
+
+    const { entry, name, clean, outDir, minify, format, dts } = userConfig
+
+    process.chdir(pkgInfo.dir)
+
+    if (clean) await rm(outDir, { recursive: true, force: true })
+
+    const tasks: Array<Promise<void>> = []
+
+    const options: Options = {
+      name: minify ? name + '-minify' : name,
+      minify,
+      outDir,
+      format,
+      splitting: false,
+      dts: dts && {
+        compilerOptions: {}
+      },
+      esbuildPlugins: [vue()],
+      esbuildOptions(options) {
+        options.entryNames = minify ? `[dir]/[name].min` : `[dir]/[name]`
+      }
+    }
+
+    tasks.push(tsup(options))
+    await Promise.all(tasks)
   } catch (err) {
-    consola.error('Build failed')
-    process.exit(1)
+    consola.error(err)
   }
 }

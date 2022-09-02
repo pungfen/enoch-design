@@ -6,8 +6,8 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "test": "vitest",
-    "build": "vant-cli build"
+    "build": "enoch-cli build",
+    "test": "vitest"
   },
   "files": [
     "dist"
@@ -22,14 +22,13 @@
   },
   "homepage": "https://github.com/pungfen/enoch-design/tree/main/#readme",
   "keywords": [
+    "enochfe",
     "vue3",
-    "UI",
-    "element-plus"
+    "UI"
   ],
   "devDependencies": {
     "@enochfe/build": "workspace:*",
     "@types/lodash": "^4.14.182",
-    "@vant/cli": "^4.0.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitest/ui": "^0.12.0",
     "@vue/test-utils": "2.0.0-rc.21",
