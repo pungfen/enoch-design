@@ -1,5 +1,8 @@
 {
   "extends": "@enochfe/tsconfig/tsconfig.node.json",
   "include": ["packages/build/**/*"],
-  "exclude": ["**/dist"]
+  "exclude": ["**/dist"],
+  "compilerOptions": {
+    "composite": true
+  }
 }

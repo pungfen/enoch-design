@@ -36,7 +36,7 @@ export async function build() {
       }
     }
 
-    tasks.push(tsup(options))
+    // tasks.push(tsup(options))
     await Promise.all(tasks)
   } catch (err) {
     consola.error(err)
