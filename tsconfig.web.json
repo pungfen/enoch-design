@@ -1,8 +1,9 @@
 {
   "extends": "@enochfe/tsconfig/tsconfig.web.json",
-  "include": ["packages/components/**/*"],
+  "include": ["packages/components/**/*", "packages/core/**/*"],
   "exclude": ["**/dist"],
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "module": "ESNext"
   }
 }

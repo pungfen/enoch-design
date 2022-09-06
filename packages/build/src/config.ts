@@ -14,6 +14,7 @@ export interface UserInlineConfig {
   format?: Array<Format> | Format
   dts?: boolean
   version?: string
+  vue?: boolean
 }
 
 type UserInlineConfigResolved = Required<UserInlineConfig>
@@ -32,6 +33,7 @@ const normalizeConfig = (pkgInfo: PackageInfo, config?: UserInlineConfig): UserI
     format: ['esm', 'cjs'],
     dts: true,
     version: '',
+    vue: false,
     ...config
   }
 

@@ -6,7 +6,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "build": "enoch-cli build",
+    "build": "tsup",
     "test": "vitest"
   },
   "files": [
@@ -31,10 +31,15 @@
     "@types/lodash": "^4.14.182",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitest/ui": "^0.12.0",
+    "@vue/compiler-sfc": "^3.2.38",
     "@vue/test-utils": "2.0.0-rc.21",
     "element-plus": "^2.1.9",
+    "esbuild": "^0.15.6",
+    "esbuild-plugin-vue": "^0.2.4",
     "lodash": "^4.17.21",
-    "vite": "^2.8.0",
+    "tsup": "^6.2.3",
+    "unplugin-vue": "3.0.3-1",
+    "vite": "^2.9.10",
     "vitest": "^0.12.0",
     "vue": "^3.2.25"
   },
