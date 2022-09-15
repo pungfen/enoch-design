@@ -15,7 +15,8 @@
     "ci:publish": "pnpm build && changeset publish",
     "docs:dev": "pnpm -C packages/docs dev",
     "docs:build": "pnpm -C packages/docs build",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "fp": "pnpm -C packages/fp start"
   },
   "dependencies": {
     "@enochfe/prettier-config": "workspace:*",
