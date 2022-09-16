@@ -17,28 +17,6 @@
     "consola": "^2.15.3",
     "rimraf": "^3.0.2",
     "tsup": "^6.2.3",
-    "unconfig": "^0.3.5",
-    "unplugin-vue": "3.0.3-1"
-  },
-  "bin": {
-    "enoch-cli": "./bin.js"
-  },
-  "tsup": {
-    "clean": true,
-    "entry": [
-      "src/cli.ts",
-      "src/index.ts"
-    ],
-    "format": [
-      "cjs",
-      "esm",
-      "iife"
-    ],
-    "dts": {
-      "compilerOptions": {
-        "moduleResolution": "node",
-        "resolveJsonModule": true
-      }
-    }
+    "unconfig": "^0.3.5"
   }
 }

@@ -16,5 +16,5 @@ export default defineConfig({
   treeshake: true,
   esbuildPlugins: [Vue()],
   dts: true,
-  tsconfig: './tsup.build.json'
+  tsconfig: './tsconfig.build.json'
 })
