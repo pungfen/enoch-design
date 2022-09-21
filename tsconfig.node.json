@@ -1,6 +1,6 @@
 {
   "extends": "@enochfe/tsconfig/tsconfig.node.json",
-  "include": ["packages/build/**/*"],
+  "include": ["packages/build/**/*", "packages/css-reset"],
   "exclude": ["**/dist"],
   "compilerOptions": {
     "composite": true

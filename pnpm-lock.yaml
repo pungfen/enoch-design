@@ -12,6 +12,7 @@ importers:
       '@enochfe/tsconfig': workspace:*
       '@types/node': ^18.7.14
       commitizen: ^4.2.5
+      esno: ^0.16.3
       husky: ^8.0.1
       inquirer: ^8.2.4
       prettier: ^2.7.1
@@ -26,6 +27,7 @@ importers:
       '@commitlint/cz-commitlint': 16.3.0_yes7iyjckc3rubj3ixzwc3ince
       '@types/node': 18.7.14
       commitizen: 4.2.5
+      esno: 0.16.3
       husky: 8.0.1
       inquirer: 8.2.4
       prettier: 2.7.1
@@ -42,7 +44,6 @@ importers:
       rimraf: ^3.0.2
       tsup: ^6.2.3
       unconfig: ^0.3.5
-      unplugin-vue: 3.0.3-1
     devDependencies:
       '@pnpm/find-workspace-dir': 4.0.2
       '@pnpm/find-workspace-packages': 4.0.31_izyaicutolgthubtmdvwo5mk5m
@@ -53,7 +54,6 @@ importers:
       rimraf: 3.0.2
       tsup: 6.2.3
       unconfig: 0.3.5
-      unplugin-vue: 3.0.3-1
 
   packages/components:
     specifiers:
@@ -105,11 +105,23 @@ importers:
       typescript: 4.8.2
       vue: 3.2.37
 
+  packages/css-reset:
+    specifiers:
+      '@csstools/normalize.css': ^12.0.0
+    devDependencies:
+      '@csstools/normalize.css': 12.0.0
+
   packages/docs:
     specifiers:
       vitepress: ^0.22.4
     devDependencies:
       vitepress: 0.22.4
+
+  packages/factory:
+    specifiers:
+      '@enochfe/build': workspace:*
+    devDependencies:
+      '@enochfe/build': link:../build
 
   packages/fp:
     specifiers:
@@ -756,6 +768,10 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+    dev: true
+
+  /@csstools/normalize.css/12.0.0:
+    resolution: {integrity: sha512-M0qqxAcwCsIVfpFQSlGN5XjXWu8l5JDZN+fPt1LeW5SZexQTgnaEvgXAY+CeygRw0EeppWHi12JxESWiWrB0Sg==}
     dev: true
 
   /@ctrl/tinycolor/3.4.1:
@@ -4261,6 +4277,13 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /esno/0.16.3:
+    resolution: {integrity: sha512-6slSBEV1lMKcX13DBifvnDFpNno5WXhw4j/ff7RI0y51BZiDqEe5dNhhjhIQ3iCOQuzsm2MbVzmwqbN78BBhPg==}
+    hasBin: true
+    dependencies:
+      tsx: 3.9.0
+    dev: true
+
   /esprima/4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
     engines: {node: '>=4'}
@@ -7701,26 +7724,6 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue/3.0.3-1:
-    resolution: {integrity: sha512-owr6tv0urEHfVKxEKRSjm3gaRo3jqbhLtj/S4qE3NmJ414oanJfv9+fH0WKUbqlxVLwWyNaVv9ZGR9QqWfSMmw==}
-    engines: {node: '>=14.17.0'}
-    peerDependencies:
-      vite: ^3.0.0
-      vue: ^3.2.25
-    peerDependenciesMeta:
-      vite:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-      tsx: 3.9.0
-      unplugin: 0.9.5
-    transitivePeerDependencies:
-      - esbuild
-      - rollup
-      - supports-color
-      - webpack
-    dev: true
-
   /unplugin-vue/3.0.3-1_kyei27giwx2jumbilvr5jdh37m:
     resolution: {integrity: sha512-owr6tv0urEHfVKxEKRSjm3gaRo3jqbhLtj/S4qE3NmJ414oanJfv9+fH0WKUbqlxVLwWyNaVv9ZGR9QqWfSMmw==}
     engines: {node: '>=14.17.0'}
@@ -7786,29 +7789,6 @@ packages:
       vite: 2.9.10_sass@1.52.2
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.3
-    dev: true
-
-  /unplugin/0.9.5:
-    resolution: {integrity: sha512-luraheyfxwtvkvHpsOvMNv7IjLdORTWKZp0gWYNHGLi2ImON3iIZOj464qEyyEwLA/EMt12fC415HW9zRpOfTg==}
-    peerDependencies:
-      esbuild: '>=0.13'
-      rollup: ^2.50.0
-      vite: ^2.3.0 || ^3.0.0-0
-      webpack: 4 || 5
-    peerDependenciesMeta:
-      esbuild:
-        optional: true
-      rollup:
-        optional: true
-      vite:
-        optional: true
-      webpack:
-        optional: true
-    dependencies:
-      acorn: 8.8.0
-      chokidar: 3.5.3
-      webpack-sources: 3.2.3
-      webpack-virtual-modules: 0.4.4
     dev: true
 
   /unplugin/0.9.5_esbuild@0.15.6+vite@2.9.10:
