@@ -1,0 +1,16 @@
+{
+  "name": "@enochfe/factory",
+  "version": "1.0.0",
+  "description": "enoch factory",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": ""
+  },
+  "keywords": [],
+  "author": "pung <fp94214@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@enochfe/build": "workspace:*"
+  }
+}

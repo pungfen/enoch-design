@@ -12,6 +12,7 @@ importers:
       '@enochfe/tsconfig': workspace:*
       '@types/node': ^18.7.14
       commitizen: ^4.2.5
+      esno: ^0.16.3
       husky: ^8.0.1
       inquirer: ^8.2.4
       prettier: ^2.7.1
@@ -26,6 +27,7 @@ importers:
       '@commitlint/cz-commitlint': 16.3.0_yes7iyjckc3rubj3ixzwc3ince
       '@types/node': 18.7.14
       commitizen: 4.2.5
+      esno: 0.16.3
       husky: 8.0.1
       inquirer: 8.2.4
       prettier: 2.7.1
@@ -103,11 +105,23 @@ importers:
       typescript: 4.8.2
       vue: 3.2.37
 
+  packages/css-reset:
+    specifiers:
+      '@csstools/normalize.css': ^12.0.0
+    devDependencies:
+      '@csstools/normalize.css': 12.0.0
+
   packages/docs:
     specifiers:
       vitepress: ^0.22.4
     devDependencies:
       vitepress: 0.22.4
+
+  packages/factory:
+    specifiers:
+      '@enochfe/build': workspace:*
+    devDependencies:
+      '@enochfe/build': link:../build
 
   packages/fp:
     specifiers:
@@ -748,6 +762,10 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+    dev: true
+
+  /@csstools/normalize.css/12.0.0:
+    resolution: {integrity: sha512-M0qqxAcwCsIVfpFQSlGN5XjXWu8l5JDZN+fPt1LeW5SZexQTgnaEvgXAY+CeygRw0EeppWHi12JxESWiWrB0Sg==}
     dev: true
 
   /@ctrl/tinycolor/3.4.1:
@@ -4251,6 +4269,13 @@ packages:
   /escape-string-regexp/4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+    dev: true
+
+  /esno/0.16.3:
+    resolution: {integrity: sha512-6slSBEV1lMKcX13DBifvnDFpNno5WXhw4j/ff7RI0y51BZiDqEe5dNhhjhIQ3iCOQuzsm2MbVzmwqbN78BBhPg==}
+    hasBin: true
+    dependencies:
+      tsx: 3.9.0
     dev: true
 
   /esprima/4.0.1:

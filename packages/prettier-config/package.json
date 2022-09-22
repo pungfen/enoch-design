@@ -1,9 +1,9 @@
 {
+  "name": "@enochfe/prettier-config",
   "author": "pung <fp94214@gmail.com>",
   "description": "Enoch frontend Prettier config",
   "license": "MIT",
   "main": "index.json",
-  "name": "@enochfe/prettier-config",
   "repository": {
     "type": "git",
     "directory": "packages/prettier-config",
