@@ -5,28 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "build all",
-      "program": "${workspaceRoot}/packages/build/node_modules/gulp/bin/gulp.js",
-      "args": ["--require", "sucrase/register/ts", "-f", "${workspaceRoot}/packages/build/src/gulpfile.ts"],
+      "name": "build",
+      "program": "${workspaceRoot}/packages/build/dist/cli.cjs",
+      "args": ["${file}", "build"],
       "request": "launch",
       "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "build components",
-      "program": "${workspaceRoot}/packages/build/node_modules/gulp/bin/gulp.js",
-      "args": ["--require", "sucrase/register/ts", "-f", "${workspaceRoot}/packages/build/src/tasks/build-components.ts"],
-      "request": "launch",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "build hooks",
-      "program": "${workspaceRoot}/packages/build/node_modules/gulp/bin/gulp.js",
-      "args": ["--require", "sucrase/register/ts", "-f", "${workspaceRoot}/packages/build/src/tasks/build-hooks.ts"],
-      "request": "launch",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
+      "type": "node",
+      "runtimeArgs": ["--experimental-modules"]
     }
   ]
 }

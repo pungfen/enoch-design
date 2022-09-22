@@ -3,7 +3,6 @@
   "include": ["packages/build/*", "packages/css-reset"],
   "exclude": ["**/dist"],
   "compilerOptions": {
-    "composite": true,
-    "resolveJsonModule": true
+    "composite": true
   }
 }

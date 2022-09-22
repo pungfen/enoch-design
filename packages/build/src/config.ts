@@ -1,13 +1,16 @@
 import { resolve } from 'path'
 import { loadConfig } from 'unconfig'
 
+import { isArray, isPlainObject } from './shared'
 import type { Options } from 'tsup'
 
 import type { PackageInfo } from './pkg'
 
-type OptionalKey = 'name' | 'entry' | 'outDir' | 'minify' | 'format' | 'clean' | 'dts'
+type OptionalKey = 'name' | 'entry' | 'outDir' | 'minify' | 'format' | 'clean' | 'dts' | 'platform'
 
-export interface UserInlineConfig extends Pick<Options, OptionalKey> {}
+export interface UserInlineConfig extends Pick<Options, OptionalKey> {
+  vue?: boolean
+}
 
 type UserInlineConfigResolved = Required<UserInlineConfig>
 
@@ -18,16 +21,22 @@ export const defineConfig = (config: UserInlineConfig) => {
 const normalizeConfig = (pkgInfo: PackageInfo, config?: UserInlineConfig): UserInlineConfigResolved => {
   const normalized: UserInlineConfigResolved = {
     name: pkgInfo.manifest.name || '',
-    entry: [],
+    entry: [pkgInfo.manifest.main || 'src/index.ts'],
     clean: true,
     outDir: 'dist',
     minify: false,
-    format: ['esm', 'cjs'],
+    format: ['esm'],
     dts: true,
-    ...config
+    vue: false,
+    ...config,
+    platform: config.vue ? 'browser' : config.platform || 'node'
   }
 
-  if (isFunction) normalized.entry = [resolve(pkgInfo.dir, 'src/index.ts')]
+  if (isArray(normalized.entry)) normalized.entry = normalized.entry.map((e) => resolve(pkgInfo.dir, e))
+  else if (isPlainObject(normalized.entry)) {
+    Object.entries(normalized.entry).forEach(([key, value]) => (normalized.entry[key] = resolve(pkgInfo.dir, value)))
+  }
+
   normalized.outDir = resolve(pkgInfo.dir, 'dist')
 
   return normalized

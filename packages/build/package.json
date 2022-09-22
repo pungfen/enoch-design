@@ -8,7 +8,7 @@
   "author": "pung <fp94214@gmail.com>",
   "license": "MIT",
   "main": "src/index.ts",
-  "devDependencies": {
+  "dependencies": {
     "@pnpm/find-workspace-dir": "^4.0.2",
     "@pnpm/find-workspace-packages": "^4.0.31",
     "@pnpm/logger": "^4.0.0",
@@ -17,9 +17,13 @@
     "consola": "^2.15.3",
     "rimraf": "^3.0.2",
     "tsup": "^6.2.3",
-    "unconfig": "^0.3.5"
+    "unconfig": "^0.3.5",
+    "unplugin-vue": "3.0.3-1"
   },
   "bin": {
     "enoch-cli": "./bin/cli.js"
+  },
+  "devDependencies": {
+    "vue": "^3.2.25"
   }
 }

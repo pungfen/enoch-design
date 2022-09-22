@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "pnpm -C packages/play dev",
     "build": "pnpm -C packages/build build",
+    "build:f": "pnpm -C packages/fp build",
     "build:c": "pnpm -C packages/components build",
     "build:co": "pnpm -C packages/core build",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
