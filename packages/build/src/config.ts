@@ -1,21 +1,13 @@
 import { resolve } from 'path'
 import { loadConfig } from 'unconfig'
 
+import type { Options } from 'tsup'
+
 import type { PackageInfo } from './pkg'
 
-type Format = 'cjs' | 'esm' | 'iife'
+type OptionalKey = 'name' | 'entry' | 'outDir' | 'minify' | 'format' | 'clean' | 'dts'
 
-export interface UserInlineConfig {
-  name?: string
-  entry?: string
-  clean?: boolean
-  outDir?: string
-  minify?: boolean
-  format?: Array<Format> | Format
-  dts?: boolean
-  version?: string
-  vue?: boolean
-}
+export interface UserInlineConfig extends Pick<Options, OptionalKey> {}
 
 type UserInlineConfigResolved = Required<UserInlineConfig>
 
@@ -26,18 +18,16 @@ export const defineConfig = (config: UserInlineConfig) => {
 const normalizeConfig = (pkgInfo: PackageInfo, config?: UserInlineConfig): UserInlineConfigResolved => {
   const normalized: UserInlineConfigResolved = {
     name: pkgInfo.manifest.name || '',
-    entry: 'src/index.ts',
+    entry: [],
     clean: true,
     outDir: 'dist',
     minify: false,
     format: ['esm', 'cjs'],
     dts: true,
-    version: '',
-    vue: false,
     ...config
   }
 
-  normalized.entry = resolve(pkgInfo.dir, 'src/index.ts')
+  if (isFunction) normalized.entry = [resolve(pkgInfo.dir, 'src/index.ts')]
   normalized.outDir = resolve(pkgInfo.dir, 'dist')
 
   return normalized

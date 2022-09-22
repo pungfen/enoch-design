@@ -1,8 +1,9 @@
 {
   "extends": "@enochfe/tsconfig/tsconfig.node.json",
-  "include": ["packages/build/**/*"],
+  "include": ["packages/build/*"],
   "exclude": ["**/dist"],
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "resolveJsonModule": true
   }
 }

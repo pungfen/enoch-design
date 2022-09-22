@@ -1,7 +1,0 @@
-{
-  "extends": "@enochfe/tsconfig/tsconfig.web.json",
-  "include": ["src/**/*"],
-  "compilerOptions": {
-    "types": ["vite/client"]
-  }
-}

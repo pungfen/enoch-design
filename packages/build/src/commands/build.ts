@@ -1,7 +1,6 @@
 import { rm } from 'fs/promises'
 import consola from 'consola'
 import { build as tsup } from 'tsup'
-import Vue from 'unplugin-vue/esbuild'
 
 import { getPackageInfo } from '../pkg'
 import { getUserConfig } from '../config'
@@ -13,16 +12,15 @@ export async function build() {
     const pkgInfo = await getPackageInfo()
     const userConfig = await getUserConfig(pkgInfo)
 
-    const { entry, name, clean, outDir, minify, format, dts, vue } = userConfig
+    const { entry, name, clean, outDir, minify, format, dts } = userConfig
 
-    process.chdir(pkgInfo.dir)
+    // process.chdir(pkgInfo.dir)
 
-    if (clean) await rm(outDir, { recursive: true, force: true })
+    // if (clean) await rm(outDir, { recursive: true, force: true })
 
     const tasks: Array<Promise<void>> = []
 
     const options: Options = {
-      name: minify ? name + '-minify' : name,
       minify,
       outDir,
       format,
@@ -35,8 +33,6 @@ export async function build() {
         options.entryNames = minify ? `[dir]/[name].min` : `[dir]/[name]`
       }
     }
-
-    if (vue) options.esbuildPlugins?.push(Vue())
 
     tasks.push(tsup(options))
     await Promise.all(tasks)
