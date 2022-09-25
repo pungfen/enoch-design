@@ -16,5 +16,10 @@
   "version": "0.0.1",
   "peerDependencies": {
     "@types/node": "*"
+  },
+  "peerDependenciesMeta": {
+    "@types/node": {
+      "optional": true
+    }
   }
 }
