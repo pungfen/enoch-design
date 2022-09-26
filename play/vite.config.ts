@@ -21,7 +21,7 @@ export default defineConfig({
     }
   },
   plugins: [
-    vue(),
+    vue({ reactivityTransform: true }),
     Pages({
       dirs: ['src/pages']
     }),

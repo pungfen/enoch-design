@@ -1,7 +1,0 @@
-{
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "compilerOptions": {
-    "importsNotUsedAsValues": "remove"
-  },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
-}

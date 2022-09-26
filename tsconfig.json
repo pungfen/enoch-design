@@ -1,8 +1,5 @@
 {
-  "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "jsx": "preserve"
-  },
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }]
+  "extends": "@enochfe/tsconfig/tsconfig.web.json",
+  "include": ["packages/*/src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
