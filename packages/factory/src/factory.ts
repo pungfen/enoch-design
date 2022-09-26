@@ -6,16 +6,17 @@ import {
   onMounted,
   onUnmounted,
   reactive,
+  type App,
   type ComponentPropsOptions,
   type ExtractPropTypes
 } from 'vue'
 
-import { chain, isFunction, isPlainObject } from 'lodash-es'
+import { assign, chain, isArray, isFunction, isObject, isPlainObject } from 'lodash-es'
 
 type DataType = 'array' | 'object' | 'string' | 'none'
 
 interface SetupConfig {
-  ajax?: AjaxConfig
+  ajax?: AjaxConfig | AjaxConfig[]
   children?: Record<string, SetupConfig>
   computed?: Record<string, any> | { get: () => any; set: (...args: Array<any>) => any }
   [index: string]: any
@@ -31,6 +32,17 @@ interface Config {
 type AjaxConfig = {
   action: string
   data?: DataType
+  converter?: any
+  by?: string
+  loading?: boolean
+  pagination?: boolean
+  params?: (params: { paths?: (string | number | undefined)[]; payload?: any }) => void
+}
+
+interface AjaxMethodOptions {
+  addition?: any
+  invokedByScroll?: boolean
+  invokedByPagination?: boolean
 }
 
 type Ajax<C extends SetupConfig> = C['ajax'] extends AjaxConfig ? {} : {}
@@ -59,8 +71,76 @@ type Setup<C extends SetupConfig> = {
     : never
 }
 
+const getDataFromExpresion = (data: any, expression: string): Record<string, any> => {
+  return chain(data)
+    .result(expression.substring(expression.startsWith('.') ? 1 : 0), {})
+    .value()
+}
+
+const paginationInit = () => {
+  return {
+    itemCount: 0,
+    pageCount: 0,
+    pageIndex: 1,
+    pageSize: 20
+  }
+}
+
 const ajax = function <C extends SetupConfig>(this: any, config: C, expression: string): Ajax<C> {
   const origin: any = {}
+
+  if (config.ajax) {
+    if (isObject(config.ajax)) {
+      const { loading, pagination, data } = config.ajax as AjaxConfig
+      loading && (origin.loading = false)
+      pagination && (origin.paging = paginationInit())
+      data === 'array' && (origin.data = [])
+      data === 'object' && (origin.data = {})
+      data === 'string' && (origin.data = '')
+    }
+
+    if (!isArray(config.ajax)) config.ajax = [config.ajax]
+
+    const { action, by, params, converter, data: dataType, pagination } = config.ajax[0]
+    const [httpMethod, path] = action.split(' ')
+    if (by) origin.by = by
+
+    const method = async function (this: any, options?: AjaxMethodOptions) {
+      const parent = getDataFromExpresion(this, expression)
+      const _params: { paths?: (string | number)[]; payload?: any } = {}
+      params?.call(this, _params)
+
+      let index = 0
+      let arc = {} as any
+      let data = assign({}, (converter?.server as any)?.call(this, _params.payload) || _params.payload, options?.addition)
+      let url = path
+        .split('/')
+        .map((str) => (str.startsWith(':') ? _params.paths![index++] : str))
+        .join('/')
+
+      arc.url = url
+      arc.method = httpMethod
+      arc.params = ['GET', 'DELETE'].includes(httpMethod) ? data : {}
+      arc.data = ['PUT', 'POST'].includes(httpMethod) ? { data: [].concat(data) } : {}
+
+      parent.loading = true
+
+      try {
+        const res: any = await Axios(arc)
+        let data = dataType === 'object' ? res.data[0] : res.data
+        data = (converter?.client as (data: any) => any)?.call(this, data) || data
+        dataType !== 'none' && (parent.data = options?.invokedByScroll ? [...parent.data, ...data] : data)
+        pagination && (parent.paging = res.meta.paging)
+        return Promise.resolve(res)
+      } catch (err) {
+        return Promise.reject(err)
+      } finally {
+        parent.loading = false
+      }
+    }
+
+    origin.ajax = method.bind(this)
+  }
 
   return origin
 }
@@ -87,6 +167,7 @@ const computed = function <C extends SetupConfig>(this: any, config: C, expressi
       })
       .value()
   }
+
   return origin
 }
 
@@ -145,4 +226,10 @@ export const factory = <C extends Config>(config: C & ThisType<ExtractPropTypes<
       return proxy as ExtractPropTypes<C['props']> & Setup<C['setup']>
     }
   })
+}
+
+export const createFactory = {
+  install: (app: App) => {
+    // app.config.globalProperties.
+  }
 }
