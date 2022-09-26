@@ -1,7 +1,7 @@
 import consola from 'consola'
 import { build as tsup } from 'tsup'
 
-import Vue from 'unplugin-vue/esbuild'
+// import Vue from 'unplugin-vue/esbuild'
 
 import { getPackageInfo } from '../pkg'
 import { getUserConfig } from '../config'
@@ -39,7 +39,7 @@ export async function build() {
       }
     }
 
-    if (vue) options.esbuildPlugins.push(Vue())
+    // if (vue) options.esbuildPlugins.push(Vue())
 
     tasks.push(tsup(options))
     await Promise.all(tasks)

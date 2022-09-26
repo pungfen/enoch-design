@@ -5,12 +5,17 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "build": ""
+    "build": "enoch-cli build"
   },
   "keywords": [],
   "author": "pung <fp94214@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@enochfe/build": "workspace:*"
+    "@enochfe/build": "workspace:*",
+    "lodash-es": "^4.17.21"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "vue": "^3.2.25"
   }
 }
