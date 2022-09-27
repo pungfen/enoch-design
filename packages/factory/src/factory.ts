@@ -1,19 +1,39 @@
 import {
   computed as vComputed,
   defineComponent,
+  getCurrentInstance,
   isProxy,
   isReadonly,
   onMounted,
   onUnmounted,
   reactive,
-  type App,
+  watch,
+  watchEffect,
   type ComponentPropsOptions,
-  type ExtractPropTypes
+  type ExtractPropTypes,
+  type WatchCallback,
+  type WatchOptions
 } from 'vue'
 
-import { assign, chain, isArray, isFunction, isObject, isPlainObject } from 'lodash-es'
+import { assign, chain, isArray, isFunction, isObject, isPlainObject, result } from 'lodash-es'
+
+interface Definitions {
+  TestDto: {
+    id?: number
+    name: string
+  }
+}
+
+interface FactoryAjaxActions {
+  'GET /test': {
+    Data: Definitions['TestDto']
+  }
+}
 
 type DataType = 'array' | 'object' | 'string' | 'none'
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+type ActionPath = `${HttpMethod} /${string}`
+type OnCleanup = (cleanupFn: () => void) => void
 
 interface SetupConfig {
   ajax?: AjaxConfig | AjaxConfig[]
@@ -27,11 +47,45 @@ interface Config {
   onUnmounted?: () => void
   props?: Readonly<ComponentPropsOptions>
   setup: Record<string, SetupConfig>
+  watchEffect?: (onCleanup?: OnCleanup) => void
+  watch?: Record<
+    string,
+    | WatchCallback
+    | ({
+        handler: WatchCallback | string
+      } & WatchOptions)
+  >
 }
 
-type AjaxConfig = {
-  action: string
-  data?: DataType
+interface DtoMapValue<Server, Client> {
+  server: Server
+  client: Client
+}
+
+type DtoMap = {
+  [Action in keyof FactoryAjaxActions]: Action extends ActionPath
+    ? Action extends `${infer M} /${string}`
+      ? FactoryAjaxActions[Action] extends {
+          Data?: infer D
+          Params?: infer P
+        }
+        ? M extends 'GET'
+          ? DtoMapValue<P, D>
+          : M extends 'POST'
+          ? DtoMapValue<D, number>
+          : M extends 'PUT'
+          ? DtoMapValue<D, void>
+          : M extends 'DELETE'
+          ? DtoMapValue<void, void>
+          : never
+        : never
+      : never
+    : never
+}
+
+type _Ajaxconfig<A extends keyof DtoMap, D extends DataType> = {
+  action: A
+  data?: D
   converter?: any
   by?: string
   loading?: boolean
@@ -39,13 +93,42 @@ type AjaxConfig = {
   params?: (params: { paths?: (string | number | undefined)[]; payload?: any }) => void
 }
 
+type AjaxConfig = _Ajaxconfig<keyof DtoMap, DataType>
+
 interface AjaxMethodOptions {
   addition?: any
   invokedByScroll?: boolean
   invokedByPagination?: boolean
 }
 
-type Ajax<C extends SetupConfig> = C['ajax'] extends AjaxConfig ? {} : {}
+type ClientDto<A> = A extends keyof DtoMap ? DtoMap[A]['client'] : never
+
+type IData<A, D> = D extends 'array' ? ClientDto<A>[] : D extends 'object' ? ClientDto<A> : never
+
+type AjaxData<U> = Extract<U, { data: 'array' } | { data: 'object' }> extends {
+  action: infer A
+  data: infer D
+}
+  ? IData<A, D> extends never
+    ? {}
+    : { data: IData<A, D> }
+  : {}
+
+type AjaxLoading<U> = Extract<U, { loading: true }> extends never ? {} : { loading: boolean }
+
+type AjaxPagination<U> = Extract<U, { pagination: true }> extends never
+  ? {}
+  : { paging: { itemCount: number; pageCount: number; pageIndex: number; pageSize: number } }
+
+type Ajax<C extends SetupConfig> = C['ajax'] extends AjaxConfig
+  ? {
+      [K in keyof Pick<C, 'ajax'>]: (
+        options?: AjaxMethodOptions
+      ) => Promise<C[K] extends { action: infer A; data: infer D } ? IData<A, D> : C extends { action: infer A } ? ClientDto<A>[] : never>
+    } & AjaxData<C['ajax']> &
+      AjaxLoading<C['ajax']> &
+      AjaxPagination<C['ajax']>
+  : {}
 
 type Index<C extends Record<string, SetupConfig>> = Setup<Omit<C, 'ajax' | 'children' | 'computed'>>
 
@@ -105,7 +188,13 @@ const ajax = function <C extends SetupConfig>(this: any, config: C, expression: 
     const [httpMethod, path] = action.split(' ')
     if (by) origin.by = by
 
+    const app = getCurrentInstance()
+
     const method = async function (this: any, options?: AjaxMethodOptions) {
+      if (!app?.appContext.config.globalProperties.$factory?.axios) {
+        return Promise.reject(`please install factory in 'main.js/ts' and define axios options`)
+      }
+
       const parent = getDataFromExpresion(this, expression)
       const _params: { paths?: (string | number)[]; payload?: any } = {}
       params?.call(this, _params)
@@ -126,7 +215,7 @@ const ajax = function <C extends SetupConfig>(this: any, config: C, expression: 
       parent.loading = true
 
       try {
-        const res: any = await Axios(arc)
+        const res = await app?.appContext.config.globalProperties.$factory.axios(arc)
         let data = dataType === 'object' ? res.data[0] : res.data
         data = (converter?.client as (data: any) => any)?.call(this, data) || data
         dataType !== 'none' && (parent.data = options?.invokedByScroll ? [...parent.data, ...data] : data)
@@ -223,13 +312,22 @@ export const factory = <C extends Config>(config: C & ThisType<ExtractPropTypes<
       onMounted(() => config?.onMounted?.call(proxy))
       onUnmounted(() => config?.onUnmounted?.call(proxy))
 
+      if (config?.watchEffect) watchEffect((onCleanup) => config?.watchEffect?.call(proxy, onCleanup))
+
+      if (config.watch) {
+        chain(config.watch)
+          .entries()
+          .forEach(([key, value]) => {
+            watch(
+              () => result(proxy, key) as any,
+              isFunction(value) ? value.bind(proxy) : isFunction(value.handler) ? value.handler.bind(proxy) : () => {},
+              value as WatchOptions
+            )
+          })
+          .value()
+      }
+
       return proxy as ExtractPropTypes<C['props']> & Setup<C['setup']>
     }
   })
-}
-
-export const createFactory = {
-  install: (app: App) => {
-    // app.config.globalProperties.
-  }
 }

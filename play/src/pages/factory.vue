@@ -27,22 +27,24 @@ export default factory({
     }
   },
 
-  onMounted() {
+  async onMounted() {
     this.modelValue?.name
 
-    // this.form
-
-    // this.form.
+    await this.table.ajax()
+    console.log(this.table.data)
   },
 
   setup: {
+    table: {
+      ajax: {
+        action: 'GET /enocloud/common/customer',
+        data: 'array',
+        loading: true
+      }
+    },
     form: {
       data: {
         name: 'xxx'
-      },
-      ajax: {
-        action: '',
-        data: 'array'
       },
       computed: {
         fullName() {
@@ -51,6 +53,10 @@ export default factory({
       },
       children: {
         submit: {
+          ajax: {
+            action: 'GET /enocloud/common/customer',
+            data: 'array'
+          },
           click() {
             console.log(this.form.fullName)
           }
@@ -60,5 +66,3 @@ export default factory({
   }
 })
 </script>
-
-<style scoped></style>
