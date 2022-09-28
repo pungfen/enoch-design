@@ -24,7 +24,7 @@ interface Definitions {
   }
 }
 
-interface FactoryAjaxActions {
+export interface FactoryAjaxActions {
   'GET /test': {
     Data: Definitions['TestDto']
   }
