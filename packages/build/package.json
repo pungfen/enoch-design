@@ -8,7 +8,10 @@
   "author": "pung <fp94214@gmail.com>",
   "license": "MIT",
   "main": "src/index.ts",
-  "dependencies": {
+  "bin": {
+    "enoch-cli": "./bin/cli.js"
+  },
+  "devDependencies": {
     "@pnpm/find-workspace-dir": "^4.0.2",
     "@pnpm/find-workspace-packages": "^4.0.39",
     "@pnpm/logger": "^4.0.0",
@@ -18,12 +21,7 @@
     "rimraf": "^3.0.2",
     "tsup": "^6.2.3",
     "unconfig": "^0.3.6",
-    "unplugin-vue": "3.0.3-2"
-  },
-  "bin": {
-    "enoch-cli": "./bin/cli.js"
-  },
-  "devDependencies": {
+    "unplugin-vue": "3.0.3-2",
     "vue": "^3.2.39"
   }
 }
