@@ -30,9 +30,7 @@ export async function build() {
       format,
       platform,
       splitting: false,
-      dts: dts && {
-        compilerOptions: {}
-      },
+      dts,
       esbuildPlugins: [],
       esbuildOptions(options) {
         options.entryNames = minify ? `[dir]/[name].min` : `[dir]/[name]`

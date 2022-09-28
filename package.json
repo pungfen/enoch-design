@@ -19,17 +19,16 @@
     "format": "prettier --write .",
     "fp": "pnpm -C packages/fp start"
   },
-  "dependencies": {
-    "@enochfe/prettier-config": "workspace:*",
-    "@enochfe/tsconfig": "workspace:*"
-  },
   "devDependencies": {
+    "@enochfe/prettier-config": "workspace:*",
+    "@enochfe/tsconfig": "workspace:*",
     "@changesets/cli": "^2.24.4",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@commitlint/cz-commitlint": "^17.1.2",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.7.21",
+    "@vue/tsconfig": "^0.1.3",
     "commitizen": "^4.2.5",
     "esno": "^0.16.3",
     "husky": "^8.0.1",

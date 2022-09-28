@@ -29,7 +29,7 @@ const normalizeConfig = (pkgInfo: PackageInfo, config?: UserInlineConfig): UserI
     dts: true,
     vue: false,
     ...config,
-    platform: config.vue ? 'browser' : config.platform || 'node'
+    platform: config?.vue ? 'browser' : config?.platform || 'node'
   }
 
   if (isArray(normalized.entry)) normalized.entry = normalized.entry.map((e) => resolve(pkgInfo.dir, e))

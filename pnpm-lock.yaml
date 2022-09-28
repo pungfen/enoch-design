@@ -12,22 +12,23 @@ importers:
       '@enochfe/tsconfig': workspace:*
       '@types/lodash-es': ^4.17.6
       '@types/node': ^18.7.21
+      '@vue/tsconfig': ^0.1.3
       commitizen: ^4.2.5
       esno: ^0.16.3
       husky: ^8.0.1
       inquirer: ^9.1.2
       prettier: ^2.7.1
       typescript: ^4.8.3
-    dependencies:
-      '@enochfe/prettier-config': link:packages/prettier-config
-      '@enochfe/tsconfig': link:packages/tsconfig
     devDependencies:
       '@changesets/cli': 2.24.4
       '@commitlint/cli': 17.1.2
       '@commitlint/config-conventional': 17.1.0
       '@commitlint/cz-commitlint': 17.1.2_xiocybokfbm5xoirmkltidpwle
+      '@enochfe/prettier-config': link:packages/prettier-config
+      '@enochfe/tsconfig': link:packages/tsconfig
       '@types/lodash-es': 4.17.6
       '@types/node': 18.7.21
+      '@vue/tsconfig': 0.1.3_@types+node@18.7.21
       commitizen: 4.2.5
       esno: 0.16.3
       husky: 8.0.1
@@ -106,11 +107,10 @@ importers:
       '@enochfe/build': workspace:*
       lodash-es: ^4.17.21
       vue: ^3.2.39
-    dependencies:
-      vue: 3.2.39
     devDependencies:
       '@enochfe/build': link:../build
       lodash-es: 4.17.21
+      vue: 3.2.39
 
   packages/prettier-config:
     specifiers: {}
@@ -1754,7 +1754,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 18.7.21
+      '@types/node': 18.7.23
       '@types/responselike': 1.0.0
     dev: true
 
@@ -1791,7 +1791,7 @@ packages:
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.7.21
+      '@types/node': 18.7.23
     dev: true
 
   /@types/lodash-es/4.17.6:
@@ -1826,6 +1826,10 @@ packages:
     resolution: {integrity: sha512-rLFzK5bhM0YPyCoTC8bolBjMk7bwnZ8qeZUBslBfjZQou2ssJdWslx9CZ8DGM+Dx7QXQiiTVZ/6QO6kwtHkZCA==}
     dev: true
 
+  /@types/node/18.7.23:
+    resolution: {integrity: sha512-DWNcCHolDq0ZKGizjx2DZjR/PqsYwAcYUJmfMWqtVU2MBMG5Mo+xFZrhGId5r/O5HOuMPyQEcM6KUBp5lBZZBg==}
+    dev: true
+
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
@@ -1837,7 +1841,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 18.7.21
+      '@types/node': 18.7.23
     dev: true
 
   /@types/semver/6.2.3:
@@ -1851,7 +1855,7 @@ packages:
   /@types/ssri/7.1.1:
     resolution: {integrity: sha512-DPP/jkDaqGiyU75MyMURxLWyYLwKSjnAuGe9ZCsLp9QZOpXmDfuevk769F0BS86TmRuD5krnp06qw9nSoNO+0g==}
     dependencies:
-      '@types/node': 18.7.21
+      '@types/node': 18.7.23
     dev: true
 
   /@types/treeify/1.0.0:
@@ -2008,6 +2012,17 @@ packages:
       vue: ^3.0.1
     dependencies:
       vue: 3.2.39
+    dev: true
+
+  /@vue/tsconfig/0.1.3_@types+node@18.7.21:
+    resolution: {integrity: sha512-kQVsh8yyWPvHpb8gIc9l/HIDiiVUy1amynLNpCy8p+FoCiZXCo6fQos5/097MmnNZc9AtseDsCrfkhqCrJ8Olg==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@types/node': 18.7.21
     dev: true
 
   /@vueuse/core/9.3.0_vue@3.2.39:

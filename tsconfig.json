@@ -1,5 +1,5 @@
 {
   "extends": "@enochfe/tsconfig/tsconfig.web.json",
-  "include": ["packages/*/src"],
+  "include": ["packages/factory/src", "packages/components/src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
