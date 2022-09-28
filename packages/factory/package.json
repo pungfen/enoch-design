@@ -13,10 +13,20 @@
   ],
   "author": "pung <fp94214@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "directory": "packages/factory",
+    "url": "git+https://github.com/pungfen/enoch-design.git"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.esm.js"
     }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "main": "./dist/index.esm.js"
   },
   "devDependencies": {
     "@enochfe/build": "workspace:*",
