@@ -303,7 +303,9 @@ const setup = function <C extends SetupConfig>(this: any, config: C, expression:
   return origin
 }
 
-export const factory = <C extends Config>(config: C & ThisType<ExtractPropTypes<C['props']> & Setup<C['setup']>>) => {
+export const factory = <C extends Config, P extends C['props']>(
+  config: C & ThisType<Readonly<P extends ComponentPropsOptions ? ExtractPropTypes<P> : P> & Setup<C['setup']>>
+) => {
   return defineComponent({
     props: config.props!,
     setup(props) {
@@ -327,7 +329,7 @@ export const factory = <C extends Config>(config: C & ThisType<ExtractPropTypes<
           .value()
       }
 
-      return proxy as ExtractPropTypes<C['props']> & Setup<C['setup']>
+      return proxy as unknown as Readonly<P extends ComponentPropsOptions ? ExtractPropTypes<P> : P> & Setup<C['setup']>
     }
   })
 }

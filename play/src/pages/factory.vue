@@ -31,15 +31,12 @@ export default factory({
     this.modelValue?.name
 
     await this.table.ajax()
-    console.log(this.table.data)
   },
 
   setup: {
     table: {
       ajax: {
-        action: 'GET /enocloud/common/customer',
-        data: 'array',
-        loading: true
+        action: 'GET /test'
       }
     },
     form: {
@@ -54,7 +51,7 @@ export default factory({
       children: {
         submit: {
           ajax: {
-            action: 'GET /enocloud/common/customer',
+            action: 'GET /test',
             data: 'array'
           },
           click() {

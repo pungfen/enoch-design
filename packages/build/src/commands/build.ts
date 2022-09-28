@@ -36,6 +36,11 @@ export async function build() {
       esbuildPlugins: [],
       esbuildOptions(options) {
         options.entryNames = minify ? `[dir]/[name].min` : `[dir]/[name]`
+      },
+      outExtension({ format }) {
+        return {
+          js: `.${format}.js`
+        }
       }
     }
 

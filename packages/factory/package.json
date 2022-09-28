@@ -1,15 +1,21 @@
 {
   "name": "@enochfe/factory",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "enoch factory",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
     "build": "enoch-cli build"
   },
-  "keywords": [],
+  "keywords": [
+    "vue3",
+    "factory"
+  ],
   "author": "pung <fp94214@gmail.com>",
   "license": "MIT",
+  "exports": {
+    ".": {}
+  },
   "devDependencies": {
     "@enochfe/build": "workspace:*",
     "lodash-es": "^4.17.21"
