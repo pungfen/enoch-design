@@ -145,7 +145,11 @@ type Computed<C extends Record<string, SetupConfig>> = {
 }
 
 type Setup<C extends SetupConfig> = {
-  [K in keyof C]: C[K] extends Record<string, any> ? Ajax<C[K]> & Computed<C[K]['computed']> & Children<C[K]['children']> & Index<C[K]> : C[K]
+  [K in keyof C]: C[K] extends (...args: Array<any>) => any
+    ? C[K]
+    : C[K] extends Record<string, any>
+    ? Ajax<C[K]> & Computed<C[K]['computed']> & Children<C[K]['children']> & Index<C[K]>
+    : C[K]
 }
 
 const getDataFromExpresion = (data: any, expression: string): Record<string, any> => {
