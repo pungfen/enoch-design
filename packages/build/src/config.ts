@@ -34,7 +34,7 @@ const normalizeConfig = (pkgInfo: PackageInfo, config?: UserInlineConfig): UserI
 
   if (isArray(normalized.entry)) normalized.entry = normalized.entry.map((e) => resolve(pkgInfo.dir, e))
   else if (isPlainObject(normalized.entry)) {
-    Object.entries(normalized.entry).forEach(([key, value]) => (normalized.entry[key] = resolve(pkgInfo.dir, value)))
+    Object.entries(normalized.entry).forEach(([key, value]) => ((normalized.entry as Record<string, string>)[key] = resolve(pkgInfo.dir, value)))
   }
 
   normalized.outDir = resolve(pkgInfo.dir, 'dist')
