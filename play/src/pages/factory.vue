@@ -27,11 +27,12 @@ export default factory({
     }
   },
 
-  async onMounted() {
+  onMounted() {
     this.modelValue?.name
-
-    await this.table.ajax()
+    this.table.ajax()
   },
+
+  onUnmounted() {},
 
   setup: {
     table: {
