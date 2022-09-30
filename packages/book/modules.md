@@ -1,4 +1,6 @@
-# esm（ES Modules）
+# esm（ES Modules
+
+https://zhuanlan.zhihu.com/p/456483953
 
 > JavaScript 官方的标准化模块系统（草案），在标准化道路上花了近 10 年时间。
 
