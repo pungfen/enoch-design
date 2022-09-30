@@ -9,15 +9,14 @@
   "scripts": {
     "dev": "pnpm -C play dev",
     "build": "pnpm -C packages/build build",
+    "build:c": "pnpm -C packages/cli build",
     "build:f": "pnpm -C packages/factory build",
-    "build:c": "pnpm -C packages/components build",
-    "build:co": "pnpm -C packages/core build",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "pnpm build && changeset publish",
     "docs:dev": "pnpm -C packages/docs dev",
     "docs:build": "pnpm -C packages/docs build",
     "format": "prettier --write .",
-    "test": "vitest"
+    "test": "vitest factory"
   },
   "devDependencies": {
     "@changesets/cli": "^2.24.4",

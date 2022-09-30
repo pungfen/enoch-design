@@ -30,6 +30,9 @@ export default factory({
   onMounted() {
     this.modelValue?.name
     this.table.ajax()
+    this.table.data
+    this.dialog.visible = false
+    this.dialog.check.click()
   },
 
   onUnmounted() {},
@@ -37,7 +40,8 @@ export default factory({
   setup: {
     table: {
       ajax: {
-        action: 'GET /test'
+        action: 'GET /test',
+        data: 'array'
       }
     },
     form: {
@@ -58,6 +62,14 @@ export default factory({
           click() {
             console.log(this.form.fullName)
           }
+        }
+      }
+    },
+    dialog: {
+      visible: false,
+      children: {
+        check: {
+          click() {}
         }
       }
     }

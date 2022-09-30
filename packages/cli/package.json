@@ -1,0 +1,21 @@
+{
+  "name": "@enochfe/cli",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "tsup src/cli.ts"
+  },
+  "author": "pung <fp94214@gmail.com>",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "bin": {
+    "enoch-cli": "./bin/cli.js"
+  },
+  "devDependencies": {
+    "@enochfe/command": "workspace:*",
+    "commander": "^9.4.0",
+    "consola": "^2.15.3",
+    "tsup": "^6.2.3",
+    "unconfig": "^0.3.6"
+  }
+}

@@ -1,10 +1,8 @@
 import consola from 'consola'
 import { build as tsup } from 'tsup'
 
-// import Vue from 'unplugin-vue/esbuild'
-
-import { getPackageInfo } from '../pkg'
-import { getUserConfig } from '../config'
+import { getPackageInfo } from './pkg'
+import { getUserConfig } from './config'
 
 import type { Options } from 'tsup'
 

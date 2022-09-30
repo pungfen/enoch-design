@@ -35,7 +35,7 @@
     "global.d.ts"
   ],
   "devDependencies": {
-    "@enochfe/build": "workspace:*",
+    "@enochfe/cli": "workspace:*",
     "lodash-es": "^4.17.21",
     "vue": "^3.2.39"
   },

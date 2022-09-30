@@ -7,5 +7,7 @@ export default defineConfig({
       '@enochfe/factory': resolve(__dirname, 'packages/factory/src/index.ts')
     }
   },
-  test: {}
+  test: {
+    globals: true
+  }
 })
