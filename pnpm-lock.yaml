@@ -118,12 +118,12 @@ importers:
 
   packages/factory:
     specifiers:
-      '@enochfe/cli': workspace:*
       lodash-es: ^4.17.21
+      tsup: ^6.2.3
       vue: ^3.2.39
     devDependencies:
-      '@enochfe/cli': link:../cli
       lodash-es: 4.17.21
+      tsup: 6.2.3
       vue: 3.2.39
 
   packages/prettier-config:

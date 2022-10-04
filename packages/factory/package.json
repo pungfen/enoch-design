@@ -1,11 +1,11 @@
 {
   "name": "@enochfe/factory",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "enoch factory",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "build": "enoch-cli build"
+    "build": "tsup src/index.ts --dts"
   },
   "keywords": [
     "vue3",
@@ -35,8 +35,8 @@
     "global.d.ts"
   ],
   "devDependencies": {
-    "@enochfe/cli": "workspace:*",
     "lodash-es": "^4.17.21",
+    "tsup": "^6.2.3",
     "vue": "^3.2.39"
   },
   "peerDependencies": {

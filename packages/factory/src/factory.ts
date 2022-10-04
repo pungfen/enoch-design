@@ -86,14 +86,17 @@ type DtoMap = {
 type _Ajaxconfig<A extends keyof DtoMap, D extends DataType> = {
   action: A
   data?: D
-  converter?: any
+  converter?: {
+    server?: (payload: DtoMap[A]['server']) => DtoMap[A]['server'] | void
+    client?: (data: D extends 'object' ? ClientDto<A> : ClientDto<A>[]) => (D extends 'object' ? ClientDto<A> : ClientDto<A>[]) | void
+  }
   by?: string
   loading?: boolean
   pagination?: boolean
-  params?: (params: { paths?: (string | number | undefined)[]; payload?: any }) => void
+  params?: (params: { paths?: (string | number | undefined)[]; payload?: DtoMap[A]['server'] }) => void
 }
 
-type AjaxConfig = _Ajaxconfig<keyof DtoMap, DataType>
+export type AjaxConfig = _Ajaxconfig<keyof DtoMap, DataType>
 
 interface AjaxMethodOptions {
   addition?: any
