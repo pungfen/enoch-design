@@ -15,7 +15,7 @@ import {
   type WatchOptions
 } from 'vue'
 
-import { assign, chain, isArray, isFunction, isObject, isPlainObject, result } from 'lodash-es'
+import { isArray, isFunction, isObject, isPlainObject, result } from 'lodash-es'
 
 interface Definitions {
   TestDto: {
@@ -156,9 +156,7 @@ type Setup<C extends SetupConfig> = {
 }
 
 const getDataFromExpresion = (data: any, expression: string): Record<string, any> => {
-  return chain(data)
-    .result(expression.substring(expression.startsWith('.') ? 1 : 0), {})
-    .value()
+  return result(data, expression.substring(expression.startsWith('.') ? 1 : 0), {})
 }
 
 const paginationInit = () => {
@@ -202,7 +200,7 @@ const ajax = function <C extends SetupConfig>(this: any, config: C, expression: 
 
       let index = 0
       let arc = {} as any
-      let data = assign({}, (converter?.server as any)?.call(this, _params.payload) || _params.payload, options?.addition)
+      let data = Object.assign({}, (converter?.server as any)?.call(this, _params.payload) || _params.payload, options?.addition)
       let url = path
         .split('/')
         .map((str) => (str.startsWith(':') ? _params.paths![index++] : str))
@@ -239,23 +237,17 @@ const computed = function <C extends SetupConfig>(this: any, config: C, expressi
   const origin: any = {}
 
   if (config.computed) {
-    chain(config.computed)
-      .entries()
-      .forEach(([key, value]) => {
-        if (isFunction(value)) return (origin[key] = vComputed(value.bind(this)))
-        else if (isPlainObject(value)) {
-          origin[key] = vComputed(
-            chain(value)
-              .entries()
-              .reduce((res, [methodName, methodFn]) => {
-                res[methodName] = methodFn.bind(this)
-                return res
-              }, {} as any)
-              .value()
-          )
-        }
-      })
-      .value()
+    Object.entries(config.computed).forEach(([key, value]) => {
+      if (isFunction(value)) return (origin[key] = vComputed(value.bind(this)))
+      else if (isPlainObject(value)) {
+        origin[key] = vComputed(
+          Object.entries(value).reduce((res, [methodName, methodFn]) => {
+            res[methodName] = (methodFn as Function).bind(this)
+            return res
+          }, {} as any)
+        )
+      }
+    })
   }
 
   return origin
@@ -265,12 +257,9 @@ const children = function <C extends SetupConfig>(this: any, config: C, expressi
   const origin: any = {}
 
   if (config.children) {
-    chain(config.children)
-      .entries()
-      .forEach(([name, subConfig]) => {
-        origin[name] = setup.call(this, subConfig, expression ? `${expression}.${name}` : name)
-      })
-      .value()
+    Object.entries(config.children).forEach(([name, subConfig]) => {
+      origin[name] = setup.call(this, subConfig, expression ? `${expression}.${name}` : name)
+    })
   }
 
   return origin
@@ -279,14 +268,11 @@ const children = function <C extends SetupConfig>(this: any, config: C, expressi
 const index = function <C extends SetupConfig>(this: any, config: C, expression: string): Index<C> {
   const origin: any = {}
 
-  chain(config)
-    .entries()
-    .forEach(([name, value]) => {
-      if (isProxy(value) && isReadonly(value)) return (origin[name] = value)
-      if (['children', 'ajax', 'computed'].includes(name)) return
-      origin[name] = isPlainObject(value) ? setup.call(this, value, `${expression}.${name}`) : isFunction(value) ? value.bind(this) : value
-    })
-    .value()
+  Object.entries(config).forEach(([name, value]) => {
+    if (isProxy(value) && isReadonly(value)) return (origin[name] = value)
+    if (['children', 'ajax', 'computed'].includes(name)) return
+    origin[name] = isPlainObject(value) ? setup.call(this, value, `${expression}.${name}`) : isFunction(value) ? value.bind(this) : value
+  })
 
   return origin
 }
@@ -294,12 +280,13 @@ const index = function <C extends SetupConfig>(this: any, config: C, expression:
 const setup = function <C extends SetupConfig>(this: any, config: C, expression: string): Setup<C> {
   const origin: any = this ? {} : reactive({})
 
-  chain(origin)
-    .assign(ajax.call(this || origin, config, expression))
-    .assign(computed.call(this || origin, config, expression))
-    .assign(children.call(this || origin, config, expression))
-    .assign(index.call(this || origin, config, expression))
-    .value()
+  Object.assign(
+    origin,
+    ajax.call(this || origin, config, expression),
+    computed.call(this || origin, config, expression),
+    children.call(this || origin, config, expression),
+    index.call(this || origin, config, expression)
+  )
 
   return origin
 }
@@ -310,7 +297,7 @@ export const factory = <C extends Config, P extends C['props']>(
   return defineComponent({
     props: config.props!,
     setup(props) {
-      const proxy = chain(setup.call(null, config.setup, '')).assign(props).value()
+      const proxy = Object.assign(setup.call(null, config.setup, ''), props)
 
       onMounted(() => config?.onMounted?.call(proxy))
       onUnmounted(() => config?.onUnmounted?.call(proxy))
@@ -318,16 +305,13 @@ export const factory = <C extends Config, P extends C['props']>(
       if (config?.watchEffect) watchEffect((onCleanup) => config?.watchEffect?.call(proxy, onCleanup))
 
       if (config.watch) {
-        chain(config.watch)
-          .entries()
-          .forEach(([key, value]) => {
-            watch(
-              () => result(proxy, key) as any,
-              isFunction(value) ? value.bind(proxy) : isFunction(value.handler) ? value.handler.bind(proxy) : () => {},
-              value as WatchOptions
-            )
-          })
-          .value()
+        Object.entries(config.watch).forEach(([key, value]) => {
+          watch(
+            () => result(proxy, key) as any,
+            isFunction(value) ? value.bind(proxy) : isFunction(value.handler) ? value.handler.bind(proxy) : () => {},
+            value as WatchOptions
+          )
+        })
       }
 
       return proxy as unknown as Readonly<P extends ComponentPropsOptions ? ExtractPropTypes<P> : P> & Setup<C['setup']>
