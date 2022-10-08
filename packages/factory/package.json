@@ -1,11 +1,11 @@
 {
   "name": "@enochfe/factory",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "enoch factory",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "build": "tsup src/index.ts --dts"
+    "build": "tsup src/index.ts --dts --sourcemap inline --format esm,cjs,iife"
   },
   "keywords": [
     "vue3",
@@ -18,18 +18,18 @@
     "directory": "packages/factory",
     "url": "git+https://github.com/pungfen/enoch-design.git"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.esm.js"
-    }
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",
-    "main": "./dist/index.esm.js"
+    "main": "./dist/index.js",
+    "exports": {
+      ".": {
+        "import": "./dist/index.js"
+      }
+    },
+    "types": "dist/index.d.ts",
+    "module": "dist/index.js"
   },
-  "types": "dist/index.d.ts",
-  "module": "dist/index.esm.js",
   "files": [
     "dist",
     "global.d.ts"
