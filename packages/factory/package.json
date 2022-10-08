@@ -1,6 +1,6 @@
 {
   "name": "@enochfe/factory",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "enoch factory",
   "main": "src/index.ts",
   "type": "module",
