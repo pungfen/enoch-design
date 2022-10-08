@@ -215,10 +215,10 @@ const ajax = function <C extends SetupConfig>(this: any, config: C, expression: 
 
       try {
         const res = await app?.appContext.config.globalProperties.$factory.axios(arc)
-        let data = dataType === 'object' ? res.data[0] : res.data
+        let data = dataType === 'object' ? res.data.data[0] : res.data.data
         data = (converter?.client as (data: any) => any)?.call(this, data) || data
         dataType !== 'none' && (parent.data = options?.invokedByScroll ? [...parent.data, ...data] : data)
-        pagination && (parent.paging = res.meta.paging)
+        pagination && (parent.paging = res.data.meta.paging)
         return Promise.resolve(res)
       } catch (err) {
         return Promise.reject(err)
