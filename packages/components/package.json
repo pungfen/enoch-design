@@ -6,7 +6,7 @@
   "author": "pung <fp94214@gmail.com>",
   "main": "./main.ts",
   "scripts": {
-    "build": "vite build",
+    "build": "vite build & tsc src/index.ts",
     "test": "vitest"
   },
   "files": [

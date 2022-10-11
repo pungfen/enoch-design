@@ -8,7 +8,7 @@ import UnoCSS from 'unocss/vite'
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'main.ts'),
+      entry: resolve(__dirname, 'src/components.ts'),
       name: '@enochfe/components'
     },
     rollupOptions: {
