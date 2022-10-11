@@ -4,8 +4,10 @@ import vue from '@vitejs/plugin-vue'
 
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
+import UnoCSS from 'unocss/vite'
+import { presetUno, presetAttributify } from 'unocss'
 
-import Components from 'unplugin-vue-components/vite'
+// import Components from 'unplugin-vue-components/vite'
 
 function kebabCase(key: string) {
   const result = key.replace(/([A-Z])/g, ' $1').trim()
@@ -21,28 +23,31 @@ export default defineConfig({
     }
   },
   plugins: [
-    vue({ reactivityTransform: true }),
+    vue(),
     Pages({
       dirs: ['src/pages']
     }),
     Layouts({
       defaultLayout: 'index'
     }),
-    Components({
-      dts: './components.d.ts',
-      resolvers: [
-        (componentName) => {
-          if (componentName.startsWith('En')) {
-            const name = componentName.slice(2)
-            const esComponentsFolder = 'element-plus/es/components'
-            return {
-              name: componentName,
-              from: '@enoch/components',
-              sideEffects: [`${esComponentsFolder}/${kebabCase(name)}/style/index`]
-            }
-          }
-        }
-      ]
+    UnoCSS({
+      presets: [presetUno(), presetAttributify()]
     })
+    // Components({
+    //   dts: './components.d.ts',
+    //   resolvers: [
+    //     (componentName) => {
+    //       if (componentName.startsWith('En')) {
+    //         const name = componentName.slice(2)
+    //         const esComponentsFolder = 'element-plus/es/components'
+    //         return {
+    //           name: componentName,
+    //           from: '@enoch/components',
+    //           sideEffects: [`${esComponentsFolder}/${kebabCase(name)}/style/index`]
+    //         }
+    //       }
+    //     }
+    //   ]
+    // })
   ]
 })

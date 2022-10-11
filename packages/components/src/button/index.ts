@@ -1,10 +1,4 @@
-import { assign } from 'lodash'
-
+import { withInstall } from '../utils/install'
 import Button from './button.vue'
-import type { App } from 'vue'
 
-export * from './button'
-
-export const EnButton = assign(Button, {
-  install: (app: App) => app.component(Button.name, Button)
-})
+export const EnButton = withInstall(Button)

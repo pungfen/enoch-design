@@ -1,0 +1,8 @@
+{
+  "extends": "@enochfe/tsconfig/tsconfig.web.json",
+  "exclude": ["**/dist"],
+  "include": ["packages/components"],
+  "compilerOptions": {
+    "composite": true
+  }
+}

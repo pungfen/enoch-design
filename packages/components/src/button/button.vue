@@ -1,23 +1,36 @@
-<script lang="ts">
-import { defineComponent, h } from 'vue'
-import { ElButton } from 'element-plus'
-import { buttonProps } from './button'
+<template>
+  <button :aria-disabled="_disabled" :class="['en-button', buttonStyle.style]">
+    <slot></slot>
+  </button>
+</template>
 
-export default defineComponent({
-  name: 'EnButton',
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useTheme } from '../hooks'
 
-  props: buttonProps,
+export interface Props {
+  disabled?: boolean
+  loading?: boolean
+}
 
-  setup(props, { slots }) {
-    return () => {
-      return h(
-        ElButton,
-        {
-          ...props
-        },
-        { default: slots.default }
-      )
-    }
-  }
-})
+const { disabled, loading } = defineProps<Props>()
+const { colors, button } = useTheme()
+
+const _disabled = computed(() => loading || disabled)
 </script>
+
+<style scoped module="buttonStyle">
+.style {
+  background-color: v-bind('colors.main');
+  border-radius: v-bind('button.borderRadius');
+  color: v-bind('button.color');
+  padding: v-bind('button.padding');
+}
+</style>
+
+<style scoped>
+.en-button {
+  border: none;
+  cursor: pointer;
+}
+</style>

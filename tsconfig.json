@@ -3,7 +3,5 @@
     "types": ["vitest", "vitest/globals"]
   },
   "exclude": ["node_modules"],
-  "extends": "@enochfe/tsconfig/tsconfig.web.json",
-  "include": ["packages/factory/src", "packages/components/src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.web.json" }, { "path": "./tsconfig.node.json" }]
 }
