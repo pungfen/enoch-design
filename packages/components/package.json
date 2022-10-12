@@ -1,19 +1,27 @@
 {
-  "author": "pung <fp94214@gmail.com>",
-  "bugs": {
-    "url": "https://github.com/pungfen/enoch-design/issues"
-  },
-  "dependencies": {
-    "vue": "^3.2.39"
-  },
   "name": "@enochfe/components",
-  "type": "module",
-  "version": "0.0.1",
+  "author": "pung <fp94214@gmail.com>",
   "description": "enochfe components",
+  "version": "0.0.1",
+  "type": "module",
   "main": "src/index.ts",
   "scripts": {
     "build": "vite build",
     "test": "vitest"
+  },
+  "dependencies": {
+    "vue": "^3.2.39"
+  },
+  "devDependencies": {
+    "@vicons/carbon": "^0.12.0",
+    "@vicons/utils": "^0.1.4",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "lodash-es": "^4.17.21",
+    "vite": "^3.1.3",
+    "vite-plugin-dts": "^1.6.5"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
   },
   "files": [
     "dist"
@@ -23,20 +31,15 @@
     "url": "git+https://github.com/pungfen/enoch-design.git",
     "directory": "packages/components"
   },
+  "bugs": {
+    "url": "https://github.com/pungfen/enoch-design/issues"
+  },
   "homepage": "https://github.com/pungfen/enoch-design/tree/main/#readme",
   "keywords": [
     "enochfe",
     "vue3",
     "UI"
   ],
-  "devDependencies": {
-    "@vicons/carbon": "^0.12.0",
-    "@vicons/utils": "^0.1.4",
-    "@vitejs/plugin-vue": "^3.1.0",
-    "lodash-es": "^4.17.21",
-    "vite": "^3.1.3",
-    "vite-plugin-dts": "^1.6.5"
-  },
   "publishConfig": {
     "access": "public",
     "main": "dist/index.es.js",
@@ -52,8 +55,5 @@
   },
   "sideEffects": [
     "dist/*"
-  ],
-  "peerDependencies": {
-    "vue": "^3.2.0"
-  }
+  ]
 }
