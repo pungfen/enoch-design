@@ -9,12 +9,11 @@ await rm('dist', { recursive: true, force: true })
 
 export default defineConfig({
   build: {
-    target: 'modules',
     lib: {
       entry: resolve(__dirname, './src/index.ts'),
       name: '@enochfe/components',
       formats: ['es', 'cjs'],
-      fileName: (x) => `[name].${x}.js`
+      fileName: (format) => `[name].${format}.js`
     },
     rollupOptions: {
       external: ['vue'],
