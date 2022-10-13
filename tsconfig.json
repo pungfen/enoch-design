@@ -1,7 +1,6 @@
 {
+  "extends": "@enochfe/tsconfig/tsconfig.json",
   "compilerOptions": {
     "types": ["vitest", "vitest/globals"]
-  },
-  "exclude": ["node_modules"],
-  "references": [{ "path": "./tsconfig.web.json" }, { "path": "./tsconfig.node.json" }]
+  }
 }

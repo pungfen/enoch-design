@@ -1,9 +1,0 @@
-{
-  "extends": "@enochfe/tsconfig/tsconfig.node.json",
-  "include": ["packages/build/*", "packages/command/*", "packages/cli/*", "packages/css-reset"],
-  "exclude": ["**/dist"],
-  "compilerOptions": {
-    "composite": true,
-    "module": "ES2020"
-  }
-}

@@ -1,45 +1,46 @@
 {
   "name": "@enochfe/factory",
-  "version": "1.0.1",
+  "author": "pung <fp94214@gmail.com>",
   "description": "enoch factory",
-  "main": "src/index.ts",
+  "version": "1.0.1",
   "type": "module",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "tsup src/index.ts --dts --sourcemap inline --format esm,cjs,iife"
+    "build": "vite build"
   },
+  "devDependencies": {
+    "lodash-es": "^4.17.21",
+    "vue": "^3.2.39"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pungfen/enoch-design.git",
+    "directory": "packages/factory"
+  },
+  "bugs": {
+    "url": "https://github.com/pungfen/enoch-design/issues"
+  },
+  "homepage": "https://github.com/pungfen/enoch-design/tree/main/#readme",
   "keywords": [
     "vue3",
     "factory"
   ],
-  "author": "pung <fp94214@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "directory": "packages/factory",
-    "url": "git+https://github.com/pungfen/enoch-design.git"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",
     "main": "./dist/index.js",
     "exports": {
       ".": {
-        "import": "./dist/index.js"
+        "import": "./dist/index.es.js",
+        "require": "./dist/index.cjs.js"
       }
     },
-    "types": "dist/index.d.ts",
-    "module": "dist/index.js"
-  },
-  "files": [
-    "dist",
-    "global.d.ts"
-  ],
-  "devDependencies": {
-    "lodash-es": "^4.17.21",
-    "tsup": "^6.2.3",
-    "vue": "^3.2.39"
-  },
-  "peerDependencies": {
-    "vue": "^3.2.0"
+    "types": "dist/index.d.ts"
   }
 }
