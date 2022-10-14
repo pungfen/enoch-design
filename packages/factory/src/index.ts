@@ -12,3 +12,5 @@ export default {
     app.config.globalProperties.$factory.axios = options?.axios
   }
 }
+
+export { default as FactoryPlugin } from './vite'

@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
-import Factory from '@enochfe/factory'
 import routes from '~pages'
 import 'uno.css'
 
@@ -14,4 +13,4 @@ export const router = createRouter({
   history: createWebHashHistory()
 })
 
-createApp(App).use(router).use(Factory, { axios }).mount('#app')
+createApp(App).use(router).mount('#app')

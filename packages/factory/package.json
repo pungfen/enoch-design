@@ -6,17 +6,29 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "build": "vite build"
+    "build": "tsup"
+  },
+  "dependencies": {
+    "unplugin": "^0.9.6"
   },
   "devDependencies": {
+    "@babel/types": "^7.19.4",
+    "@rollup/pluginutils": "^5.0.1",
+    "@vue/compiler-sfc": "^3.2.40",
+    "ast-walker-scope": "^0.2.3",
+    "fast-glob": "^3.2.12",
     "lodash-es": "^4.17.21",
+    "magic-string": "^0.26.7",
+    "tsup": "^6.2.3",
     "vue": "^3.2.39"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "macros.d.ts",
+    "macros-global.d.ts"
   ],
   "repository": {
     "type": "git",
@@ -34,13 +46,21 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",
-    "main": "./dist/index.js",
+    "main": "./dist/index.cjs",
+    "module": "dist/index.cjs",
+    "types": "dist/index.d.ts",
     "exports": {
       ".": {
-        "import": "./dist/index.es.js",
-        "require": "./dist/index.cjs.js"
-      }
-    },
-    "types": "dist/index.d.ts"
+        "require": "./dist/index.cjs",
+        "import": "./dist/index.js"
+      },
+      "./vite": {
+        "require": "./dist/vite.cjs",
+        "import": "./dist/vite.js"
+      },
+      "./macros": "./macros.d.ts",
+      "./macros-global": "./macros-global.d.ts",
+      "./*": "./*"
+    }
   }
 }
