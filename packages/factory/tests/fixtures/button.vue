@@ -1,8 +1,14 @@
 <script setup lang="ts">
-interface Props {
-  name: 'Foo'
-}
-defineProps<Props>()
+import { h } from 'vue'
+
+defineProps<{ name: string }>()
+
+defineFactory({
+  name: 'en-button',
+  render() {
+    return h('div', this.$props)
+  }
+})
 </script>
 
 <template>

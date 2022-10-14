@@ -7,6 +7,8 @@ import Layouts from 'vite-plugin-vue-layouts'
 import UnoCSS from 'unocss/vite'
 import { presetUno, presetAttributify } from 'unocss'
 
+import { FactoryPlugin } from '@enochfe/factory'
+
 // import Components from 'unplugin-vue-components/vite'
 
 function kebabCase(key: string) {
@@ -32,7 +34,8 @@ export default defineConfig({
     }),
     UnoCSS({
       presets: [presetUno(), presetAttributify()]
-    })
+    }),
+    FactoryPlugin()
     // Components({
     //   dts: './components.d.ts',
     //   resolvers: [

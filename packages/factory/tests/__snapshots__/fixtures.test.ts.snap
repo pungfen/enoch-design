@@ -1,0 +1,33 @@
+// Vitest Snapshot v1
+
+exports[`Rollup > fixtures > tests/fixtures/button.vue 1`] = `
+"var button = \`<script lang=\\"ts\\">
+import { defineComponent as DO_defineComponent } from 'vue';
+export default /*#__PURE__*/ DO_defineComponent(
+{
+  name: 'en-button',
+  render() {
+    return h('div', this.$props)
+  }
+}
+);
+
+</script>
+<script setup lang=\\"ts\\">
+import { h } from 'vue'
+
+defineProps<{ name: string }>()
+
+
+</script>
+
+<template>
+  <div>
+    <h1>hello world</h1>
+  </div>
+</template>
+\`;
+
+export { button as default };
+"
+`;

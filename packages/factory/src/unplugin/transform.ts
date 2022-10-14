@@ -33,19 +33,17 @@ export const transform = (code: string, id: string) => {
   const [arg] = node.arguments
   if (arg) {
     const normalScript = addNormalScript(sfc, s)
-
     const scriptOffset = normalScript.start()
 
-    s.appendLeft(
-      scriptOffset,
-      `\nimport { defineComponent as DO_defineComponent } from 'vue';
-export default /*#__PURE__*/ DO_defineComponent(`
-    )
+    s.appendLeft(scriptOffset, `\nimport { defineComponent as DO_defineComponent } from 'vue';`)
+    s.appendLeft(scriptOffset, `\nexport default /*#__PURE__*/ DO_defineComponent(\n`)
 
     if (arg.type === 'ObjectExpression' && hasPropsOrEmits(arg))
       throw new SyntaxError(`${DEFINE_FACTORY}() please use defineProps or defineEmits instead.`)
 
     checkInvalidScopeReference(arg, DEFINE_FACTORY, setupBindings)
+
+    console.log('debug1', s.toString())
 
     s.moveNode(arg, scriptOffset, { offset: setupOffset })
 
@@ -53,9 +51,11 @@ export default /*#__PURE__*/ DO_defineComponent(`
     s.remove(setupOffset + node.start!, setupOffset + arg.start!)
     s.remove(setupOffset + arg.end!, setupOffset + node.end!)
 
-    s.appendRight(scriptOffset, ');')
+    s.appendRight(scriptOffset, '\n);\n')
+
     normalScript.end()
   } else {
+    console.log('debug', s.original)
     // removes defineOptions()
     s.removeNode(node, { offset: setupOffset })
   }

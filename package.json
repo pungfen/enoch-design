@@ -17,7 +17,7 @@
     "docs:dev": "pnpm -C packages/docs dev",
     "docs:build": "pnpm -C packages/docs build",
     "format": "prettier --write .",
-    "test": "vitest factory"
+    "test": "vitest -u"
   },
   "devDependencies": {
     "@changesets/cli": "^2.24.4",
@@ -25,9 +25,11 @@
     "@commitlint/config-conventional": "^17.1.0",
     "@commitlint/cz-commitlint": "^17.1.2",
     "@enochfe/prettier-config": "workspace:*",
+    "@enochfe/test-utils": "workspace:*",
     "@enochfe/tsconfig": "workspace:*",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.7.21",
+    "@vitest/ui": "^0.24.1",
     "commitizen": "^4.2.5",
     "esno": "^0.16.3",
     "husky": "^8.0.1",
