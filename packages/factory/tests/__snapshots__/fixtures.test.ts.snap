@@ -2,8 +2,8 @@
 
 exports[`Rollup > fixtures > tests/fixtures/button.vue 1`] = `
 "var button = \`<script lang=\\"ts\\">
-import { defineComponent as DO_defineComponent } from 'vue';
-export default /*#__PURE__*/ DO_defineComponent(
+import { defineComponent as _defineComponent } from 'vue';
+export default /*#__PURE__*/ _defineComponent(
 {
   name: 'en-button',
   render() {
@@ -15,8 +15,6 @@ export default /*#__PURE__*/ DO_defineComponent(
 </script>
 <script setup lang=\\"ts\\">
 import { h } from 'vue'
-
-defineProps<{ name: string }>()
 
 
 </script>

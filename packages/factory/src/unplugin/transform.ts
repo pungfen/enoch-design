@@ -18,8 +18,8 @@ export const transform = (code: string, id: string) => {
 
   const setupOffset = scriptSetup.loc.start.offset
 
+  // 判断是否存在factory以及factory的重复性
   const nodes = filterMacro(scriptCompiled.scriptSetupAst as Statement[])
-
   if (nodes.length === 0) return
   else if (nodes.length > 1) throw new SyntaxError(`duplicate ${DEFINE_FACTORY}() call`)
 
@@ -31,23 +31,24 @@ export const transform = (code: string, id: string) => {
 
   const [node] = nodes
   const [arg] = node.arguments
+
   if (arg) {
     const normalScript = addNormalScript(sfc, s)
     const scriptOffset = normalScript.start()
 
-    s.appendLeft(scriptOffset, `\nimport { defineComponent as DO_defineComponent } from 'vue';`)
-    s.appendLeft(scriptOffset, `\nexport default /*#__PURE__*/ DO_defineComponent(\n`)
+    s.appendLeft(scriptOffset, `\nimport { defineComponent as _defineComponent } from 'vue';`)
+    s.appendLeft(scriptOffset, `\nexport default /*#__PURE__*/ _defineComponent(\n`)
 
-    if (arg.type === 'ObjectExpression' && hasPropsOrEmits(arg))
-      throw new SyntaxError(`${DEFINE_FACTORY}() please use defineProps or defineEmits instead.`)
+    // if (arg.type === 'ObjectExpression' && hasPropsOrEmits(arg))
+    //   throw new SyntaxError(`${DEFINE_FACTORY}() please use defineProps or defineEmits instead.`)
 
-    checkInvalidScopeReference(arg, DEFINE_FACTORY, setupBindings)
+    // checkInvalidScopeReference(arg, DEFINE_FACTORY, setupBindings)
 
-    console.log('debug1', s.toString())
-
+    console.log(s.toString())
     s.moveNode(arg, scriptOffset, { offset: setupOffset })
+    console.log(s.toString())
 
-    // removes defineOptions()
+    // removes defineFactory()
     s.remove(setupOffset + node.start!, setupOffset + arg.start!)
     s.remove(setupOffset + arg.end!, setupOffset + node.end!)
 
@@ -56,7 +57,7 @@ export const transform = (code: string, id: string) => {
     normalScript.end()
   } else {
     console.log('debug', s.original)
-    // removes defineOptions()
+    // removes defineFactory()
     s.removeNode(node, { offset: setupOffset })
   }
 
