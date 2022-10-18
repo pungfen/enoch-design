@@ -130,12 +130,12 @@ importers:
   packages/factory:
     specifiers:
       '@babel/types': ^7.19.4
+      '@enochfe/shared': workspace:^1.0.1
       '@rollup/pluginutils': ^5.0.1
       '@vitejs/plugin-vue': ^3.1.0
       '@vue/compiler-sfc': ^3.2.40
       ast-walker-scope: ^0.2.3
       fast-glob: ^3.2.12
-      lodash-es: ^4.17.21
       magic-string: ^0.26.7
       rollup: ^3.1.0
       tsup: ^6.2.3
@@ -147,12 +147,12 @@ importers:
       unplugin: 0.9.6
     devDependencies:
       '@babel/types': 7.19.4
+      '@enochfe/shared': link:../shared
       '@rollup/pluginutils': 5.0.1_rollup@3.1.0
       '@vitejs/plugin-vue': 3.1.0_vite@3.1.3+vue@3.2.39
       '@vue/compiler-sfc': 3.2.40
       ast-walker-scope: 0.2.3
       fast-glob: 3.2.12
-      lodash-es: 4.17.21
       magic-string: 0.26.7
       rollup: 3.1.0
       tsup: 6.2.3
@@ -161,6 +161,9 @@ importers:
       vue: 3.2.39
 
   packages/prettier-config:
+    specifiers: {}
+
+  packages/shared:
     specifiers: {}
 
   packages/test-utils:

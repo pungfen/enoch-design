@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 
-export * from './factory'
+export * from './core'
 
 export interface InstallOptions {
   axios?: any
@@ -9,8 +9,5 @@ export interface InstallOptions {
 export default {
   install: (app: App, options?: InstallOptions) => {
     app.config.globalProperties.$factory = {}
-    app.config.globalProperties.$factory.axios = options?.axios
   }
 }
-
-export { default as FactoryPlugin } from './vite'
