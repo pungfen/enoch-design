@@ -9,7 +9,6 @@ export class MagicString extends MagicStringBase {
   }
 
   moveNode(node: Node, index: number, { offset = 0 }: { offset?: number } = {}) {
-    console.log(node.start, node.end, index, offset)
     this.move(offset + node.start!, offset + node.end!, index)
     return this
   }

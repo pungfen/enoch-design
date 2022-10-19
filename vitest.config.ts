@@ -1,13 +1,11 @@
-import { resolve } from 'path'
 import { defineConfig } from 'vitest/config'
 
+import Vue from '@vitejs/plugin-vue'
+
 export default defineConfig({
-  resolve: {
-    alias: {
-      '@enochfe/factory': resolve(__dirname, 'packages/factory/src/index.ts')
-    }
-  },
+  plugins: [Vue()],
   test: {
-    globals: true
+    globals: true,
+    environment: 'jsdom'
   }
 })

@@ -1,0 +1,19 @@
+// Vitest Snapshot v1
+
+exports[`factory basic > emit 'header.add.click' event, shoule render 'form data id' correctly 1`] = `
+"<button>+</button>
+<div class=\\"form-id\\">1</div>
+<div class=\\"form-name\\">pung</div>"
+`;
+
+exports[`factory basic > shoule render 'form data id' correctly 1`] = `
+"<button>+</button>
+<div class=\\"form-id\\">0</div>
+<div class=\\"form-name\\">pung</div>"
+`;
+
+exports[`factory basic > shoule render 'form data name' correctly 1`] = `
+"<button>+</button>
+<div class=\\"form-id\\">0</div>
+<div class=\\"form-name\\">pung</div>"
+`;

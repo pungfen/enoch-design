@@ -44,9 +44,7 @@ export const transform = (code: string, id: string) => {
 
     // checkInvalidScopeReference(arg, DEFINE_FACTORY, setupBindings)
 
-    console.log(s.toString())
     s.moveNode(arg, scriptOffset, { offset: setupOffset })
-    console.log(s.toString())
 
     // removes defineFactory()
     s.remove(setupOffset + node.start!, setupOffset + arg.start!)
@@ -56,7 +54,6 @@ export const transform = (code: string, id: string) => {
 
     normalScript.end()
   } else {
-    console.log('debug', s.original)
     // removes defineFactory()
     s.removeNode(node, { offset: setupOffset })
   }

@@ -10,6 +10,6 @@ export const isObject = (val: unknown): val is Record<any, any> => val !== null 
 
 export const isArray = (val: unknown): val is Array<any> => toTypeString(val) === '[object Array]'
 
-export const isPlainObject = (val: unknown): val is object => toTypeString(val) === '[object, Object]'
+export const isPlainObject = (val: unknown): val is object => toTypeString(val) === '[object Object]'
 
 export const isFunction = (val: unknown): val is Function => typeof val === 'function'

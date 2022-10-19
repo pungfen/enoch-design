@@ -3,19 +3,25 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "tsup src/cli.ts"
+    "build": "tsup"
   },
   "author": "pung <fp94214@gmail.com>",
   "license": "MIT",
   "main": "src/index.ts",
   "bin": {
-    "enoch-cli": "./bin/cli.js"
+    "enoch-cli": "./dist/bin.js"
   },
-  "devDependencies": {
-    "@enochfe/command": "workspace:*",
+  "dependencies": {
+    "@pnpm/find-workspace-dir": "^4.0.2",
+    "@pnpm/find-workspace-packages": "^4.0.39",
+    "@pnpm/logger": "^4.0.0",
+    "@yarnpkg/core": "4.0.0-rc.21",
     "commander": "^9.4.0",
     "consola": "^2.15.3",
     "tsup": "^6.2.3",
     "unconfig": "^0.3.6"
+  },
+  "devDependencies": {
+    "@enochfe/shared": "workspace:*"
   }
 }
