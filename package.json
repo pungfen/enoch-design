@@ -8,23 +8,13 @@
   ],
   "scripts": {
     "dev": "pnpm -C play dev",
-    "build": "echo 'hello'",
-    "build:cli": "pnpm -C packages/cli build",
-    "build:co": "pnpm -C packages/components build",
-    "build:f": "pnpm -C packages/factory build",
-    "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:publish": "pnpm build && changeset publish",
-    "docs:dev": "pnpm -C packages/docs dev",
-    "docs:build": "pnpm -C packages/docs build",
-    "format": "prettier --write .",
-    "test": "vitest -u",
-    "prepare": "husky install"
+    "build": "turbo run build --filter=\"./packages/*\"",
+    "publish": "pnpm build && changeset publish",
+    "test": "vitest"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.0",
-    "@commitlint/cli": "^17.1.2",
-    "@commitlint/config-conventional": "^17.1.0",
-    "@commitlint/cz-commitlint": "^17.1.2",
     "@enochfe/prettier-config": "workspace:*",
     "@enochfe/test-utils": "workspace:*",
     "@enochfe/tsconfig": "workspace:*",
@@ -34,20 +24,19 @@
     "@vitest/ui": "^0.24.3",
     "@vue/test-utils": "^2.1.0",
     "commitizen": "^4.2.5",
-    "husky": "^8.0.1",
-    "inquirer": "^9.1.4",
     "jsdom": "^20.0.1",
-    "prettier": "^2.7.1",
+    "prettier": "latest",
+    "turbo": "^1.5.6",
     "typescript": "^4.8.4",
-    "vite": "^3.1.8",
-    "vite-plugin-dts": "^1.6.6",
-    "vitest": "^0.24.3",
-    "vue": "^3.2.39"
+    "vitest": "^0.24.3"
   },
   "prettier": "@enochfe/prettier-config",
-  "config": {
-    "commitizen": {
-      "path": "@commitlint/cz-commitlint"
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "vite",
+        "vue"
+      ]
     }
   }
 }

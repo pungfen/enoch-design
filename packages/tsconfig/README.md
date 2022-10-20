@@ -16,7 +16,7 @@ The base configuration (runtime-agnostic):
 
 ```json
 {
-  "extends": "@enochfe/tsconfig/tsconfig.json"
+  "extends": "@enochfe/tsconfig/base.json"
   // ...
 }
 ```
@@ -25,7 +25,7 @@ Configuration for Browser environment:
 
 ```json
 {
-  "extends": "@enochfe/tsconfig/tsconfig.web.json"
+  "extends": "@enochfe/tsconfig/vue.json"
   // ...
 }
 ```

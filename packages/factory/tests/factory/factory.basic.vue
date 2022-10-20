@@ -52,13 +52,6 @@ export default factory({
         }
       }
     }
-  },
-
-  mounted() {
-    this.form.ajax()
-    this.table.detail.ajax()
-    this.table.detail.data[0].name
-    this.table.detail.loading
   }
 })
 </script>

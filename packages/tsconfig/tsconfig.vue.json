@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "vue.js",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    "useDefineForClassFields": true,
+    "jsx": "preserve",
+    "noImplicitThis": true,
+    "preserveValueImports": true,
+    "importsNotUsedAsValues": "error",
+    "target": "ESNext",
+    "lib": ["ES2016", "DOM", "DOM.Iterable"]
+  }
+}
