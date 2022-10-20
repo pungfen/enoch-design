@@ -1,9 +1,11 @@
 <template>
   <button @click="header.add.click">+</button>
 
-  <div class="form-id">{{ form.data.id }}</div>
+  <div class="form-data-id">{{ form.data.id }}</div>
 
-  <div class="form-name">{{ form.data.name }}</div>
+  <div class="form-data-name">{{ form.data.name }}</div>
+
+  <div class="form-fullname">{{ form.fullname }}</div>
 </template>
 
 <script lang="ts">
@@ -26,11 +28,23 @@ export default factory({
         name: 'pung'
       },
       ajax: {
-        action: 'GET /xx'
+        action: 'GET /test',
+        data: 'object'
+      },
+      computed: {
+        fullname() {
+          return '我叫' + this.form.data.name
+        }
+      }
+    },
+    table: {
+      ajax: {
+        action: 'GET /test',
+        data: 'array'
       }
     }
   },
 
-  mount() {}
+  mounted() {}
 })
 </script>

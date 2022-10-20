@@ -26,7 +26,7 @@ const normalizeConfig = (pkgInfo: PackageInfo, config?: UserInlineConfig): UserI
     outDir: config?.outDir || 'dist',
     platform: config?.platform || 'node',
     minify: !config?.minify,
-    format: config?.format || ['esm'],
+    format: config?.format || ['cjs', 'esm'],
     vue: false
   }
 
