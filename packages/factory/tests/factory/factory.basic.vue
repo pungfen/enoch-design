@@ -41,10 +41,24 @@ export default factory({
       ajax: {
         action: 'GET /test',
         data: 'array'
+      },
+      children: {
+        detail: {
+          ajax: {
+            action: 'GET /test',
+            data: 'array',
+            loading: true
+          }
+        }
       }
     }
   },
 
-  mounted() {}
+  mounted() {
+    this.form.ajax()
+    this.table.detail.ajax()
+    this.table.detail.data[0].name
+    this.table.detail.loading
+  }
 })
 </script>

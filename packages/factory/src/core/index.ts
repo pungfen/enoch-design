@@ -4,6 +4,7 @@ import {
   getCurrentInstance,
   isReadonly,
   reactive,
+  type Component,
   type ComponentPropsOptions,
   type ExtractPropTypes
 } from 'vue'
@@ -96,7 +97,6 @@ interface AjaxMethodOptions {
 type Ajax<C extends _FactoryConfig> = C['ajax'] extends AjaxConfig
   ? {
       [K in keyof Pick<C, 'ajax'>]: (
-        this: any,
         options?: AjaxMethodOptions
       ) => Promise<C[K] extends { action: infer A; data: infer D } ? IData<A, D> : C extends { action: infer A } ? ClientDto<A>[] : never>
     } & AjaxData<C['ajax']> &
@@ -117,18 +117,18 @@ type Computed<C extends _FactoryConfig> = {
 type Index<C extends _FactoryConfig> = Setup<Omit<C, 'ajax' | 'children' | 'computed'>>
 
 type Children<C extends _FactoryConfig> = {
-  [K in keyof C['children']]: C['children'][K] extends _FactoryConfig ? Setup<C['children'][K]> : {}
+  [K in keyof C['children']]: C['children'][K] extends _FactoryConfig ? Setup<C['children'][K]> : never
 }
 
 type Setup<C extends _FactoryConfig> = {
   [K in keyof C]: C[K] extends (...args: Array<any>) => any
     ? C[K]
     : C[K] extends Record<string, any>
-    ? Ajax<C[K]> & Computed<C[K]> & Children<C[K]> & Index<C[K]>
+    ? Ajax<C[K]> & Computed<C[K]> & Setup<C[K]['children']> & Index<C[K]>
     : C[K]
 }
 
-type _FactoryConfig = {
+interface _FactoryConfig {
   ajax?: AjaxConfig
   children?: Record<string, _FactoryConfig>
   computed?: Record<string, any> | { get: () => any; set: (...args: Array<any>) => any }
@@ -137,6 +137,7 @@ type _FactoryConfig = {
 
 interface FactoryConfig {
   name?: string
+  components?: Record<string, Component>
   props?: Readonly<ComponentPropsOptions>
   setup: Record<string, _FactoryConfig>
   mounted?: () => void
@@ -297,6 +298,8 @@ export const factory = <FC extends FactoryConfig, P extends FC['props']>(
 ) => {
   return defineComponent({
     props: config.props!,
+
+    components: config.components,
 
     setup(props) {
       const proxy = Object.assign(setup.call(null, config.setup, ''), props)
