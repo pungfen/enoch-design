@@ -1,5 +1,11 @@
 # @enochfe/factory
 
+## 1.0.5
+
+### Patch Changes
+
+- add test
+
 ## 1.0.4
 
 ### Patch Changes
