@@ -1,44 +1,25 @@
 name: Unit Test
 
-on:
-  push:
-    branches:
-      - main
-
-  pull_request:
-    branches:
-      - main
-
-  workflow_dispatch:
+on: [push, pull_request]
 
 jobs:
   test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [14.19.0, 16.x, 18]
-      fail-fast: false
-
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
       - uses: pnpm/action-setup@v2
 
-      - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
+          catch: pnpm
 
-      - name: Setup
-        run: npm i -g @antfu/ni
+      - name: setup npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
 
-      - name: Install
-        run: nci
+      - name: install dependencies
+        run: pnpm install
 
-      - name: Build
-        run: nr build
-
-      - name: Unit Test
-        run: nr test
+      - name: test
+        run: pnpm build
