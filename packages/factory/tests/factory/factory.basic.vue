@@ -29,12 +29,6 @@ export default factory({
         id: 0,
         name: 'pung'
       },
-      ajax: {
-        get: {
-          action: 'GET /test',
-          data: 'object'
-        }
-      },
       computed: {
         fullname() {
           return '我叫' + this.form.data.name
