@@ -22,7 +22,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout Repo
       - uses: actions/checkout@v3
 
       - uses: pnpm/action-setup@v2
@@ -32,10 +31,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: pnpm install
+      - name: Setup
+        run: npm i -g @antfu/ni
 
-      - name: Install Dependencies
-        run: pnpm i
+      - name: Install
+        run: nci
+
+      - name: Build
+        run: nr build
 
       - name: Unit Test
-        run: pnpm test
+        run: nr test
