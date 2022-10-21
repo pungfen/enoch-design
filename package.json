@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "pnpm -C play dev",
     "build": "turbo run build --filter=\"./packages/*\"",
-    "publish": "pnpm build && changeset publish",
+    "publish": "pnpm build && changeset publish --registry=https://registry.npmjs.com/",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
     "test": "vitest"
   },
   "devDependencies": {

@@ -63,6 +63,7 @@ importers:
 
   packages/components:
     specifiers:
+      '@enochfe/tsconfig': workspace:*
       '@vicons/carbon': ^0.12.0
       '@vicons/utils': ^0.1.4
       '@vitejs/plugin-vue': ^3.1.0
@@ -70,6 +71,7 @@ importers:
     dependencies:
       vue: 3.2.39
     devDependencies:
+      '@enochfe/tsconfig': link:../tsconfig
       '@vicons/carbon': 0.12.0
       '@vicons/utils': 0.1.4_vue@3.2.39
       '@vitejs/plugin-vue': 3.1.0_vue@3.2.39
@@ -791,6 +793,9 @@ packages:
     resolution: {integrity: sha512-okdrwiVeKBmW41Hkl0eMrXDjzJwhQMuKiBOu17rOszqM+LS/yBYpNQNV5Jvoh06Wc+89fMmb/uhzf8NZuDuUaQ==}
     peerDependencies:
       vue: ^3.2.0
+    peerDependenciesMeta:
+      vue:
+        optional: true
     dependencies:
       vue: 3.2.39
     dev: false
@@ -2314,6 +2319,9 @@ packages:
     resolution: {integrity: sha512-OHI19qVNN6i+uPQ+Y3f2s0dUxwsYnOCcKBW7XOU4yXXO1aU3ZoKpblCc3+4N0qmgoJs5rWKRAaMisipqEXJwAg==}
     peerDependencies:
       vue: ^3.0.6
+    peerDependenciesMeta:
+      vue:
+        optional: true
     dependencies:
       '@xicons/utils': 0.1.4
       vue: 3.2.39
@@ -2327,6 +2335,8 @@ packages:
       vue: ^3.0.0
     peerDependenciesMeta:
       vite:
+        optional: true
+      vue:
         optional: true
     dependencies:
       '@babel/core': 7.19.3
@@ -2348,6 +2358,8 @@ packages:
     peerDependenciesMeta:
       vite:
         optional: true
+      vue:
+        optional: true
     dependencies:
       vite: 3.1.3_sass@1.55.0
       vue: 3.2.39
@@ -2361,6 +2373,8 @@ packages:
       vue: ^3.2.25
     peerDependenciesMeta:
       vite:
+        optional: true
+      vue:
         optional: true
     dependencies:
       vue: 3.2.39
@@ -2566,6 +2580,9 @@ packages:
     resolution: {integrity: sha512-1yn9u2YBQWIgytFMjz4f/t0j43awKytTGVptfd3FtBk76t1pd8mxbek0G/DrnjJhd2V7mSTb5qgnxMYt8Z5iSQ==}
     peerDependencies:
       vue: 3.2.39
+    peerDependenciesMeta:
+      vue:
+        optional: true
     dependencies:
       '@vue/compiler-ssr': 3.2.39
       '@vue/shared': 3.2.39
@@ -3907,6 +3924,9 @@ packages:
     resolution: {integrity: sha512-MGwMIE/q+FFD3kgS23x8HIe5043tmD1cTRwjhIX9o6fim1avFnUkrsfYRvybbz4CkyqSb185EheZS5AUPpXh2g==}
     peerDependencies:
       vue: ^3.2.0
+    peerDependenciesMeta:
+      vue:
+        optional: true
     dependencies:
       '@ctrl/tinycolor': 3.4.1
       '@element-plus/icons-vue': 2.0.9_vue@3.2.39
@@ -7835,6 +7855,8 @@ packages:
     peerDependenciesMeta:
       '@babel/parser':
         optional: true
+      vue:
+        optional: true
     dependencies:
       '@antfu/utils': 0.5.2
       '@rollup/pluginutils': 4.2.1
@@ -7859,6 +7881,8 @@ packages:
       vue: ^3.2.25
     peerDependenciesMeta:
       vite:
+        optional: true
+      vue:
         optional: true
     dependencies:
       debug: 4.3.4
@@ -7964,6 +7988,8 @@ packages:
       vue-router: ^3.5.1 || ^ 4.0.11
     peerDependenciesMeta:
       vite:
+        optional: true
+      vue:
         optional: true
     dependencies:
       '@vue/compiler-sfc': 3.2.39
@@ -8111,6 +8137,8 @@ packages:
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
+      vue:
+        optional: true
     dependencies:
       vue: 3.2.39
     dev: false
@@ -8119,6 +8147,9 @@ packages:
     resolution: {integrity: sha512-IsvoF5D2GQ/EGTs/Th4NQms9gd2NSqV+yylxIyp/OYp8xOwxmU8Kj/74E9DTSYAyH5LX7idVUngN3JSj1X4xcQ==}
     peerDependencies:
       vue: ^3.2.0
+    peerDependenciesMeta:
+      vue:
+        optional: true
     dependencies:
       '@vue/devtools-api': 6.3.0
       vue: 3.2.39

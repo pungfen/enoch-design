@@ -2,13 +2,14 @@
   "name": "@enochfe/components",
   "author": "pung <fp94214@gmail.com>",
   "description": "enochfe components",
-  "version": "0.0.1-beta0.1",
+  "version": "0.0.1",
   "type": "module",
   "main": "src/index.ts",
   "dependencies": {
     "vue": "^3.2.39"
   },
   "devDependencies": {
+    "@enochfe/tsconfig": "workspace:*",
     "@vicons/carbon": "^0.12.0",
     "@vicons/utils": "^0.1.4",
     "@vitejs/plugin-vue": "^3.1.0"
