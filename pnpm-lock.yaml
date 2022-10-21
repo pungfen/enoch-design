@@ -6,7 +6,9 @@ importers:
     specifiers:
       '@changesets/changelog-github': ^0.4.7
       '@changesets/cli': ^2.25.0
+      '@enochfe/cli': workspace:*
       '@enochfe/prettier-config': workspace:*
+      '@enochfe/shared': workspace:*
       '@enochfe/test-utils': workspace:*
       '@enochfe/tsconfig': workspace:*
       '@types/lodash-es': ^4.17.6
@@ -23,7 +25,9 @@ importers:
     devDependencies:
       '@changesets/changelog-github': 0.4.7
       '@changesets/cli': 2.25.0
+      '@enochfe/cli': link:packages/cli
       '@enochfe/prettier-config': link:packages/prettier-config
+      '@enochfe/shared': link:packages/shared
       '@enochfe/test-utils': link:packages/test-utils
       '@enochfe/tsconfig': link:packages/tsconfig
       '@types/lodash-es': 4.17.6
@@ -85,7 +89,6 @@ importers:
   packages/factory:
     specifiers:
       '@babel/types': ^7.19.4
-      '@enochfe/shared': workspace:*
       '@rollup/pluginutils': ^5.0.1
       '@vue/compiler-sfc': ^3.2.40
       ast-walker-scope: ^0.2.3
@@ -97,7 +100,6 @@ importers:
       unplugin: 0.9.6
     devDependencies:
       '@babel/types': 7.19.4
-      '@enochfe/shared': link:../shared
       '@rollup/pluginutils': 5.0.1
       '@vue/compiler-sfc': 3.2.40
       ast-walker-scope: 0.2.3

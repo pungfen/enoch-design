@@ -19,6 +19,7 @@
     "@changesets/cli": "^2.25.0",
     "@enochfe/cli": "workspace:*",
     "@enochfe/prettier-config": "workspace:*",
+    "@enochfe/shared": "workspace:*",
     "@enochfe/test-utils": "workspace:*",
     "@enochfe/tsconfig": "workspace:*",
     "@types/lodash-es": "^4.17.6",
