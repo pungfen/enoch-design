@@ -79,15 +79,12 @@ importers:
   packages/css-reset:
     specifiers:
       '@csstools/normalize.css': ^12.0.0
-      '@enochfe/cli': workspace:*
     devDependencies:
       '@csstools/normalize.css': 12.0.0
-      '@enochfe/cli': link:../cli
 
   packages/factory:
     specifiers:
       '@babel/types': ^7.19.4
-      '@enochfe/cli': workspace:*
       '@enochfe/shared': workspace:*
       '@rollup/pluginutils': ^5.0.1
       '@vue/compiler-sfc': ^3.2.40
@@ -100,7 +97,6 @@ importers:
       unplugin: 0.9.6
     devDependencies:
       '@babel/types': 7.19.4
-      '@enochfe/cli': link:../cli
       '@enochfe/shared': link:../shared
       '@rollup/pluginutils': 5.0.1
       '@vue/compiler-sfc': 3.2.40

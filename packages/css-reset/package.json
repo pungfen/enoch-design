@@ -20,7 +20,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@enochfe/cli": "workspace:*",
     "@csstools/normalize.css": "^12.0.0"
   },
   "scripts": {
