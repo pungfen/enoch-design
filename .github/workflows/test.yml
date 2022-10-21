@@ -13,13 +13,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          catch: pnpm
 
-      - name: setup npmrc
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+      - name: Setup
+        run: npm i -g @antfu/ni
 
-      - name: install dependencies
-        run: pnpm install
+      - name: Install
+        run: nci
 
-      - name: test
-        run: pnpm build
+      - name: Build
+        run: nr build
+
+      - name: Unit Test
+        run: nr test
