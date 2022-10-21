@@ -9,7 +9,7 @@ import {
   type ExtractPropTypes
 } from 'vue'
 
-import { isFunction, isPlainObject, result } from '@enochfe/shared'
+import { isFunction, isNull, isPlainObject, result } from '@enochfe/shared'
 
 interface Definitions {
   TestDto: {
@@ -58,20 +58,24 @@ type ClientDto<A> = A extends keyof DtoMap ? DtoMap[A]['client'] : never
 
 type IData<A, D> = D extends 'array' ? ClientDto<A>[] : D extends 'object' ? ClientDto<A> : never
 
-type AjaxData<U> = Extract<U, { data: 'array' } | { data: 'object' }> extends {
-  action: infer A
-  data: infer D
-}
-  ? IData<A, D> extends never
-    ? {}
-    : { data: IData<A, D> }
+type AjaxData<U> = U extends { get: infer G }
+  ? Extract<G, { data: 'array' } | { data: 'object' }> extends {
+      action: infer A
+      data: infer D
+    }
+    ? IData<A, D> extends never
+      ? {}
+      : { data: IData<A, D> }
+    : {}
   : {}
 
-type AjaxLoading<U> = Extract<U, { loading: true }> extends never ? {} : { loading: boolean }
+type AjaxLoading<U> = U extends { get: infer G } ? (Extract<G, { loading: true }> extends never ? {} : { loading: boolean }) : {}
 
-type AjaxPagination<U> = Extract<U, { pagination: true }> extends never
-  ? {}
-  : { paging: { itemCount: number; pageCount: number; pageIndex: number; pageSize: number } }
+type AjaxPagination<U> = U extends { get: infer G }
+  ? Extract<G, { pagination: true }> extends never
+    ? {}
+    : { paging: { itemCount: number; pageCount: number; pageIndex: number; pageSize: number } }
+  : {}
 
 type _AjaxConfig<A extends keyof DtoMap, D extends DataType> = {
   action: A
@@ -80,25 +84,27 @@ type _AjaxConfig<A extends keyof DtoMap, D extends DataType> = {
     server?: (payload: DtoMap[A]['server']) => DtoMap[A]['server'] | void
     client?: (data: D extends 'object' ? ClientDto<A> : ClientDto<A>[]) => (D extends 'object' ? ClientDto<A> : ClientDto<A>[]) | void
   }
-  by?: string
-  loading?: boolean
   pagination?: boolean
+  loading?: boolean
   params?: (params: { paths?: (string | number | undefined)[]; payload?: DtoMap[A]['server'] }) => void
 }
 
 type AjaxConfig = _AjaxConfig<keyof DtoMap, DataType>
 
-interface AjaxMethodOptions {
+type AjaxMethodOptions = {
   addition?: any
   invokedByScroll?: boolean
   invokedByPagination?: boolean
 }
 
-type Ajax<C extends _FactoryConfig> = C['ajax'] extends AjaxConfig
+type Ajax<C extends _FactoryConfig> = C['ajax'] extends _FactoryConfig['ajax']
   ? {
-      [K in keyof Pick<C, 'ajax'>]: (
-        options?: AjaxMethodOptions
-      ) => Promise<C[K] extends { action: infer A; data: infer D } ? IData<A, D> : C extends { action: infer A } ? ClientDto<A>[] : never>
+      ajax: {
+        [K in keyof C['ajax']]: (
+          this: any,
+          options?: AjaxMethodOptions
+        ) => Promise<C['ajax'][K] extends { action: infer A; data: infer D } ? IData<A, D> : never>
+      }
     } & AjaxData<C['ajax']> &
       AjaxLoading<C['ajax']> &
       AjaxPagination<C['ajax']>
@@ -129,7 +135,7 @@ type Setup<C extends _FactoryConfig> = {
 }
 
 interface _FactoryConfig {
-  ajax?: AjaxConfig
+  ajax?: Record<'get' | 'submit' | 'delete' | string, AjaxConfig>
   children?: Record<string, _FactoryConfig>
   computed?: Record<string, any> | { get: () => any; set: (...args: Array<any>) => any }
   [index: string]: any
@@ -153,7 +159,7 @@ interface Response<T> {
   warnings: Array<any>
 }
 
-const getDataFromExpresion = (data: any, expression: string): Record<string, any> => {
+const getDataFromExpresion = (data: any, expression: string): any => {
   return result(data, expression.substring(expression.startsWith('.') ? 1 : 0), {})
 }
 
@@ -176,56 +182,58 @@ const ajax = function <C extends _FactoryConfig>(this: any, config: C, expressio
   const origin: any = {}
 
   if (config.ajax) {
+    origin.ajax = {}
+
     const app = getCurrentInstance()
 
-    const { action, params, converter, loading, pagination, data: dataType } = config.ajax
-    loading && (origin.loading = false)
-    pagination && (origin.paging = Object.assign({}, app?.appContext.config.globalProperties.$factory?.paging))
-    dataType === 'array' && (origin.data = [])
-    dataType === 'object' && (origin.data = {})
-    dataType === 'string' && (origin.data = '')
+    Object.entries(config.ajax).forEach(([ajaxName, ajaxConfig]) => {
+      const { action, params, converter, loading, pagination, data: dataType } = ajaxConfig
 
-    const [httpMethod, path] = action.split(' ')
-
-    const method = async function (this: any, options?: AjaxMethodOptions) {
-      if (!app?.appContext.config.globalProperties.$factory?.axios) {
-        return Promise.reject(`please install factory in 'main.js/ts' and define axios options`)
+      if (ajaxName === 'get') {
+        dataType === 'array' && (origin.data = [])
+        dataType === 'object' && (origin.data = {})
+        dataType === 'string' && (origin.data = '')
+        pagination && (origin.paging = Object.assign({}, app?.appContext.config.globalProperties.$factory?.paging))
       }
 
-      const parent = getDataFromExpresion(this, expression)
-      const _params: { paths?: (string | number)[]; payload?: any } = {}
-      params?.call(this, _params)
+      const [httpMethod, path] = action.split(' ')
 
-      let index = 0
-      let arc = {} as any
-      let data = Object.assign({}, (converter?.server as any)?.call(this, _params.payload) || _params.payload, options?.addition)
-      let url = path
-        .split('/')
-        .map((str) => (str.startsWith(':') ? _params.paths![index++] : str))
-        .join('/')
+      const method = async function (this: any, options?: AjaxMethodOptions) {
+        const parent = getDataFromExpresion(this, expression)
+        const _params: { paths?: (string | number)[]; payload?: any } = {}
+        params?.call(this, _params)
 
-      arc.url = url
-      arc.method = httpMethod
-      arc.params = ['GET', 'DELETE'].includes(httpMethod) ? data : {}
-      arc.data = ['PUT', 'POST'].includes(httpMethod) ? { data: [].concat(data) } : {}
+        let index = 0
+        let arc = {} as any
+        let data = Object.assign({}, (converter?.server as any)?.call(this, _params.payload) || _params.payload, options?.addition)
+        let url = path
+          .split('/')
+          .map((str) => (str.startsWith(':') ? _params.paths![index++] : str))
+          .join('/')
 
-      parent.loading = true
+        arc.url = url
+        arc.method = httpMethod
+        arc.params = ['GET', 'DELETE'].includes(httpMethod) ? data : {}
+        arc.data = ['PUT', 'POST'].includes(httpMethod) ? { data: [].concat(data) } : {}
 
-      try {
-        const res = await fetch<any>(arc)
-        let data = dataType === 'object' ? res.data[0] : res.data
-        data = (converter?.client as (data: any) => any)?.call(this, data) || data
-        dataType !== 'none' && (parent.data = options?.invokedByScroll ? [...parent.data, ...data] : data)
-        pagination && (parent.paging = res.meta.paging)
-        return Promise.resolve(res)
-      } catch (err) {
-        return Promise.reject(err)
-      } finally {
-        parent.loading = false
+        if (loading) parent.loading = true
+
+        try {
+          const res = await fetch<any>(arc)
+          let data = dataType === 'object' ? res.data[0] : res.data
+          data = (converter?.client as (data: any) => any)?.call(this, data) || data
+          dataType !== 'none' && (parent.data = options?.invokedByScroll ? [...parent.data, ...data] : data)
+          pagination && (parent.paging = res.meta.paging)
+          return Promise.resolve(res)
+        } catch (err) {
+          return Promise.reject(err)
+        } finally {
+          if (loading) parent.loading = false
+        }
       }
-    }
 
-    origin.ajax = method.bind(this)
+      origin.ajax[ajaxName] = method.bind(this)
+    })
   }
 
   return origin
@@ -280,14 +288,15 @@ const index = function <C extends _FactoryConfig>(this: any, config: C, expressi
 }
 
 const setup = function <C extends _FactoryConfig>(this: any, config: C, expression: string): Setup<C> {
-  const origin: any = this ? {} : reactive({})
-
+  const origin: any = isNull(this) ? reactive({}) : {}
+  const _this = this || origin
   Object.assign(
     origin,
-    ajax.call(this || origin, config, expression),
-    computed.call(this || origin, config, expression),
-    children.call(this || origin, config, expression),
-    index.call(this || origin, config, expression)
+    computed.call(_this, config, expression),
+    children.call(_this, config, expression),
+    index.call(_this, config, expression),
+    // @ts-ignore
+    ajax.call(_this, config, expression)
   )
 
   return origin
@@ -302,9 +311,8 @@ export const factory = <FC extends FactoryConfig, P extends FC['props']>(
     components: config.components,
 
     setup(props) {
-      const proxy = Object.assign(setup.call(null, config.setup, ''), props)
-
-      return proxy as unknown as Setup<FC['setup']> & Readonly<P extends ComponentPropsOptions ? ExtractPropTypes<P> : P>
+      return Object.assign(setup.call(null, config.setup, ''), props) as unknown as Setup<FC['setup']> &
+        Readonly<P extends ComponentPropsOptions ? ExtractPropTypes<P> : P>
     },
 
     mounted() {

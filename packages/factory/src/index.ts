@@ -9,17 +9,19 @@ export interface InstallOptions {
   paging?: Record<string, any>
 }
 
-export default {
-  install: (app: App, options?: InstallOptions) => {
-    app.config.globalProperties.$factory = {
-      fetch: {
-        headers: options?.fetch?.headers
-      },
-      paging: options?.paging || {
-        itemCount: 0,
-        pageCount: 0,
-        pageIndex: 1,
-        pageSize: 20
+export default (options?: InstallOptions) => {
+  return {
+    install: (app: App) => {
+      app.config.globalProperties.$factory = {
+        fetch: {
+          headers: options?.fetch?.headers
+        },
+        paging: options?.paging || {
+          itemCount: 0,
+          pageCount: 0,
+          pageIndex: 1,
+          pageSize: 20
+        }
       }
     }
   }

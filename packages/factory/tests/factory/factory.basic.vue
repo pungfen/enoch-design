@@ -18,6 +18,8 @@ export default factory({
         add: {
           click() {
             this.form.data.id++
+
+            this.table.ajax.get()
           }
         }
       }
@@ -28,8 +30,10 @@ export default factory({
         name: 'pung'
       },
       ajax: {
-        action: 'GET /test',
-        data: 'object'
+        get: {
+          action: 'GET /test',
+          data: 'object'
+        }
       },
       computed: {
         fullname() {
@@ -39,15 +43,19 @@ export default factory({
     },
     table: {
       ajax: {
-        action: 'GET /test',
-        data: 'array'
+        get: {
+          action: 'GET /test',
+          data: 'array'
+        }
       },
       children: {
         detail: {
           ajax: {
-            action: 'GET /test',
-            data: 'array',
-            loading: true
+            get: {
+              action: 'GET /test',
+              data: 'array',
+              loading: true
+            }
           }
         }
       }

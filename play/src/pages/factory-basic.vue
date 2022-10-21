@@ -16,21 +16,34 @@ export default factory({
         add: {
           click() {
             this.form.data.id++
+            this.form.data.name
           }
         }
       }
     },
     form: {
       data: {
-        id: 0,
-        name: 'pung'
+        id: 0
       },
       ajax: {
-        action: 'GET /xx'
+        get: {
+          action: 'GET /test',
+          data: 'object',
+          pagination: true,
+          loading: true
+        },
+        post: {
+          action: 'GET /test'
+        },
+        put: {
+          action: 'GET /test'
+        }
       }
     }
   },
 
-  mounted() {}
+  mounted() {
+    this.form.loading
+  }
 })
 </script>
