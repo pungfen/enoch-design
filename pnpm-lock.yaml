@@ -44,7 +44,6 @@ importers:
 
   packages/cli:
     specifiers:
-      '@enochfe/shared': workspace:*
       '@pnpm/find-workspace-dir': ^4.0.2
       '@pnpm/find-workspace-packages': ^4.0.39
       '@pnpm/logger': ^4.0.0
@@ -62,8 +61,6 @@ importers:
       consola: 2.15.3
       tsup: 6.2.3
       unconfig: 0.3.7
-    devDependencies:
-      '@enochfe/shared': link:../shared
 
   packages/components:
     specifiers:
@@ -6896,6 +6893,9 @@ packages:
     peerDependencies:
       esbuild: '>=0.10.1'
       rollup: ^1.20.0 || ^2.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
     dependencies:
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4

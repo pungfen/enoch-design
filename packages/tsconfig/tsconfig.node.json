@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "node.js",
+  "display": "Node.js",
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "lib": [],
