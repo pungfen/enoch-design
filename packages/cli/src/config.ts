@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import { loadConfig } from 'unconfig'
-import { isArray, isPlainObject } from '@enochfe/shared'
+import { isArray, isPlainObject, hasOwn } from '@enochfe/shared'
 
 import type { Options } from 'tsup'
 
@@ -18,10 +18,10 @@ export const defineConfig = (config: UserInlineConfig) => {
   return config
 }
 
-const normalizeConfig = (pkgInfo: PackageInfo, config?: UserInlineConfig): UserInlineConfigResolved => {
+const normalizeConfig = (pkgInfo: PackageInfo, config: UserInlineConfig = {}): UserInlineConfigResolved => {
   const normalized: UserInlineConfigResolved = {
     clean: true,
-    dts: config?.dts || true,
+    dts: hasOwn(config, 'dts') ? !!config.dts : true,
     entry: config?.entry || [pkgInfo.manifest.main || 'src/index.ts'],
     outDir: config?.outDir || 'dist',
     platform: config?.platform || 'node',

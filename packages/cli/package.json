@@ -21,8 +21,5 @@
     "consola": "^2.15.3",
     "tsup": "^6.2.3",
     "unconfig": "^0.3.6"
-  },
-  "devDependencies": {
-    "@enochfe/shared": "workspace:*"
   }
 }
