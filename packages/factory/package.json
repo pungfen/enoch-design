@@ -6,7 +6,9 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "build": "enoch-cli build"
+    "build": "enoch-cli build",
+    "test": "vitest",
+    "test:watch": "vitest -w"
   },
   "dependencies": {
     "unplugin": "^0.9.6"

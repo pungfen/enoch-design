@@ -10,7 +10,8 @@
     "dev": "pnpm -C play dev",
     "build": "turbo run build --filter=\"./packages/*\"",
     "publish": "pnpm build && changeset publish --registry=https://registry.npmjs.com/",
-    "test": "vitest"
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.7",
