@@ -3,6 +3,7 @@
   "author": "pung <fp94214@gmail.com>",
   "description": "enoch test-utils",
   "version": "1.0.1",
+  "private": true,
   "type": "module",
   "main": "src/index.ts",
   "dependencies": {

@@ -5,12 +5,5 @@
   "version": "1.0.1",
   "type": "module",
   "main": "src/index.ts",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pungfen/enoch-design.git",
-    "directory": "packages/shared"
-  },
-  "bugs": {
-    "url": "https://github.com/pungfen/enoch-design/issues"
-  }
+  "private": true
 }
