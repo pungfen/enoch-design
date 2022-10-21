@@ -14,14 +14,13 @@ jobs:
         with:
           node-version: 18
 
-      - name: Setup
-        run: npm i -g @antfu/ni
+      - uses: pnpm/action-setup@v2
 
-      - name: Install
-        run: nci --no-frozen-lockfile
+      - name: Install Dependencies
+        run: pnpm i --no-frozen-lockfile
 
       - name: Build
-        run: nr build
+        run: pnpm build
 
       - name: Unit Test
-        run: nr test
+        run: pnpm test
