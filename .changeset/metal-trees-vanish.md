@@ -1,5 +1,0 @@
----
-'@enochfe/factory': patch
----
-
-test ~
