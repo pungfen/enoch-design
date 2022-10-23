@@ -5,10 +5,7 @@
   "version": "0.0.1",
   "type": "module",
   "main": "src/index.ts",
-  "scripts": {
-    "test": "vitest",
-    "test:watch": "vitest -w"
-  },
+  "scripts": {},
   "dependencies": {
     "vue": "^3.2.39"
   },
