@@ -1,5 +1,6 @@
 import consola from 'consola'
-import { build as tsup } from 'tsup'
+import { build as tsup, type Options } from 'tsup'
+import Vue from 'unplugin-vue/esbuild'
 
 import { getUserConfig } from '../config'
 import { getPackageInfo } from '../pkg'
@@ -13,9 +14,18 @@ export const build = async (options: BuildCommandOptions) => {
     const pkgInfo = await getPackageInfo()
     const userConfig = await getUserConfig(pkgInfo)
 
-    if (options.showConfig) consola.log(userConfig)
+    const config: Options = {
+      ...userConfig,
+      name: 'enoch-cli tsup',
+      esbuildOptions(options) {
+        options.entryNames = `[dir]/[name]`
+      },
+      esbuildPlugins: [Vue({ reactivityTransform: true })],
+      target: 'es2019'
+    }
 
-    await tsup(userConfig)
+    if (options.showConfig) consola.log(config)
+    await tsup(config)
   } catch (err) {
     consola.error(err)
   }

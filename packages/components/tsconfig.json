@@ -1,5 +1,12 @@
 {
   "extends": "@enochfe/tsconfig/tsconfig.vue.json",
   "include": ["src"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["vue/macros-global"]
+  }
 }

@@ -6,7 +6,7 @@ import type { Options } from 'tsup'
 
 import type { PackageInfo } from './pkg'
 
-type OptionalKey = 'entry' | 'outDir' | 'minify' | 'format' | 'clean' | 'dts' | 'platform'
+type OptionalKey = 'entry' | 'outDir' | 'minify' | 'format' | 'clean' | 'dts' | 'platform' | 'esbuildPlugins'
 
 export interface UserInlineConfig extends Pick<Options, OptionalKey> {
   vue?: boolean
@@ -27,7 +27,8 @@ const normalizeConfig = (pkgInfo: PackageInfo, config: UserInlineConfig = {}): U
     platform: config?.platform || 'node',
     minify: !config?.minify,
     format: config?.format || ['cjs', 'esm'],
-    vue: false
+    vue: false,
+    esbuildPlugins: []
   }
 
   if (isArray(normalized.entry)) {

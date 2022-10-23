@@ -1,5 +1,5 @@
 <template>
-  <div :class="['en-input', inputStyle.style]">
+  <div :class="['en-input']">
     <input ref="inputRef" :type="_type" :placeholder="placeholder" @input="onInput" class="en-input__input" />
     <en-icon @click="onClearClick" class="en-input__clear">
       <Close />
@@ -57,36 +57,3 @@ const setInputValue = () => {
   input.value = _modelValue.value
 }
 </script>
-
-<style scoped module="inputStyle">
-.style {
-  border-radius: v-bind('input.borderRadius');
-  padding: v-bind('input.padding');
-}
-</style>
-
-<style scoped>
-.en-input {
-  border: 1px solid v-bind('colors.gray');
-  display: flex;
-}
-
-.en-input__input {
-  border: none;
-  flex: 1;
-}
-
-.en-input__input:focus-visible {
-  outline: none;
-}
-
-.en-input__clear {
-  cursor: pointer;
-}
-
-.en-input__clear:hover {
-  color: v-bind('colors.white');
-  background-color: v-bind('colors.gray');
-  border-radius: 50%;
-}
-</style>
