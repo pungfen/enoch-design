@@ -6,7 +6,7 @@
   "configurations": [
     {
       "name": "build",
-      "program": "${workspaceRoot}/packages/build/dist/cli.cjs",
+      "program": "${workspaceRoot}/cli/dist/bin.js",
       "args": ["${file}", "build"],
       "request": "launch",
       "skipFiles": ["<node_internals>/**"],

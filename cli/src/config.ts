@@ -21,7 +21,7 @@ export const defineConfig = (config: UserInlineConfig) => {
 const normalizeConfig = (pkgInfo: PackageInfo, config: UserInlineConfig = {}): UserInlineConfigResolved => {
   const normalized: UserInlineConfigResolved = {
     clean: true,
-    dts: hasOwn(config, 'dts') ? !!config.dts : true,
+    dts: hasOwn(config, 'dts') ? config.dts! : true,
     entry: config?.entry || [pkgInfo.manifest.main || 'src/index.ts'],
     outDir: config?.outDir || 'dist',
     platform: config?.platform || 'node',

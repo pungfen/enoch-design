@@ -5,13 +5,12 @@ import Vue from 'unplugin-vue/esbuild'
 import { getUserConfig } from '../config'
 import { getPackageInfo } from '../pkg'
 
-interface BuildCommandOptions {
-  showConfig?: boolean
-}
+interface BuildCommandOptions {}
 
 export const build = async (options: BuildCommandOptions) => {
   try {
     const pkgInfo = await getPackageInfo()
+
     const userConfig = await getUserConfig(pkgInfo)
 
     const config: Options = {
@@ -24,7 +23,6 @@ export const build = async (options: BuildCommandOptions) => {
       target: 'es2019'
     }
 
-    if (options.showConfig) consola.log(config)
     await tsup(config)
   } catch (err) {
     consola.error(err)

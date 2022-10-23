@@ -6,7 +6,6 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "build": "enoch-cli build -c",
     "test": "vitest",
     "test:watch": "vitest -w"
   },
