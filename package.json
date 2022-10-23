@@ -12,6 +12,7 @@
     "build:cli": "pnpm -C cli build",
     "build": "turbo run build --filter=\"./packages/*\"",
     "cs": "changeset",
+    "cv": "changeset version",
     "publish": "pnpm build && changeset publish",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch"

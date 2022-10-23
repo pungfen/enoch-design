@@ -219,6 +219,8 @@ const ajax = function <C extends _FactoryConfig>(this: any, config: C, expressio
 
         if (loading) parent.loading = true
 
+        console.log(arc)
+
         try {
           const res = await fetch<any>(arc)
           let data = dataType === 'object' ? res.data[0] : res.data
@@ -325,18 +327,3 @@ export const factory = <FC extends FactoryConfig, P extends FC['props']>(
     }
   })
 }
-
-const app = factory({
-  setup: {
-    xx: 'xx',
-    children: {
-      app: {
-        ready: false
-      }
-    }
-  },
-
-  mounted() {
-    console.log('xx', this.app.ready)
-  }
-})

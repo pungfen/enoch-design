@@ -1,5 +1,11 @@
 # @enochfe/factory
 
+## 1.0.9
+
+### Patch Changes
+
+- add fetch test
+
 ## 1.0.8
 
 ### Patch Changes
