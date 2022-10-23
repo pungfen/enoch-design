@@ -29,7 +29,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Build cli
-        run: pnpm -C packages/cli build
+        run: pnpm build:cli
 
       - name: Install cli
         run: pnpm install --no-frozen-lockfile
