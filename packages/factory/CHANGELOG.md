@@ -1,5 +1,11 @@
 # @enochfe/factory
 
+## 1.0.6
+
+### Patch Changes
+
+- fix no dts bug
+
 ## 1.0.5
 
 ### Patch Changes
