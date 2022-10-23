@@ -164,14 +164,17 @@ const getDataFromExpresion = (data: any, expression: string): any => {
   return result(data, expression.substring(expression.startsWith('.') ? 1 : 0), {})
 }
 
-const fetch = async <T extends any>(input: RequestInfo | URL, init: RequestInit = {}): Promise<Response<T>> => {
+const fetch = async <T extends any>(input: any, init: RequestInit = {}): Promise<Response<T>> => {
   const app = getCurrentInstance()
 
+  init.method = input.method
   init.headers = Object.assign(init.headers || {}, app?.appContext.config.globalProperties.$factory?.fetch.headers)
+
+  if (init.method === 'post' && input.data) init.body = JSON.stringify(input.data)
 
   return new Promise(async (resolve, reject) => {
     try {
-      const res = await window.fetch(input, init).then((res) => res.json())
+      const res = await window.fetch(input.url, init).then((res) => res.json())
       resolve(res)
     } catch (err) {
       reject(err)
@@ -218,8 +221,6 @@ const ajax = function <C extends _FactoryConfig>(this: any, config: C, expressio
         arc.data = ['PUT', 'POST'].includes(httpMethod) ? { data: [].concat(data) } : {}
 
         if (loading) parent.loading = true
-
-        console.log(arc)
 
         try {
           const res = await fetch<any>(arc)
