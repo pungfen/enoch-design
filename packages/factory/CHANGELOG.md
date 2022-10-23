@@ -1,5 +1,11 @@
 # @enochfe/factory
 
+## 1.0.8
+
+### Patch Changes
+
+- add ComponentCustomProperties
+
 ## 1.0.7
 
 ### Patch Changes

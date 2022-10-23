@@ -2,7 +2,7 @@
   "name": "@enochfe/factory",
   "author": "pung <fp94214@gmail.com>",
   "description": "enoch factory",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "main": "src/index.ts",
   "scripts": {

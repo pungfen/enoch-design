@@ -158,6 +158,8 @@ interface Response<T> {
   warnings: Array<any>
 }
 
+export interface ComponentCustomProperties {}
+
 const getDataFromExpresion = (data: any, expression: string): any => {
   return result(data, expression.substring(expression.startsWith('.') ? 1 : 0), {})
 }
@@ -302,7 +304,7 @@ const setup = function <C extends _FactoryConfig>(this: any, config: C, expressi
 }
 
 export const factory = <FC extends FactoryConfig, P extends FC['props']>(
-  config: FC & ThisType<Readonly<P extends ComponentPropsOptions ? ExtractPropTypes<P> : P> & Setup<FC['setup']>>
+  config: FC & ThisType<Readonly<P extends ComponentPropsOptions ? ExtractPropTypes<P> : P> & Setup<FC['setup']> & ComponentCustomProperties>
 ) => {
   return defineComponent({
     props: config.props!,
