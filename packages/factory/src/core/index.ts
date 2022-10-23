@@ -123,19 +123,15 @@ type Computed<C extends _FactoryConfig> = {
     : never
 }
 
-type Index<C extends _FactoryConfig> = Setup<Omit<C, 'ajax' | 'children' | 'computed'>>
+type Index<C extends _FactoryConfig> = {
+  [K in keyof Omit<C, 'children' | 'ajax' | 'computed'>]: C[K] extends _FactoryConfig ? Setup<C[K]> : C[K]
+}
 
 type Children<C extends _FactoryConfig> = {
   [K in keyof C['children']]: C['children'][K] extends _FactoryConfig ? Setup<C['children'][K]> : never
 }
 
-type Setup<C extends _FactoryConfig> = {
-  [K in keyof C]: C[K] extends (...args: Array<any>) => any
-    ? C[K]
-    : C[K] extends Record<string, any>
-    ? Ajax<C[K]> & Computed<C[K]> & Setup<C[K]['children']> & Index<C[K]>
-    : C[K]
-}
+type Setup<C extends _FactoryConfig> = Ajax<C> & Computed<C> & Children<C> & Index<C>
 
 interface _FactoryConfig {
   ajax?: Record<'get' | 'submit' | 'delete' | string, AjaxConfig>
@@ -148,7 +144,7 @@ interface FactoryConfig {
   name?: string
   components?: Record<string, Component>
   props?: Readonly<ComponentPropsOptions>
-  setup: Record<string, _FactoryConfig>
+  setup: _FactoryConfig
   mounted?: () => void
   unmounted?: () => void
 }
@@ -327,3 +323,18 @@ export const factory = <FC extends FactoryConfig, P extends FC['props']>(
     }
   })
 }
+
+const app = factory({
+  setup: {
+    xx: 'xx',
+    children: {
+      app: {
+        ready: false
+      }
+    }
+  },
+
+  mounted() {
+    console.log('xx', this.app.ready)
+  }
+})
