@@ -2,7 +2,7 @@
   "name": "@enochfe/components",
   "author": "pung <fp94214@gmail.com>",
   "description": "enochfe components",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "main": "src/index.ts",
   "scripts": {

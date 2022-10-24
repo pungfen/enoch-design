@@ -39,7 +39,7 @@ export const build = async (options: BuildCommandOptions) => {
             },
             sourcemap
           },
-          plugins: [Vue(), VueDts(), Unocss({ presets: [presetUno(), presetAttributify()] })]
+          plugins: [Vue({ reactivityTransform: true }), VueDts(), Unocss({ presets: [presetUno(), presetAttributify()] })]
         })
       )
     } else {
