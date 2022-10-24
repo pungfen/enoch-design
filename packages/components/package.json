@@ -2,17 +2,19 @@
   "name": "@enochfe/components",
   "author": "pung <fp94214@gmail.com>",
   "description": "enochfe components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": "src/index.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "enoch-cli build"
+  },
   "dependencies": {
     "vue": "^3.2.39"
   },
   "devDependencies": {
     "@vicons/carbon": "^0.12.0",
     "@vicons/utils": "^0.1.4",
-    "@vitejs/plugin-vue": "^3.1.0"
+    "@vitejs/plugin-vue": "^3.1.2"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
@@ -36,13 +38,13 @@
   ],
   "publishConfig": {
     "access": "public",
-    "main": "dist/index.es.js",
-    "module": "dist/index.es.js",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "registry": "https://registry.npmjs.org/",
     "exports": {
       ".": {
-        "import": "./dist/index.es.js",
-        "require": "./dist/index.cjs.js"
+        "import": "./dist/index.js",
+        "require": "./dist/index.cjs"
       }
     },
     "types": "dist/index.d.ts"

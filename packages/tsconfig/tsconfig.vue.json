@@ -11,6 +11,6 @@
     "preserveValueImports": true,
     "importsNotUsedAsValues": "error",
     "target": "ESNext",
-    "lib": ["ES2016", "DOM", "DOM.Iterable"]
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
   }
 }

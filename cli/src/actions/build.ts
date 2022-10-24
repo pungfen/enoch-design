@@ -1,6 +1,12 @@
 import consola from 'consola'
-import { build as tsup, type Options } from 'tsup'
-import Vue from 'unplugin-vue/esbuild'
+import { build as tsup } from 'tsup'
+import { build as vite } from 'vite'
+import Vue from '@vitejs/plugin-vue'
+import VueDts from 'vite-plugin-dts'
+import Unocss from 'unocss/vite'
+import { presetUno, presetAttributify } from 'unocss'
+
+import { isArray, isString } from '@enochfe/shared'
 
 import { getUserConfig } from '../config'
 import { getPackageInfo } from '../pkg'
@@ -10,20 +16,46 @@ interface BuildCommandOptions {}
 export const build = async (options: BuildCommandOptions) => {
   try {
     const pkgInfo = await getPackageInfo()
-
     const userConfig = await getUserConfig(pkgInfo)
+    const { vue, entry, sourcemap } = userConfig
 
-    const config: Options = {
-      ...userConfig,
-      name: 'enoch-cli tsup',
-      esbuildOptions(options) {
-        options.entryNames = `[dir]/[name]`
-      },
-      esbuildPlugins: [Vue({ reactivityTransform: true })],
-      target: 'es2019'
+    const task: Array<Promise<any>> = []
+
+    if (vue) {
+      task.push(
+        vite({
+          build: {
+            emptyOutDir: true,
+            rollupOptions: {
+              external: ['vue'],
+              output: {
+                exports: 'named'
+              }
+            },
+            lib: {
+              entry: isString(entry) ? entry : entry[0],
+              fileName: 'index',
+              formats: ['es', 'cjs']
+            },
+            sourcemap
+          },
+          plugins: [Vue(), VueDts(), Unocss({ presets: [presetUno(), presetAttributify()] })]
+        })
+      )
+    } else {
+      task.push(
+        tsup({
+          entry: isArray(entry) ? entry : [entry],
+          clean: true,
+          dts: true,
+          format: ['cjs', 'esm'],
+          splitting: true,
+          sourcemap
+        })
+      )
     }
 
-    await tsup(config)
+    await Promise.all(task)
   } catch (err) {
     consola.error(err)
   }

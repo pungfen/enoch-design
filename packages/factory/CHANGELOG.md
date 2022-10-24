@@ -1,5 +1,11 @@
 # @enochfe/factory
 
+## 1.1.0
+
+### Minor Changes
+
+- add components
+
 ## 1.0.10
 
 ### Patch Changes

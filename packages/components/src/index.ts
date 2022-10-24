@@ -1,8 +1,8 @@
 import type { App } from 'vue'
 
-import { EnButton, EnConfig, EnInput } from './components'
+import { EnButton } from './components'
 
-const components = [EnButton, EnConfig, EnInput]
+const components = [EnButton]
 
 export * from './components'
 

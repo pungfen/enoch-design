@@ -1,5 +1,5 @@
 import { defineConfig } from '@enochfe/cli'
 
 export default defineConfig({
-  entry: ['src/index.ts']
+  entry: 'src/index.ts'
 })
