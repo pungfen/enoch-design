@@ -1,5 +1,11 @@
 # @enochfe/factory
 
+## 1.1.1
+
+### Patch Changes
+
+- add component 'popper'
+
 ## 1.1.0
 
 ### Minor Changes

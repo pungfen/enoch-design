@@ -5,7 +5,8 @@ import vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import UnoCSS from 'unocss/vite'
-import { presetUno, presetAttributify } from 'unocss'
+import { presetUno, presetAttributify, presetIcons } from 'unocss'
+import transformerDirective from '@unocss/transformer-directives'
 
 // import Components from 'unplugin-vue-components/vite'
 
@@ -23,7 +24,7 @@ export default defineConfig({
     }
   },
   plugins: [
-    vue(),
+    vue({ reactivityTransform: true }),
     Pages({
       dirs: ['src/pages']
     }),
@@ -31,7 +32,14 @@ export default defineConfig({
       defaultLayout: 'index'
     }),
     UnoCSS({
-      presets: [presetUno(), presetAttributify()]
+      shortcuts: [],
+      presets: [presetUno(), presetAttributify(), presetIcons()],
+      transformers: [transformerDirective()],
+      theme: {
+        colors: {
+          primary: '#4C58D9'
+        }
+      }
     })
     // Components({
     //   dts: './components.d.ts',

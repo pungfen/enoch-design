@@ -1,5 +1,11 @@
 # @enochfe/components
 
+## 0.0.4
+
+### Patch Changes
+
+- add component 'popper'
+
 ## 0.0.3
 
 ### Patch Changes

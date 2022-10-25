@@ -15,7 +15,7 @@ import {
   type WatchOptions
 } from 'vue'
 
-import { isArray, isFunction, isObject, isPlainObject, result } from 'lodash-es'
+import { isArray, isFunction, isObject, isPlainObject, result } from 'lodash-unified'
 
 interface Definitions {
   TestDto: {

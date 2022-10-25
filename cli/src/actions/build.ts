@@ -4,7 +4,8 @@ import { build as vite } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import VueDts from 'vite-plugin-dts'
 import Unocss from 'unocss/vite'
-import { presetUno, presetAttributify } from 'unocss'
+import { presetUno, presetAttributify, presetIcons } from 'unocss'
+import transformerDirective from '@unocss/transformer-directives'
 
 import { isArray, isString } from '@enochfe/shared'
 
@@ -39,7 +40,19 @@ export const build = async (options: BuildCommandOptions) => {
             },
             sourcemap
           },
-          plugins: [Vue({ reactivityTransform: true }), VueDts(), Unocss({ presets: [presetUno(), presetAttributify()] })]
+          plugins: [
+            Vue({ reactivityTransform: true }),
+            VueDts(),
+            Unocss({
+              presets: [presetUno(), presetAttributify(), presetIcons()],
+              transformers: [transformerDirective()],
+              theme: {
+                colors: {
+                  primary: '#4C58D9'
+                }
+              }
+            })
+          ]
         })
       )
     } else {
