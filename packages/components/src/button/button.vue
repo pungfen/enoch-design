@@ -30,6 +30,10 @@ const onClick = (e: Event) => {
 </script>
 
 <style>
+#--unocss-- {
+  layer: __ALL__;
+}
+
 :root {
   --button-height: 2rem;
   --button-font-size: 0.875rem;
