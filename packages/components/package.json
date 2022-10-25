@@ -2,7 +2,7 @@
   "name": "@enochfe/components",
   "author": "pung <fp94214@gmail.com>",
   "description": "enochfe components",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
@@ -44,7 +44,8 @@
       ".": {
         "import": "./dist/index.js",
         "require": "./dist/index.cjs"
-      }
+      },
+      "./*": "./dist/*"
     },
     "types": "dist/index.d.ts"
   },
