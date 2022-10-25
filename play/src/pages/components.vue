@@ -8,10 +8,11 @@
   <div>
     <h1>Popover - 弹框</h1>
 
-    <en-popper placement="bottom" trigger="hover">
+    <en-popper virtual-triggering :virtual-ref="buttonRef" placement="bottom-start" trigger="click">
       <en-button type="primary" ref="buttonRef">按钮</en-button>
+
       <template #popper>
-        <div class="h-20 w-20 border border-solid border-red">
+        <div class="h-20 w-20">
           <span>1</span>
           <span>2</span>
           <span>3</span>

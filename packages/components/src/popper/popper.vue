@@ -5,7 +5,7 @@
 
   <popper-container :teleport-to="teleportTo">
     <transition name="en-fade-in-linear">
-      <div v-if="showRender" v-show="show" class="en-popover" ref="popperRef">
+      <div v-if="showRender" v-show="show" class="en-popper" ref="popperRef">
         <slot name="popper"></slot>
       </div>
     </transition>
@@ -114,7 +114,19 @@ watchEffect(() => {
 })
 </script>
 
+<style>
+:root {
+  --popper-padding: 1.5rem;
+}
+</style>
+
 <style scoped>
+.en-popper {
+  --at-apply: shadow-md;
+  background: var(--popper-background-color, theme('colors.white'));
+  padding: var(--popper-padding);
+}
+
 .fade-in-linear-enter-active,
 .fade-in-linear-leave-active {
   transition: 'linear';
