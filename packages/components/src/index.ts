@@ -1,13 +1,5 @@
-import type { App } from 'vue'
-
-import { EnButton, EnPopper } from './components'
-
-const components = [EnButton, EnPopper]
+import install from './install'
 
 export * from './components'
 
-export default {
-  install: (app: App) => {
-    components.forEach((component) => app.component(component.name, component))
-  }
-}
+export default install
