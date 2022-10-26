@@ -4,19 +4,11 @@ import {
   getCurrentInstance,
   isReadonly,
   reactive,
-  ref,
-  type Component,
   type ComponentPropsOptions,
-  type DefineComponent,
-  type ExtractPropTypes,
-  type ComponentObjectPropsOptions,
-  type CreateComponentPublicInstance
+  type ExtractPropTypes
 } from 'vue'
 
-import { isFunction, isNull, isPlainObject, result } from '@enochfe/shared'
-
-// test
-// test2
+import { isFunction, isPlainObject, result } from 'lodash-unified'
 
 interface Definitions {
   TestDto: {
@@ -150,7 +142,7 @@ interface _FactoryConfig {
 
 interface FactoryConfig {
   name?: string
-  components?: Record<string, Component>
+  components?: Record<string, any>
   props?: Readonly<ComponentPropsOptions>
   setup: Record<string, _FactoryConfig>
   mounted?: () => void
@@ -166,7 +158,7 @@ interface Response<T> {
   warnings: Array<any>
 }
 
-export interface ComponentCustomProperties {}
+export interface CustomProperties {}
 
 const getDataFromExpresion = (data: any, expression: string): any => {
   return result(data, expression.substring(expression.startsWith('.') ? 1 : 0), {})
@@ -232,7 +224,6 @@ const ajax = function <C extends _FactoryConfig>(_this: any, config: C, expressi
 
         try {
           const res = await fetch<any>(arc)
-          console.log(res)
           let data = dataType === 'object' ? res.data[0] : res.data
           data = (converter?.client as (data: any) => any)?.call(this, data) || data
           dataType !== 'none' && (parent.data = options?.invokedByScroll ? [...parent.data, ...data] : data)
@@ -323,9 +314,8 @@ export const factory = <FC extends FactoryConfig, P extends FC['props']>(
     ThisType<
       Setup<FC['setup']> & {
         props: Readonly<ExtractPropTypes<P>>
-      }
-    > &
-    ComponentCustomProperties
+      } & CustomProperties
+    >
 ) => {
   return defineComponent({
     props: config.props!,
@@ -335,7 +325,7 @@ export const factory = <FC extends FactoryConfig, P extends FC['props']>(
     setup(props) {
       const block = setup.call(null, config['setup'], '')
       block.props = props
-      return { ...block }
+      return { ...block } as Setup<FC['setup']> & { props: Readonly<ExtractPropTypes<P>> } & Readonly<ExtractPropTypes<P>> & CustomProperties
     },
 
     mounted() {
@@ -347,33 +337,3 @@ export const factory = <FC extends FactoryConfig, P extends FC['props']>(
     }
   })
 }
-
-// type ComponentOptionsWithObjectProps
-// <PropsOptions = ComponentObjectPropsOptions,
-// RawBindings = {},
-// D = {},
-// C extends ComputedOptions = {},
-//  M extends MethodOptions = {},
-//  Mixin extends ComponentOptionsMixin = ComponentOptionsMixin,
-//  Extends extends ComponentOptionsMixin = ComponentOptionsMixin,
-//  E extends EmitsOptions = EmitsOptions,
-//  EE extends string = string,
-//  Props = Readonly<ExtractPropTypes<PropsOptions>
-//  > & EmitsToProps<E>, Defaults = ExtractDefaultPropTypes<PropsOptions>> =
-//   ComponentOptionsBase<Props, RawBindings, D, C, M, Mixin, Extends, E, EE, Defaults> & {
-//   props: PropsOptions & ThisType<void>;
-// } & ThisType<CreateComponentPublicInstance<Props, RawBindings, D, C, M, Mixin, Extends, E, Props, Defaults, false>>;
-
-// export declare function defineComponent<
-//   PropsOptions extends Readonly<ComponentPropsOptions>,
-//   RawBindings,
-//   D,
-//   C extends ComputedOptions = {},
-//   M extends MethodOptions = {},
-//   Mixin extends ComponentOptionsMixin = ComponentOptionsMixin,
-//   Extends extends ComponentOptionsMixin = ComponentOptionsMixin,
-//   E extends EmitsOptions = {},
-//   EE extends string = string
-//   >
-//   (options: ComponentOptionsWithObjectProps<PropsOptions, RawBindings, D, C, M, Mixin, Extends, E, EE>):
-//   DefineComponent<PropsOptions, RawBindings, D, C, M, Mixin, Extends, E, EE>;
