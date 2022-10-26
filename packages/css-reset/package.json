@@ -3,7 +3,7 @@
   "author": "pung <fp94214@gmail.com>",
   "description": "Enoch frontend Collection of CSS reseting",
   "license": "MIT",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "directory": "packages/css-reset",

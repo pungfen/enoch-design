@@ -1,22 +1,26 @@
 <template>
   <button @click="header.add.click">+</button>
 
-  <div class="form-id">{{ form.data.id }}</div>
+  <!-- <div class="form-id">{{ form.data.id }}</div> -->
 
-  <div class="form-name">{{ form.data.name }}</div>
+  <!-- <div class="form-name">{{ obj.name }}</div> -->
 </template>
 
 <script lang="ts">
 import { factory } from '@enochfe/factory'
 
 export default factory({
+  props: {
+    name: String
+  },
+
   setup: {
     header: {
       children: {
         add: {
           click() {
-            this.form.data.id++
-            this.form.data.name
+            this.form.value.change()
+            this.form.value.name = 'xxxx'
           }
         }
       }
@@ -38,12 +42,18 @@ export default factory({
         put: {
           action: 'GET /test'
         }
+      },
+      children: {
+        value: {
+          name: 'ss',
+          change() {
+            console.log(this)
+          }
+        }
       }
     }
   },
 
-  mounted() {
-    this.form.loading
-  }
+  mounted() {}
 })
 </script>
