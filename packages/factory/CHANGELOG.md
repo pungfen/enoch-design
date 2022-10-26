@@ -1,5 +1,11 @@
 # @enochfe/factory
 
+## 1.1.4
+
+### Patch Changes
+
+- update package.json module define
+
 ## 1.1.3
 
 ### Patch Changes
