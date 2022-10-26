@@ -119,20 +119,6 @@ type Computed<C extends _FactoryConfig> = {
     : never
 }
 
-type Index<C extends _FactoryConfig> = {
-  [K in keyof Omit<C, 'children' | 'ajax' | 'computed'>]: C[K] extends (...args: any[]) => any
-    ? C[K]
-    : C[K] extends _FactoryConfig
-    ? Setup<C[K]>
-    : C[K]
-}
-
-type Children<C extends Record<string, _FactoryConfig>> = {
-  [K in keyof C['children']]: C['children'][K] extends _FactoryConfig ? Setup<C['children'][K]> : {}
-}
-
-type Setup<C extends _FactoryConfig> = Ajax<C> & Computed<C> & Children<C> & Index<C>
-
 interface _FactoryConfig {
   ajax?: Record<'get' | 'submit' | 'delete' | string, AjaxConfig>
   children?: Record<string, _FactoryConfig>
@@ -157,6 +143,20 @@ interface Response<T> {
   meta: Record<string, any>
   warnings: Array<any>
 }
+
+type Index<C extends _FactoryConfig> = {
+  [K in keyof Omit<C, 'children' | 'ajax' | 'computed'>]: C[K] extends (...args: any[]) => any
+    ? C[K]
+    : C[K] extends _FactoryConfig
+    ? Setup<C[K]>
+    : C[K]
+}
+
+type Children<C extends Record<string, _FactoryConfig>> = {
+  [K in keyof C['children']]: C['children'][K] extends _FactoryConfig ? Setup<C['children'][K]> : {}
+}
+
+type Setup<C extends _FactoryConfig> = Ajax<C> & Computed<C> & Children<C> & Index<C>
 
 export interface CustomProperties {}
 

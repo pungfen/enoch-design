@@ -16,10 +16,13 @@ export default factory({
     header: {
       children: {
         add: {
+          data: {} as { name: string },
           click() {
             this.form.data.id++
 
             this.table.ajax.get()
+
+            this.header.add.data
           }
         }
       }
