@@ -1,4 +1,5 @@
 import consola from 'consola'
+import { resolve } from 'path'
 import { build as tsup } from 'tsup'
 import { build as vite } from 'vite'
 import Vue from '@vitejs/plugin-vue'
@@ -26,23 +27,67 @@ export const build = async (options: BuildCommandOptions) => {
       task.push(
         vite({
           build: {
+            minify: true,
+            chunkSizeWarningLimit: 2,
+            reportCompressedSize: true,
             emptyOutDir: true,
-            rollupOptions: {
-              external: ['vue'],
-              output: {
-                exports: 'named'
-              }
-            },
             lib: {
               entry: isString(entry) ? entry : entry[0],
-              fileName: 'index',
-              formats: ['es', 'cjs']
+              name: 'EnochComponent'
             },
-            sourcemap
+            rollupOptions: {
+              external: ['vue'],
+              output: [
+                {
+                  format: 'umd',
+                  exports: 'named',
+                  sourcemap,
+                  dir: resolve(pkgInfo.dir, 'dist', 'dist'),
+                  entryFileNames: 'index.umd.js',
+                  chunkFileNames: '[name].js',
+                  assetFileNames: '[name].[ext]',
+                  namespaceToStringTag: true,
+                  manualChunks: undefined,
+                  inlineDynamicImports: false,
+                  globals: { vue: 'Vue' }
+                },
+                {
+                  format: 'es', // 打包模式 https://rollupjs.org/guide/en/#outputformat
+                  exports: 'named', // 导出模式 https://rollupjs.org/guide/en/#outputexports
+                  dir: resolve(pkgInfo.dir, 'dist', 'es'), // 输出路径 https://rollupjs.org/guide/en/#outputdir
+                  sourcemap: false, // https://rollupjs.org/guide/en/#outputsourcemap
+                  entryFileNames: 'index.js', // 输出后的文件名 https://rollupjs.org/guide/en/#outputentryfilenames
+                  chunkFileNames: '[name].js', // 输出的 chunk文件名 https://rollupjs.org/guide/en/#outputchunkfilenames
+                  assetFileNames: '[name].[ext]', // 输出资产文件名 https://rollupjs.org/guide/en/#outputassetfilenames
+                  namespaceToStringTag: true, // https://rollupjs.org/guide/en/#outputnamespacetostringtag
+                  inlineDynamicImports: false, // https://rollupjs.org/guide/en/#outputinlinedynamicimports
+                  manualChunks: undefined,
+                  preserveModules: true // https://rollupjs.org/guide/en/#outputpreservemodules
+                },
+                {
+                  format: 'cjs',
+                  exports: 'named',
+                  dir: resolve(pkgInfo.dir, 'dist', 'lib'),
+                  sourcemap: false,
+                  entryFileNames: 'index.js',
+                  chunkFileNames: '[name].js',
+                  assetFileNames: '[name].[ext]',
+                  namespaceToStringTag: true,
+                  inlineDynamicImports: false,
+                  manualChunks: undefined,
+                  preserveModules: true
+                }
+              ]
+            }
           },
           plugins: [
             Vue({ reactivityTransform: true }),
-            VueDts(),
+            VueDts({
+              outputDir: ['./dist/types'],
+              insertTypesEntry: true, // 是否生成类型声明入口
+              cleanVueFileName: true, // 是否将 '.vue.d.ts' 文件名转换为 '.d.ts'
+              copyDtsFiles: true // 是否将源码里的 .d.ts 文件复制到 outputDir
+            }),
             Unocss({
               presets: [presetUno(), presetAttributify(), presetIcons()],
               transformers: [transformerDirective()],
