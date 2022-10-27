@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "dev": "pnpm -C play dev",
+    "doc": "pnpm -C packages/doc dev",
     "build:cli": "pnpm -C cli build",
     "build": "turbo run build --filter=\"./packages/*\"",
     "cs": "changeset",
