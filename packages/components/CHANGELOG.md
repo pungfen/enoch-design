@@ -1,5 +1,11 @@
 # @enochfe/components
 
+## 0.0.8
+
+### Patch Changes
+
+- fix build bundle
+
 ## 0.0.7
 
 ### Patch Changes

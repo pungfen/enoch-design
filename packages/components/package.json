@@ -2,7 +2,7 @@
   "name": "@enochfe/components",
   "author": "pung <fp94214@gmail.com>",
   "description": "enochfe components",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
@@ -43,26 +43,18 @@
   ],
   "publishConfig": {
     "access": "public",
-    "main": "dist/lib/index.js",
-    "module": "dist/es/index.js",
-    "types": "dist/types/index.d.ts",
+    "main": "dist/index.umd.cjs",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
     "registry": "https://registry.npmjs.org/",
     "exports": {
       ".": {
-        "import": "./dist/lib/index.js",
-        "require": "./dist/es/index.js",
-        "types": "./dist/types/index.d.ts"
+        "import": "./dist/index.js",
+        "require": "./dist/index.umd.cjs"
       },
-      "./dist": "./dist/",
-      "./es": "./dist/es/index.js",
-      "./es/*": "./dist/es/*.js",
-      "./es/*.js": "./dist/es/*.js",
-      "./lib": "./dist/lib/index.js",
-      "./lib/*": "./dist/lib/*.js",
-      "./lib/*.js": "./dist/lib/*.js",
-      "./*": "./*"
+      "./dist/style.css": "./dist/style.css"
     },
-    "unpkg": "dist/index.umd.js",
+    "unpkg": "dist/index.umd.cjs",
     "style": "dist/index.css"
   },
   "sideEffects": [
