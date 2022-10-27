@@ -1,8 +1,26 @@
 <template>
   <div>
     <h1>Button - 按钮</h1>
-    <en-button type="primary" disabled>按钮</en-button>
-    <en-button class="ml-2">按钮</en-button>
+    <en-space>
+      <en-button type="primary">按钮</en-button>
+      <en-button>按钮</en-button>
+      <en-button type="primary" disabled>按钮</en-button>
+      <en-button disabled>按钮</en-button>
+      <en-button text>按钮</en-button>
+      <en-button type="primary" text>按钮</en-button>
+      <en-button text disabled>按钮</en-button>
+      <en-button type="primary" text disabled>按钮</en-button>
+    </en-space>
+  </div>
+
+  <div>
+    <h1>Input - 输入</h1>
+
+    <div class="flex flex-col gap-2">
+      <span>{{ inputVal }}</span>
+      <en-input v-model="inputVal"></en-input>
+      <en-input placeholder="我是占位文字"></en-input>
+    </div>
   </div>
 
   <div>
@@ -24,7 +42,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { EnButton, EnPopper } from '@enochfe/components'
+import { EnButton, EnInput, EnPopper, EnSpace } from '@enochfe/components'
 
 const buttonRef = ref()
+const inputVal = ref('')
 </script>

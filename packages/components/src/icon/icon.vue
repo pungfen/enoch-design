@@ -1,9 +1,7 @@
 <template>
-  <Icon>
+  <i>
     <slot></slot>
-  </Icon>
+  </i>
 </template>
 
-<script setup lang="ts">
-import { Icon } from '@vicons/utils'
-</script>
+<script setup lang="ts"></script>

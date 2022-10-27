@@ -22,7 +22,7 @@ export default factory({
 
             this.table.ajax.get()
 
-            this.header.add.data
+            this.table.detail.data
           }
         }
       }
@@ -50,7 +50,7 @@ export default factory({
           ajax: {
             get: {
               action: 'GET /test',
-              data: 'array',
+              data: 'object',
               loading: true
             }
           }

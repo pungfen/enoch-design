@@ -1,59 +1,77 @@
 <template>
-  <div :class="['en-input']">
-    <input ref="inputRef" :type="_type" :placeholder="placeholder" @input="onInput" class="en-input__input" />
-    <en-icon @click="onClearClick" class="en-input__clear">
-      <Close />
-    </en-icon>
+  <div class="en-input">
+    <div :class="['en-input__wrap', { 'en-input__disabled': disabled }]">
+      <input
+        ref="inputRef"
+        :type="type"
+        :value="_modelValue"
+        :placeholder="placeholder"
+        @input="onInput"
+        @keyup.enter="onKeyupEnter"
+        @blur="onBlur"
+        @focus="onFocus"
+        class="en-input__input"
+      />
+    </div>
+
+    <div>
+      <!-- <en-icon @click="onClearClick" class="en-input__clear">
+        <Close />
+      </en-icon> -->
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, nextTick } from 'vue'
-import { Close } from '@vicons/carbon'
+import { computed, ref } from 'vue'
 
-import { EnIcon } from '../icon'
-import { useTheme } from '../hooks'
+import { Props, Emits } from './input'
 
-export interface Props {
-  clearable?: boolean
-  modelValue?: string | null
-  placeholder?: string
-  type?: 'text'
-}
+const { clearable, disabled, modelValue, placeholder = '请输入', type = 'text' } = defineProps(Props)
+const emit = defineEmits(Emits)
 
-interface Emits {
-  (name: 'update:modelValue', value: Props['modelValue']): void
-  (name: 'change', value: Props['modelValue']): void
-  (name: 'focus', e: FocusEvent): void
-  (name: 'blur', e: FocusEvent): void
-  (name: 'clear'): void
-}
+const inputRef = ref<HTMLInputElement | null>()
 
-type TargetElement = HTMLInputElement | HTMLTextAreaElement
-
-const props = withDefaults(defineProps<Props>(), { modelValue: '', placeholder: '请输入', type: 'text' })
-const emits = defineEmits<Emits>()
-const { colors, input } = useTheme()
-
-const inputRef = ref<TargetElement>()
-
-const _modelValue = computed(() => props.modelValue || '')
-const _type = computed(() => props.type)
+const _modelValue = computed(() => modelValue || '')
 
 const onInput = (e: InputEvent | Event) => {
-  let { value } = e.target as TargetElement
-  emits('update:modelValue', value)
-  nextTick(setInputValue)
+  let { value } = e.target as HTMLInputElement
+  emit('update:modelValue', value)
+  emit('input', value)
 }
+
+const onKeyupEnter = (evt: Event) => {
+  emit('enter', evt)
+}
+const onBlur = (evt: FocusEvent) => emit('blur', evt)
+const onFocus = (evt: FocusEvent) => emit('focus', evt)
 
 const onClearClick = () => {
-  emits('update:modelValue', '')
-  nextTick(setInputValue)
-}
-
-const setInputValue = () => {
-  const input = inputRef.value
-  if (!input || input.value === _modelValue.value) return
-  input.value = _modelValue.value
+  emit('update:modelValue', '')
+  emit('input', '')
 }
 </script>
+
+<style scoped>
+.en-input {
+  --at-apply: 'inline-flex justify-center items-center nowrap';
+}
+
+.en-input__wrap {
+  --at-apply: 'flex-1 inline-flex justify-center items-center';
+  padding: var(--input-padding-y, 0) var(--input-padding-x, 0.5rem);
+  height: var(--input-height, 2rem);
+  border: 1px solid var(--input-border-color, theme('colors.neutral.300'));
+}
+
+.en-input__wrap:focus-within {
+  --at-apply: 'border-transparent ring-1 shadow-sm';
+  border-color: var(--input-border-focus-color, theme('colors.primary.900'));
+}
+
+.en-input__input {
+  --at-apply: 'h-full w-full border-none bg-none outline-none box-border';
+  font-size: vat(--button-font-size, theme('fontSize.sm'));
+  color: vat(--button-color, theme('colors.neutral.900'));
+}
+</style>

@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import { loadConfig } from 'unconfig'
 import { isArray, isString, hasOwn } from '@enochfe/shared'
 
+import type { InlineConfig } from 'vite'
 import type { PackageInfo } from './pkg'
 
 export interface UserInlineConfig {
@@ -9,9 +10,10 @@ export interface UserInlineConfig {
   outDir?: string
   sourcemap?: boolean
   vue?: boolean
+  vite?: InlineConfig
 }
 
-type UserInlineConfigResolved = Required<UserInlineConfig>
+type UserInlineConfigResolved = Omit<Required<UserInlineConfig>, 'vite'> & { vite?: InlineConfig }
 
 export const defineConfig = (config: UserInlineConfig) => {
   return config
