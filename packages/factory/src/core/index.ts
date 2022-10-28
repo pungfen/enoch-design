@@ -10,6 +10,8 @@ import {
 
 import { isFunction, isPlainObject, result } from 'lodash-unified'
 
+import { fetch, type FetchOptions } from '@enochfe/use'
+
 interface Definitions {
   TestDto: {
     id?: number
@@ -164,24 +166,6 @@ const getDataFromExpresion = (data: any, expression: string): any => {
   return result(data, expression.substring(expression.startsWith('.') ? 1 : 0), {})
 }
 
-const fetch = async <T extends any>(input: any, init: RequestInit = {}): Promise<Response<T>> => {
-  const app = getCurrentInstance()
-
-  init.method = input.method
-  init.headers = Object.assign(init.headers || {}, app?.appContext.config.globalProperties.$factory?.fetch.headers)
-
-  if (init.method === 'post' && input.data) init.body = JSON.stringify(input.data)
-
-  return new Promise(async (resolve, reject) => {
-    try {
-      const res = await window.fetch(input.url, init).then((res) => res.json())
-      resolve(res)
-    } catch (err) {
-      reject(err)
-    }
-  })
-}
-
 const ajax = function <C extends _FactoryConfig>(_this: any, config: C, expression: string): Ajax<C> {
   const origin: any = {}
 
@@ -208,22 +192,22 @@ const ajax = function <C extends _FactoryConfig>(_this: any, config: C, expressi
         params?.call(this, _params)
 
         let index = 0
-        let arc = {} as any
+        let fetchOptions = {} as FetchOptions
         let data = Object.assign({}, (converter?.server as any)?.call(this, _params.payload) || _params.payload, options?.addition)
         let url = path
           .split('/')
           .map((str) => (str.startsWith(':') ? _params.paths![index++] : str))
           .join('/')
 
-        arc.url = url
-        arc.method = httpMethod
-        arc.params = ['GET', 'DELETE'].includes(httpMethod) ? data : {}
-        arc.data = ['PUT', 'POST'].includes(httpMethod) ? { data: [].concat(data) } : {}
+        fetchOptions.method = httpMethod
+        fetchOptions.params = ['GET', 'DELETE'].includes(httpMethod) ? data : {}
+        fetchOptions.data = ['PUT', 'POST'].includes(httpMethod) ? { data: [].concat(data) } : {}
+        fetchOptions.headers = app?.appContext.config.globalProperties.$factory?.fetch.headers
 
         if (loading) parent.loading = true
 
         try {
-          const res = await fetch<any>(arc)
+          const res = await fetch<any>(url, fetchOptions)
           let data = dataType === 'object' ? res.data[0] : res.data
           data = (converter?.client as (data: any) => any)?.call(this, data) || data
           dataType !== 'none' && (parent.data = options?.invokedByScroll ? [...parent.data, ...data] : data)

@@ -1,0 +1,44 @@
+{
+  "name": "@enochfe/use",
+  "author": "pung <fp94214@gmail.com>",
+  "description": "enochfe use",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsup src/*.ts --format cjs,esm --dts --clean",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "vue": "^3.2.39"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/pungfen/enoch-design.git",
+      "directory": "packages/use"
+    },
+    "bugs": {
+      "url": "https://github.com/pungfen/enoch-design/issues"
+    },
+    "homepage": "https://github.com/pungfen/enoch-design/tree/main/#readme",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "require": "./dist/index.cjs",
+        "import": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+      }
+    }
+  }
+}
