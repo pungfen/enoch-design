@@ -87,7 +87,7 @@ interface _UseAjaxReturn<D> {
    */
   loading: Ref<boolean>
 
-  run: (options?: AjaxRunOptions) => PromiseLike<any>
+  run: (options?: UseAjaxRunOptions) => PromiseLike<any>
 }
 
 export interface FetchOptions extends RequestInit {
