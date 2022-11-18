@@ -9,7 +9,7 @@ import {
   type ExtractPropTypes
 } from 'vue'
 
-import { isFunction, isNull, isPlainObject, result } from '@enochfe/shared'
+import { isFunction, isNull, isPlainObject, result } from 'lodash-es'
 
 // test
 // test2

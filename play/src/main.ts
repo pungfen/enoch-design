@@ -1,28 +1,11 @@
 import { createApp } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
-import { setupLayouts } from 'virtual:generated-layouts'
-import routes from '~pages'
-import 'uno.css'
+import { createRouter, createWebHashHistory } from 'vue-router/auto'
 
-import Factory from '@enochfe/factory'
+import '@unocss/reset/tailwind.css'
+import 'uno.css'
 
 import App from './app.vue'
 
-export const router = createRouter({
-  routes: setupLayouts(routes),
-  history: createWebHashHistory()
-})
+export const router = createRouter({ history: createWebHashHistory() })
 
-createApp(App)
-  .use(router)
-  .use(
-    Factory({
-      paging: {
-        itemCount: 0,
-        pageCount: 0,
-        pageIndex: 1,
-        pageSize: 20
-      }
-    })
-  )
-  .mount('#app')
+createApp(App).use(router).mount('#app')

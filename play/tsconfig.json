@@ -2,8 +2,11 @@
   "extends": "@enochfe/tsconfig/tsconfig.web.json",
   "compilerOptions": {
     "sourceMap": true,
-    "types": ["vite/client", "vite-plugin-pages/client", "vite-plugin-vue-layouts/client", "@enochfe/factory/macros-global"]
+    "types": ["vite/client", "vite-plugin-pages/client", "vite-plugin-vue-layouts/client", "@enochfe/core/client"]
   },
-  "include": ["src/**/*.ts", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "vueCompilerOptions": {
+    "plugins": []
+  }
 }

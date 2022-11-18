@@ -2,12 +2,14 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-import Pages from 'vite-plugin-pages'
-import Layouts from 'vite-plugin-vue-layouts'
+import VueRouter from 'unplugin-vue-router/vite'
 import UnoCSS from 'unocss/vite'
-import { presetUno, presetAttributify } from 'unocss'
+import { presetUno } from 'unocss'
 
-// import Components from 'unplugin-vue-components/vite'
+import Inspect from 'vite-plugin-inspect'
+import Enochfe from '@enochfe/core/vite'
+
+import type { Plugin } from 'vite'
 
 function kebabCase(key: string) {
   const result = key.replace(/([A-Z])/g, ' $1').trim()
@@ -18,36 +20,15 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "${resolve('./src/styles/element-variables.scss')}" as *;`
+        additionalData: `@use "${resolve('./src/element.scss')}" as *;`
       }
     }
   },
   plugins: [
-    vue(),
-    Pages({
-      dirs: ['src/pages']
-    }),
-    Layouts({
-      defaultLayout: 'index'
-    }),
-    UnoCSS({
-      presets: [presetUno(), presetAttributify()]
-    })
-    // Components({
-    //   dts: './components.d.ts',
-    //   resolvers: [
-    //     (componentName) => {
-    //       if (componentName.startsWith('En')) {
-    //         const name = componentName.slice(2)
-    //         const esComponentsFolder = 'element-plus/es/components'
-    //         return {
-    //           name: componentName,
-    //           from: '@enoch/components',
-    //           sideEffects: [`${esComponentsFolder}/${kebabCase(name)}/style/index`]
-    //         }
-    //       }
-    //     }
-    //   ]
-    // })
+    vue({ reactivityTransform: true }),
+    Enochfe({}) as Plugin,
+    Inspect(),
+    UnoCSS({ presets: [presetUno()] }) as Plugin[],
+    VueRouter({ dts: './src/router.d.ts' }) as Plugin
   ]
 })

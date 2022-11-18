@@ -20,7 +20,7 @@
     "ast-walker-scope": "^0.2.3",
     "fast-glob": "^3.2.12",
     "magic-string": "^0.26.7",
-    "vue": "^3.2.39"
+    "vue": "^3.2.45"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
