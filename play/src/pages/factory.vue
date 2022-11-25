@@ -9,6 +9,13 @@
   </fieldset>
 </template> -->
 
+<pung lang="json">
+{
+  "output": true,
+  "name": "pung"
+}
+</pung>
+
 <script setup lang="ts">
 import { defineFactory } from '@enochfe/core'
 
