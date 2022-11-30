@@ -4,7 +4,7 @@ import type { FactoryConfig, FactoryOptions } from './types'
 export const index = <C extends FactoryConfig>(config: C) => {
   const origin: any = {}
   Object.entries(config).forEach(([key, value]) => {
-    if (['ajax', 'children', 'initializer'].includes(key)) return
+    if (['ajax', 'children', 'initializer', 'watch'].includes(key)) return
     origin[key] = value
   })
   return origin

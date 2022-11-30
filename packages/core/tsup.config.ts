@@ -6,6 +6,5 @@ export default defineConfig({
   entry: ['./src/index.ts', './src/node/vite.ts'],
   format: ['cjs', 'esm'],
   splitting: true,
-  sourcemap: true,
-  watch: true
+  sourcemap: true
 })

@@ -12,9 +12,7 @@
     "build:cli": "pnpm -C cli build",
     "build": "pnpm -C packages/factory build",
     "cs": "changeset",
-    "publish": "pnpm build && changeset publish",
-    "test": "vitest",
-    "test:w": "vitest transform"
+    "publish": "pnpm build && changeset publish"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.7",

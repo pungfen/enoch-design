@@ -1,5 +1,3 @@
-import { writeFileSync } from 'node:fs'
-
 import { compileScript, compileTemplate, parse } from 'vue/compiler-sfc'
 import MagicStringBase from 'magic-string'
 
@@ -7,10 +5,6 @@ import type { SFCParseResult } from 'vue/compiler-sfc'
 import type { Options } from './plugin'
 
 const DEFINE_FACTORY = 'defineFactory'
-
-const record = (filename: string, content: string, format?: boolean) => {
-  writeFileSync(`./${filename}`, content, { encoding: 'utf-8' })
-}
 
 class MagicCode extends MagicStringBase {}
 
@@ -53,9 +47,9 @@ const transformScript = (id: string, sfc: SFCParseResult, options: Options, ms: 
       ms.prependLeft(
         start.offset,
         `
-        \nimport { block, reactive as fr } from '@enochfe/core';
-        \nconst origin = block(${cfg});
-        \nconst factory = fr(origin);
+        \nimport { block as _DF_block, proxy as _DF_proxy } from '@enochfe/core';
+        \nconst _DF_BLOCK = _DF_block(${cfg});
+        \nconst _DF_PROXY = _DF_proxy(_DF_BLOCK);
       `
       )
     }

@@ -6,6 +6,14 @@
 defineFactory({
   children: {
     form: {
+      data: {
+        name: 'xx'
+      },
+      watch: {
+        name() {
+          console.log('name is change', this.form.data.name)
+        }
+      },
       children: {
         name: {
           change() {
