@@ -12,6 +12,14 @@
       "skipFiles": ["<node_internals>/**"],
       "type": "node",
       "runtimeArgs": ["--experimental-modules"]
+    },
+    {
+      "name": "test core",
+      "program": "${workspaceRoot}/node_modules/esno/esno.js",
+      "args": ["${file}"],
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node",
+      "runtimeArgs": ["--experimental-modules"]
     }
   ]
 }

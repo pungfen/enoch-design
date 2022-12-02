@@ -20,7 +20,9 @@ const transformCustomBlock = (id: string, sfc: SFCParseResult, options: Options,
 }
 
 const transformTemplate = (id: string, sfc: SFCParseResult, options: Options, ms: MagicCode) => {
-  if (!sfc.descriptor.template) return
+  if (sfc.descriptor.template) {
+    const compiled = compileTemplate({ id, source: sfc.descriptor.source, filename: sfc.descriptor.filename })
+  }
 }
 
 const transformScript = (id: string, sfc: SFCParseResult, options: Options, ms: MagicCode) => {
@@ -47,9 +49,8 @@ const transformScript = (id: string, sfc: SFCParseResult, options: Options, ms: 
       ms.prependLeft(
         start.offset,
         `
-        \nimport { block as _DF_block, proxy as _DF_proxy } from '@enochfe/core';
-        \nconst _DF_BLOCK = _DF_block(${cfg});
-        \nconst _DF_PROXY = _DF_proxy(_DF_BLOCK);
+        \nimport { convert as _DFC_ } from '@enochfe/core';
+        \nconst DFC = _DFC_(${cfg});
       `
       )
     }

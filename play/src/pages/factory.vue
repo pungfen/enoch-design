@@ -1,38 +1,29 @@
-<!-- <template>
+<template>
   <fieldset>
     <legend>defineFactory</legend>
 
     <div>
-      <h1>{{ factory.form.data.name }}</h1>
-      <input :value="factory.form.data.name" type="text" @input="onInput" />
+      <h1>{{ form.data.index }}</h1>
+      <button @click="form.add.click" class="bg-blue px-20 py-2">+</button>
     </div>
   </fieldset>
-</template> -->
+</template>
 
-<pung lang="json">
-{
-  "output": true,
-  "name": "pung"
-}
-</pung>
+<script lang="ts">
+import { factory } from '@enochfe/factory'
 
-<script setup lang="ts">
-import { defineFactory } from '@enochfe/core'
-
-interface IFormData {
-  name: string
-  age: number
-}
-
-defineFactory({
+export default factory({
   children: {
     form: {
       data: {
-        name: 'pung'
-      } as IFormData,
+        index: 0
+      },
       children: {
-        name: {
-          change() {}
+        add: {
+          click() {
+            console.log(this)
+            // this.form.data.index++
+          }
         }
       }
     }

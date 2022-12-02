@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>{{ _DF_PROXY }}</div>
 </template>
 
 <script setup lang="ts">

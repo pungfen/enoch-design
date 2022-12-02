@@ -1,26 +1,33 @@
-import { onMounted, onUnmounted } from 'vue'
+import { assign, bind, entries, forEach, isFunction } from 'lodash-es'
+import { onMounted, onUnmounted, reactive } from 'vue'
 import type { FactoryConfig, FactoryOptions } from './types'
 
-export const index = <C extends FactoryConfig>(config: C) => {
+export const index = <C extends FactoryConfig>(config: C, root: Record<string, any>) => {
   const origin: any = {}
   Object.entries(config).forEach(([key, value]) => {
     if (['ajax', 'children', 'initializer', 'watch'].includes(key)) return
-    origin[key] = value
+    origin[key] = isFunction(value) ? bind(value, root) : value
   })
   return origin
 }
 
-export const children = <C extends FactoryConfig>(config: C) => {
+export const children = <C extends FactoryConfig>(config: C, root: Record<string, any>) => {
   const origin: any = {}
   if (config.children) {
-    Object.entries(config.children).forEach(([key, value]) => (origin[key] = block(value)))
+    forEach(entries(config.children), ([key, value]) => (origin[key] = block(value, root)))
   }
   return origin
 }
 
-export const block = <C extends FactoryConfig>(config: C) => {
+export const block = <C extends FactoryConfig>(config: C, root: Record<string, any>) => {
   const origin: any = {}
-  Object.assign(origin, children(config), index(config))
+  assign(origin, children(config, root), index(config, root))
+  return origin
+}
+
+export const convert = <C extends FactoryConfig>(config: C) => {
+  const origin = reactive({})
+  assign(origin, block(config, origin))
   return origin
 }
 

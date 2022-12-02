@@ -5,17 +5,13 @@
   "version": "0.0.1",
   "type": "module",
   "main": "src/index.ts",
-  "scripts": {
-    "test": "vitest",
-    "test:watch": "vitest -w"
-  },
+  "scripts": {},
   "dependencies": {
     "vue": "^3.2.45"
   },
   "devDependencies": {
     "@vicons/carbon": "^0.12.0",
-    "@vicons/utils": "^0.1.4",
-    "@vitejs/plugin-vue": "^3.2.0"
+    "@vicons/utils": "^0.1.4"
   },
   "peerDependencies": {
     "vue": "^3.2.0"

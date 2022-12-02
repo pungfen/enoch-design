@@ -7,9 +7,6 @@ import UnoCSS from 'unocss/vite'
 import { presetUno } from 'unocss'
 
 import Inspect from 'vite-plugin-inspect'
-import Enochfe from '@enochfe/core/vite'
-
-import type { Plugin } from 'vite'
 
 function kebabCase(key: string) {
   const result = key.replace(/([A-Z])/g, ' $1').trim()
@@ -24,11 +21,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [
-    vue({ reactivityTransform: true }),
-    Enochfe({}) as Plugin,
-    Inspect(),
-    UnoCSS({ presets: [presetUno()] }) as Plugin[],
-    VueRouter({ dts: './src/router.d.ts' }) as Plugin
-  ]
+  plugins: [vue({ reactivityTransform: true }), Inspect(), UnoCSS({ presets: [presetUno()] }), VueRouter({ dts: './src/router.d.ts' })]
 })

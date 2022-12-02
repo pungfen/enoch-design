@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@enochfe/core": "workspace:*",
+    "@enochfe/factory": "workspace:*",
     "axios": "^1.1.3",
     "element-plus": "^2.2.22",
     "vue": "^3.2.45",
