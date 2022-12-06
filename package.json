@@ -11,7 +11,6 @@
     "dev": "pnpm -C play dev",
     "test": "echo hello",
     "build": "pnpm -r build",
-    "cs": "changeset",
     "publish": "pnpm build && changeset publish"
   },
   "devDependencies": {
