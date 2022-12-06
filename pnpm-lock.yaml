@@ -124,6 +124,18 @@ importers:
   packages/tsconfig:
     specifiers: {}
 
+  packages/use:
+    specifiers:
+      '@types/lodash-es': ^4.17.6
+      lodash-es: ^4.17.21
+      tsup: ^6.5.0
+      vue: ^3.2.45
+    devDependencies:
+      '@types/lodash-es': 4.17.6
+      lodash-es: 4.17.21
+      tsup: 6.5.0
+      vue: 3.2.45
+
   packages/volar:
     specifiers: {}
 
@@ -133,10 +145,12 @@ importers:
       '@enochfe/tsconfig': workspace:*
       '@unocss/reset': ^0.46.5
       '@vitejs/plugin-vue': ^3.2.0
+      '@vue/runtime-core': ^3.2.45
       axios: ^1.1.3
       element-plus: ^2.2.22
       sass: ^1.56.1
       typescript: ^4.9.3
+      universal-cookie: ^4.0.4
       unocss: ^0.46.5
       unplugin-vue-components: ^0.22.9
       unplugin-vue-router: ^0.2.3
@@ -149,12 +163,14 @@ importers:
       '@enochfe/factory': link:../packages/factory
       axios: 1.1.3
       element-plus: 2.2.22_vue@3.2.45
+      universal-cookie: 4.0.4
       vue: 3.2.45
       vue-router: 4.1.6_vue@3.2.45
     devDependencies:
       '@enochfe/tsconfig': link:../packages/tsconfig
       '@unocss/reset': 0.46.5
       '@vitejs/plugin-vue': 3.2.0_vite@3.2.4+vue@3.2.45
+      '@vue/runtime-core': 3.2.45
       sass: 1.56.1
       typescript: 4.9.3
       unocss: 0.46.5_vite@3.2.4
@@ -963,6 +979,10 @@ packages:
     resolution: {integrity: sha512-KnRanxnpfpjUTqTCXslZSEdLfXExwgNxYPdiO2WGUj8+HDjFi8R3k5RVKPeSCzLjCcshCAtVO2QBbVuAV4kTnw==}
     dev: true
 
+  /@types/cookie/0.3.3:
+    resolution: {integrity: sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow==}
+    dev: false
+
   /@types/estree/1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: true
@@ -1199,7 +1219,7 @@ packages:
       '@unocss/scope': 0.46.5
       '@unocss/transformer-directives': 0.46.5
       magic-string: 0.26.7
-      vite: 3.2.4
+      vite: 3.2.4_sass@1.56.1
     transitivePeerDependencies:
       - rollup
     dev: true
@@ -1261,7 +1281,7 @@ packages:
       vue:
         optional: true
     dependencies:
-      vite: 3.2.4
+      vite: 3.2.4_sass@1.56.1
       vue: 3.2.45
     dev: true
 
@@ -1893,6 +1913,11 @@ packages:
   /convert-source-map/1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
     dev: true
+
+  /cookie/0.4.2:
+    resolution: {integrity: sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==}
+    engines: {node: '>= 0.6'}
+    dev: false
 
   /cosmiconfig-typescript-loader/4.1.0_vm2qe4tp3nvyupiyv2eqjhqjhq:
     resolution: {integrity: sha512-HbWIuR5O+XO5Oj9SZ5bzgrD4nN+rfhrm2PMb0FVx+t+XIvC45n8F0oTNnztXtspWGw0i2IzHaUWFD5LzV1JB4A==}
@@ -4307,6 +4332,7 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
 
   /spawndamnit/2.0.0:
     resolution: {integrity: sha512-j4JKEcncSjFlqIwU5L/rp2N5SIPsdxaRsIv678+TZxZ0SRDJTm8JrxJMjE/XuiEZNEir3S8l0Fa3Ke339WI4qA==}
@@ -4722,6 +4748,13 @@ packages:
     dependencies:
       busboy: 1.6.0
     dev: true
+
+  /universal-cookie/4.0.4:
+    resolution: {integrity: sha512-lbRVHoOMtItjWbM7TwDLdl8wug7izB0tq3/YVKhT/ahB4VDvWMyvnADfnJI8y6fSvsjh51Ix7lTGC6Tn4rMPhw==}
+    dependencies:
+      '@types/cookie': 0.3.3
+      cookie: 0.4.2
+    dev: false
 
   /universalify/0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}

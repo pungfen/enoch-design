@@ -2,7 +2,7 @@
   "extends": "@enochfe/tsconfig/tsconfig.web.json",
   "compilerOptions": {
     "sourceMap": true,
-    "types": ["vite/client", "vite-plugin-pages/client", "vite-plugin-vue-layouts/client", "@enochfe/core/client"]
+    "types": ["vite/client", "vite-plugin-pages/client", "vite-plugin-vue-layouts/client", "@enochfe/core/client", "@enochfe/factory/client"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],

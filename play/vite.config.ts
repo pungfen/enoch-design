@@ -21,5 +21,12 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vue({ reactivityTransform: true }), Inspect(), UnoCSS({ presets: [presetUno()] }), VueRouter({ dts: './src/router.d.ts' })]
+  plugins: [vue({ reactivityTransform: true }), Inspect(), UnoCSS({ presets: [presetUno()] }), VueRouter({ dts: './src/router.d.ts' })],
+  server: {
+    proxy: {
+      '^/enocloud': 'http://47.97.115.166:18190',
+      '^/enospray': 'http://47.97.115.166:18191',
+      '^/enoquote': 'http://47.97.115.166:18192'
+    }
+  }
 })

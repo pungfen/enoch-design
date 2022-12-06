@@ -2,31 +2,43 @@
   <fieldset>
     <legend>defineFactory</legend>
 
-    <div>
-      <h1>{{ form.data.index }}</h1>
-      <button @click="form.add.click" class="bg-blue px-20 py-2">+</button>
-    </div>
+    <div>{{ table.paging }}</div>
+
+    <h1>xxx{{ table.totalCount }}</h1>
+
+    <div>{{ $factory }}</div>
   </fieldset>
 </template>
 
 <script lang="ts">
 import { factory } from '@enochfe/factory'
 
-export default factory({
-  children: {
-    form: {
-      data: {
-        index: 0
-      },
-      children: {
-        add: {
-          click() {
-            console.log(this)
-            // this.form.data.index++
+export default factory(
+  {
+    children: {
+      table: {
+        ajax: {
+          get: {
+            action: 'GET /enocloud/service/queryxxx',
+            data: 'array',
+            pagination: true,
+            params(params) {
+              params.payload = { name: '22' }
+            }
+          }
+        },
+        computed: {
+          totalCount() {
+            return this.table.paging.itemCount + this.table.paging.pageSize
           }
         }
       }
     }
+  },
+  {
+    mounted() {
+      this.table.get()
+    }
   }
-})
+)
 </script>

@@ -6,9 +6,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "build": "enoch-cli build",
-    "test": "vitest",
-    "test:watch": "vitest -w"
+    "build": "tsup"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.6",
