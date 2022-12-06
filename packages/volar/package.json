@@ -11,9 +11,7 @@
     "dist",
     "*.js"
   ],
-  "scripts": {
-    "build": "tsup"
-  },
+  "scripts": {},
   "dependencies": {},
   "devDependencies": {},
   "exports": {

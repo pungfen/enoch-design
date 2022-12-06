@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "pnpm -C play dev",
-    "build": "pnpm -C packages/factory build",
+    "build": "pnpm -r build",
     "cs": "changeset",
     "publish": "pnpm build && changeset publish"
   },

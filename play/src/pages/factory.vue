@@ -19,7 +19,7 @@ export default factory(
       table: {
         ajax: {
           get: {
-            action: 'GET /enocloud/service/queryxxx',
+            action: 'GET /enocloud/service/query',
             data: 'array',
             pagination: true,
             params(params) {
