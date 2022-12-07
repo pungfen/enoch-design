@@ -1,6 +1,6 @@
-type method = 'GET' | 'POST' | 'PUT' | 'DELETE'
+type Method = 'GET' | 'POST' | 'PUT' | 'DELETE'
 type DataType = 'array' | 'object' | 'string' | 'number' | 'none'
-type ActionPath = `${method} /${string}`
+type ActionPath = `${Method} /${string}`
 
 export interface DataResponse<T> {
   confirmations: any[]
@@ -9,37 +9,73 @@ export interface DataResponse<T> {
   errors: { reason: string; code: string; message: string; shouldNotNotification?: boolean }[]
 }
 
-interface FactoryAjaxActions {
-  'GET /enocloud/service/query': {
-    client: { name: string }
-    payload: { name: string }
+export interface FactoryAjaxActions {
+  'GET /xx': {
+    responses: {
+      200: {
+        schema: {
+          data: { name: string }[]
+        }
+      }
+    }
+    parameters: {
+      query: { name: string }
+    }
   }
 }
 
-interface PathsMap<Client, Payload, Paths> {
-  client: Client
-  payload: Payload
-  paths: Paths
+interface PathsMap<R, Q, B, P> {
+  response: R
+  query: Q
+  body: B
+  path: P
 }
 
-type _AjaxActionMap<Action extends ActionPath, Client = any, Payload = any, Paths = any> = Action extends `${infer M} /${string}`
+type _AjaxActionMap<Action extends ActionPath, R = any, Q = any, B = any, P = any[]> = Action extends `${infer M} /${string}`
   ? M extends 'GET'
-    ? PathsMap<Client, Payload, Paths>
+    ? PathsMap<R, Q, void, P>
     : M extends 'POST'
-    ? PathsMap<number, Payload, Paths>
+    ? PathsMap<number, void, B, P>
     : M extends 'PUT'
-    ? PathsMap<void, Payload, Paths>
+    ? PathsMap<void, void, B, P>
     : M extends 'DELETE'
-    ? PathsMap<void, void, Paths>
+    ? PathsMap<void, void, B, P>
     : never
   : never
 
 type AjaxActionMap = {
   [Action in keyof FactoryAjaxActions]: _AjaxActionMap<
     Action,
-    FactoryAjaxActions[Action] extends { client?: infer C } ? C : never,
-    FactoryAjaxActions[Action] extends { payload?: infer P } ? P : never,
-    FactoryAjaxActions[Action] extends { paths: infer P } ? P : never
+    FactoryAjaxActions[Action] extends {
+      responses: {
+        200: {
+          schema: infer R
+        }
+      }
+    }
+      ? R
+      : never,
+    FactoryAjaxActions[Action] extends {
+      parameters: {
+        query: infer Q
+      }
+    }
+      ? Q
+      : never,
+    FactoryAjaxActions[Action] extends {
+      parameters: {
+        body: infer B
+      }
+    }
+      ? B
+      : never,
+    FactoryAjaxActions[Action] extends {
+      parameters: {
+        path: infer P
+      }
+    }
+      ? P
+      : never
   >
 }
 
@@ -49,10 +85,10 @@ type _AjaxConfig<A extends keyof AjaxActionMap, D> = D extends DataType
       data?: D
       loading?: true
       pagination?: true
-      params?: (params: { payload?: AjaxActionMap[A]['payload']; paths?: AjaxActionMap[A]['paths'] }) => void
+      params?: (params: { query?: AjaxActionMap[A]['query']; body?: AjaxActionMap[A]['body']; path?: AjaxActionMap[A]['path'] }) => void
       converter?: {
         client?: (data: any) => void
-        server?: (payload: AjaxActionMap[A]['payload']) => AjaxActionMap[A]['payload'] | void
+        server?: (params: { query?: AjaxActionMap[A]['query']; body?: AjaxActionMap[A]['body']; path?: AjaxActionMap[A]['path'] }) => void
       }
     }
   : never
@@ -72,7 +108,7 @@ export interface FactoryOptions {
   unmounted?: () => void
 }
 
-type ClientDto<A> = A extends keyof AjaxActionMap ? AjaxActionMap[A]['client'] : never
+type ClientDto<A> = A extends keyof AjaxActionMap ? AjaxActionMap[A]['response'] : never
 
 type BlockData<A, D> = D extends 'array' ? ClientDto<A>[] : D extends 'object' ? ClientDto<A> : never
 

@@ -3,23 +3,17 @@ import { defineComponent, onMounted, onUnmounted, reactive } from 'vue'
 import { block } from './convert'
 
 import type { App } from 'vue'
-import type { Block, DataResponse, FactoryConfig, FactoryOptions } from './types'
+import type { Block, FactoryConfig, FactoryOptions } from './types'
 import { assign } from 'lodash-es'
 
 export interface InstallOptions {
-  paging?: { pageIndex: string; pageSize: string; itemCount: string; pageCount: string }
-  ajax?: {
-    headers?: Record<string, any>
-    interceptor?: (response: DataResponse<unknown>) => Promise<unknown>
-  }
+  ajax: { instance: null }
 }
 
 export const createFactory = (options?: InstallOptions) => {
   return {
     install: (app: App) => {
-      app.config.globalProperties.$factory = {
-        ajax: options?.ajax
-      }
+      app.config.globalProperties.$factory = { ...options }
     }
   }
 }

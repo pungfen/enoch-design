@@ -36,15 +36,15 @@ const ajax = function <C extends FactoryConfig>(this: any, config: C, expression
       const method = async function (this: any, options: AjaxMethodOptions = {}) {
         const parent: any = get(this, trimStart(expression, '.'))
 
-        const _params: { paths?: any; payload?: any } = {}
+        const _params: { query?: any; body?: any; path?: any } = {}
         params?.call(this, _params)
 
         const url = path
           .split('/')
-          .map((str) => (str.startsWith(':') ? _params.paths[str.replace(':', '')] : str))
+          .map((str) => (str.startsWith(':') ? _params.path[str.replace(':', '')] : str))
           .join('/')
 
-        let data = (converter?.server as (payload: any) => any)?.call(this, _params.payload) || _params.payload
+        let data = (converter?.server as (payload: any) => any)?.call(this, _params.body) || _params.body
 
         if (options.invokedByScroll && pagination) {
           parent.paging.pageIndex++
@@ -53,9 +53,10 @@ const ajax = function <C extends FactoryConfig>(this: any, config: C, expression
 
         if (loading) parent.loading = true
 
+        const request = app?.appContext.config.globalProperties.$factory.ajax.instance
+
         try {
-          const response: DataResponse<any> = await fetch(url, { method: httpMethod, headers: {} }).then((res) => res.json())
-          const res = await app?.appContext.config.globalProperties.$factory.ajax.interceptor(response)
+          const res = (await request(url, { method: httpMethod, data, params })).data
 
           switch (dataType) {
             case 'array':
