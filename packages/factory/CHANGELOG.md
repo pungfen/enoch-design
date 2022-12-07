@@ -1,5 +1,6 @@
 # @enochfe/factory
 
+<<<<<<< HEAD
 ## 1.1.4
 
 ### Patch Changes
@@ -54,11 +55,17 @@
 
 - fix factory dts bug
 
+=======
+>>>>>>> dev
 ## 1.0.6
 
 ### Patch Changes
 
+<<<<<<< HEAD
 - fix no dts bug
+=======
+- refact factory
+>>>>>>> dev
 
 ## 1.0.5
 

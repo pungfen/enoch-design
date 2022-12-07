@@ -7,5 +7,9 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
+<<<<<<< HEAD
   "ignore": ["@enochfe/cli", "@enochfe/shared", "@enochfe/test-utils", "@enochfe/uncode"]
+=======
+  "ignore": []
+>>>>>>> dev
 }

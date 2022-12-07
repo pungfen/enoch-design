@@ -1,0 +1,22 @@
+{
+  "name": "@enochfe/volar",
+  "version": "0.0.1",
+  "author": {
+    "name": "pung",
+    "email": "fp94214@gmial.com",
+    "url": "https://github.com/pungfen"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "*.js"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "exports": {
+    "./define-factory": {
+      "require": "./dist/node/vite.cjs"
+    }
+  }
+}

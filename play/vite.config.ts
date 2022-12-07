@@ -2,14 +2,17 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-import Pages from 'vite-plugin-pages'
-import Layouts from 'vite-plugin-vue-layouts'
+import VueRouter from 'unplugin-vue-router/vite'
 import UnoCSS from 'unocss/vite'
+<<<<<<< HEAD
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import transformerDirective from '@unocss/transformer-directives'
 import colors from 'tailwindcss/colors'
+=======
+import { presetUno } from 'unocss'
+>>>>>>> dev
 
-// import Components from 'unplugin-vue-components/vite'
+import Inspect from 'vite-plugin-inspect'
 
 function kebabCase(key: string) {
   const result = key.replace(/([A-Z])/g, ' $1').trim()
@@ -20,10 +23,11 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "${resolve('./src/styles/element-variables.scss')}" as *;`
+        additionalData: `@use "${resolve('./src/element.scss')}" as *;`
       }
     }
   },
+<<<<<<< HEAD
   plugins: [
     vue({ reactivityTransform: true }),
     Pages({
@@ -73,4 +77,14 @@ export default defineConfig({
     //   ]
     // })
   ]
+=======
+  plugins: [VueRouter({ dts: './src/router.d.ts' }), vue({ reactivityTransform: true }), Inspect(), UnoCSS({ presets: [presetUno()] })],
+  server: {
+    proxy: {
+      '^/enocloud': 'http://47.97.115.166:18190',
+      '^/enospray': 'http://47.97.115.166:18191',
+      '^/enoquote': 'http://47.97.115.166:18192'
+    }
+  }
+>>>>>>> dev
 })

@@ -1,6 +1,8 @@
 {
   "extends": "@enochfe/tsconfig/tsconfig.json",
   "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
     "types": ["vitest", "vitest/globals"]
   }
 }

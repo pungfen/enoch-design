@@ -1,9 +1,0 @@
-{
-  "name": "@enochfe/shared",
-  "author": "pung <fp94214@gmail.com>",
-  "description": "enoch shared",
-  "version": "1.0.1",
-  "type": "module",
-  "main": "src/index.ts",
-  "private": true
-}

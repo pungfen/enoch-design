@@ -2,6 +2,7 @@
   "name": "@enochfe/factory",
   "author": "pung <fp94214@gmail.com>",
   "description": "enoch factory",
+<<<<<<< HEAD
   "version": "1.1.4",
   "type": "module",
   "main": "src/index.ts",
@@ -22,14 +23,25 @@
     "fast-glob": "^3.2.12",
     "magic-string": "^0.26.7",
     "vue": "^3.2.41"
+=======
+  "version": "1.0.6",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "lodash-es": "^4.17.21",
+    "tsup": "^6.5.0",
+    "vue": "^3.2.45"
+>>>>>>> dev
   },
   "peerDependencies": {
     "vue": "^3.2.0"
   },
   "files": [
-    "dist",
-    "macros.d.ts",
-    "macros-global.d.ts"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -48,6 +60,7 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",
+<<<<<<< HEAD
     "main": "./dist/index.cjs",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -64,5 +77,10 @@
       "./macros-global": "./macros-global.d.ts",
       "./*": "./*"
     }
+=======
+    "main": "./dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts"
+>>>>>>> dev
   }
 }

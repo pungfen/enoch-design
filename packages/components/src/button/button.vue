@@ -9,11 +9,21 @@
 </template>
 
 <script setup lang="ts">
+<<<<<<< HEAD
 import { Props, Emits } from './button'
+=======
+import { computed } from 'vue'
+
+export interface Props {
+  disabled?: boolean
+  loading?: boolean
+}
+>>>>>>> dev
 
 const { loading, disabled, type } = defineProps(Props)
 const emit = defineEmits(Emits)
 
+<<<<<<< HEAD
 const _disabled = $computed(() => loading || disabled)
 const _loading = $computed(() => loading)
 
@@ -21,6 +31,9 @@ const onClick = (e: MouseEvent) => {
   if (_disabled || _loading) return
   emit('click', e)
 }
+=======
+const _disabled = computed(() => loading || disabled)
+>>>>>>> dev
 </script>
 
 <style>
