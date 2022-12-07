@@ -2,6 +2,10 @@ export { EnButton } from './button'
 import type { default as EnButton } from './button'
 export type EnButtonInstance = InstanceType<typeof EnButton>
 
+export { EnConfig } from './config'
+import type { default as EnConfig } from './button'
+export type EnConfigInstance = InstanceType<typeof EnConfig>
+
 export { EnInput } from './input'
 import type { default as EnInput } from './input'
 export type EnInputInstance = InstanceType<typeof EnInput>

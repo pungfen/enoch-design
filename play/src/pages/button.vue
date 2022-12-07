@@ -12,9 +12,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { EnButton, EnConfig, EnInput, type Theme } from '@enochfe/components'
+import { EnButton, EnConfig, EnInput } from '@enochfe/components'
 
-const theme: Theme = {
+const theme = {
   button: {}
 }
 
