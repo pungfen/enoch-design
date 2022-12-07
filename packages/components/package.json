@@ -5,23 +5,6 @@
   "version": "0.0.8",
   "type": "module",
   "main": "src/index.ts",
-<<<<<<< HEAD
-  "scripts": {
-    "build": "vite build"
-  },
-  "dependencies": {
-    "@vueuse/core": "^9.3.1",
-    "vue": "^3.2.41"
-  },
-  "devDependencies": {
-    "@popperjs/core": "^2.11.6",
-    "@unocss/transformer-directives": "^0.45.30",
-    "@vitejs/plugin-vue": "^3.2.0",
-    "tailwindcss": "^3.2.1",
-    "unocss": "^0.45.30",
-    "vite": "^3.2.0",
-    "vite-plugin-dts": "^1.6.6"
-=======
   "scripts": {},
   "dependencies": {
     "vue": "^3.2.45"
@@ -29,7 +12,6 @@
   "devDependencies": {
     "@vicons/carbon": "^0.12.0",
     "@vicons/utils": "^0.1.4"
->>>>>>> dev
   },
   "peerDependencies": {
     "vue": "^3.2.0"

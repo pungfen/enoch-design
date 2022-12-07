@@ -2,28 +2,6 @@
   "name": "@enochfe/factory",
   "author": "pung <fp94214@gmail.com>",
   "description": "enoch factory",
-<<<<<<< HEAD
-  "version": "1.1.4",
-  "type": "module",
-  "main": "src/index.ts",
-  "scripts": {
-    "build": "enoch-cli build",
-    "test": "vitest",
-    "test:watch": "vitest -w"
-  },
-  "dependencies": {
-    "@enochfe/use": "workspace:*",
-    "unplugin": "^0.9.6"
-  },
-  "devDependencies": {
-    "@babel/types": "^7.19.4",
-    "@rollup/pluginutils": "^5.0.1",
-    "@vue/compiler-sfc": "^3.2.40",
-    "ast-walker-scope": "^0.2.3",
-    "fast-glob": "^3.2.12",
-    "magic-string": "^0.26.7",
-    "vue": "^3.2.41"
-=======
   "version": "1.0.6",
   "type": "module",
   "main": "src/index.ts",
@@ -35,7 +13,6 @@
     "lodash-es": "^4.17.21",
     "tsup": "^6.5.0",
     "vue": "^3.2.45"
->>>>>>> dev
   },
   "peerDependencies": {
     "vue": "^3.2.0"
@@ -60,27 +37,8 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",
-<<<<<<< HEAD
-    "main": "./dist/index.cjs",
-    "module": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "exports": {
-      ".": {
-        "require": "./dist/index.cjs",
-        "import": "./dist/index.js"
-      },
-      "./vite": {
-        "require": "./dist/vite.cjs",
-        "import": "./dist/vite.js"
-      },
-      "./macros": "./macros.d.ts",
-      "./macros-global": "./macros-global.d.ts",
-      "./*": "./*"
-    }
-=======
     "main": "./dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts"
->>>>>>> dev
   }
 }
