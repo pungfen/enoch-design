@@ -7,7 +7,7 @@ import type { Block, FactoryConfig, FactoryOptions } from './types'
 import { assign } from 'lodash-es'
 
 export interface InstallOptions {
-  ajax: { instance: null }
+  ajax: { instance: any }
 }
 
 export const createFactory = (options?: InstallOptions) => {
