@@ -1,59 +1,44 @@
 <template>
-  <button @click="header.add.click">+</button>
+  <fieldset>
+    <legend>defineFactory</legend>
 
-  <!-- <div class="form-id">{{ form.data.id }}</div> -->
+    <div>{{ table.paging }}</div>
 
-  <!-- <div class="form-name">{{ obj.name }}</div> -->
+    <h1>xxx{{ table.totalCount }}</h1>
+
+    <div>{{ $factory }}</div>
+  </fieldset>
 </template>
 
 <script lang="ts">
 import { factory } from '@enochfe/factory'
 
-export default factory({
-  props: {
-    name: String
-  },
-
-  setup: {
-    header: {
-      children: {
-        add: {
-          click() {
-            this.form.value.change()
-            this.form.value.name = 'xxxx'
+export default factory(
+  {
+    children: {
+      table: {
+        ajax: {
+          get: {
+            action: 'GET /enocloud/service/query',
+            data: 'array',
+            pagination: true,
+            params(params) {
+              params.payload = { name: '22' }
+            }
           }
-        }
-      }
-    },
-    form: {
-      data: {
-        id: 0
-      },
-      ajax: {
-        get: {
-          action: 'GET /test',
-          data: 'object',
-          pagination: true,
-          loading: true
         },
-        post: {
-          action: 'GET /test'
-        },
-        put: {
-          action: 'GET /test'
-        }
-      },
-      children: {
-        value: {
-          name: 'ss',
-          change() {
-            console.log(this)
+        computed: {
+          totalCount() {
+            return this.table.paging.itemCount + this.table.paging.pageSize
           }
         }
       }
     }
   },
-
-  mounted() {}
-})
+  {
+    mounted() {
+      this.table.get()
+    }
+  }
+)
 </script>
