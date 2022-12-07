@@ -29,13 +29,13 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm i --no-frozen-lockfile
 
       - name: Build
-        run: pnpm build
+        run: pnpm -r build
 
       - name: Test
-        run: pnpm test
+        run: pnpm -r test
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
