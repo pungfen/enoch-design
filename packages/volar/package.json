@@ -1,6 +1,7 @@
 {
   "name": "@enochfe/volar",
   "version": "0.0.1",
+  "private": true,
   "author": {
     "name": "pung",
     "email": "fp94214@gmial.com",
