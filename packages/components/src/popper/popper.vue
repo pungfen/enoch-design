@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, watch, watchEffect } from 'vue'
+import { computed, onBeforeUnmount, ref, watch, watchEffect } from 'vue'
 import { createPopper, type Instance } from '@popperjs/core'
 import { onClickOutside, useMouseInElement } from '@vueuse/core'
 
@@ -35,30 +35,31 @@ const {
   persistent = true
 } = defineProps(props)
 
-const popperRef = $ref<HTMLDivElement>()
-const targetRef = $ref<HTMLDivElement>()
+const popperRef = ref<HTMLDivElement>()
+const targetRef = ref<HTMLDivElement>()
 
-let show = $ref(false)
-let showRender = $computed(() => true)
-let popper = $ref<Instance | null>()
+let show = ref(false)
+let showRender = computed(() => true)
+let popper = ref<Instance | null>()
 
-const targetComputedRef = $computed(() => (virtualTriggering && virtualRef ? virtualRef.$el : targetRef))
+const targetComputedRef = computed(() => (virtualTriggering && virtualRef ? virtualRef.$el : targetRef))
 
 const init = () => {
-  popper = createPopper(targetComputedRef, popperRef)
+  if (!popperRef.value) return
+  popper.value = createPopper(targetComputedRef.value, popperRef.value)
 }
 
 const setOptions = () => {
-  popper?.setOptions({ placement, modifiers: [{ name: 'offset', options: { offset } }] })
+  popper.value?.setOptions({ placement, modifiers: [{ name: 'offset', options: { offset } }] })
 }
 
 const update = () => {
-  popper?.update()
+  popper.value?.update()
 }
 
 const destroy = () => {
-  popper?.destroy()
-  popper = null
+  popper.value?.destroy()
+  popper.value = null
 }
 
 const onClick = () => {
@@ -69,10 +70,10 @@ const onMouseenter = () => {
   if (trigger === 'hover') open()
 }
 
-const { isOutside } = useMouseInElement($$(popperRef))
+const { isOutside } = useMouseInElement(popperRef)
 
 let watchHandler: WatchStopHandle | null
-let triggered = $ref(false)
+let triggered = ref(false)
 const onMouseleave = () => {
   if (trigger === 'hover') {
     watchHandler = watch(isOutside, () => {
@@ -80,10 +81,10 @@ const onMouseleave = () => {
         close()
         watchHandler?.()
         watchHandler = null
-        triggered = false
+        triggered.value = false
       } else {
         console.log('xxx')
-        triggered = true
+        triggered.value = true
       }
     })
 
@@ -93,14 +94,14 @@ const onMouseleave = () => {
   }
 }
 
-const open = () => (show = true)
-const close = () => (show = false)
+const open = () => (show.value = true)
+const close = () => (show.value = false)
 
 onBeforeUnmount(() => {
   destroy()
 })
 
-onClickOutside($$(popperRef), close)
+onClickOutside(popperRef, close)
 
 watch(
   () => targetComputedRef,

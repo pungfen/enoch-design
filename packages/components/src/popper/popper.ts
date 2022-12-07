@@ -1,4 +1,4 @@
-import { pick } from 'lodash-unified'
+import { pick } from 'lodash-es'
 
 import type { PropType } from 'vue'
 import type { Placement } from '@popperjs/core'

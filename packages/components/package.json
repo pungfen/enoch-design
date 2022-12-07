@@ -10,8 +10,12 @@
     "vue": "^3.2.45"
   },
   "devDependencies": {
+    "@popperjs/core": "^2.11.6",
+    "@types/lodash-es": "^4.17.6",
     "@vicons/carbon": "^0.12.0",
-    "@vicons/utils": "^0.1.4"
+    "@vicons/utils": "^0.1.4",
+    "@vueuse/core": "^9.6.0",
+    "lodash-es": "^4.17.21"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
