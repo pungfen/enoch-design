@@ -31,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
+      - name: Gen definitions
+        run: pnpm -C play types
+
       - name: Build
         run: pnpm -r build
 
