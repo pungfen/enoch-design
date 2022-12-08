@@ -1,6 +1,6 @@
 import { computed as _computed, getCurrentInstance } from 'vue'
 import { assign, bind, entries, forEach, get, isFunction, trimStart } from 'lodash-es'
-import type { AjaxMethodOptions, DataResponse, FactoryConfig } from './types'
+import type { AjaxMethodOptions, FactoryConfig } from './types'
 
 const index = function <C extends FactoryConfig>(this: any, config: C, expression: string, data: any) {
   const origin: any = {}
@@ -37,7 +37,7 @@ const ajax = function <C extends FactoryConfig>(this: any, config: C, expression
         const parent: any = get(this, trimStart(expression, '.'))
 
         const _params: { query?: any; body?: any; path?: any } = {}
-        params?.call(this, _params)
+        ;(params as (...args: any[]) => any).call(this, _params)
 
         const url = path
           .split('/')
@@ -56,7 +56,7 @@ const ajax = function <C extends FactoryConfig>(this: any, config: C, expression
         const request = app?.appContext.config.globalProperties.$factory.ajax.instance
 
         try {
-          const res = (await request(url, { method: httpMethod, data, params })).data
+          const res = (await request(url, { method: httpMethod, data: _params.body, params: _params.query })).data
 
           switch (dataType) {
             case 'array':

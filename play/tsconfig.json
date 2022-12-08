@@ -4,7 +4,7 @@
     "sourceMap": true,
     "types": ["vite/client", "@enochfe/core/client", "@enochfe/factory/client"]
   },
-  "include": ["src"],
+  "include": ["src", "definitions"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "vueCompilerOptions": {
     "plugins": []

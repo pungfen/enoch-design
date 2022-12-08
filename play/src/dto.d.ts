@@ -22,6 +22,12 @@ interface EnocloudAdminDefinitions {
 
 interface EnocloudAdminActions {
   'GET /enocloud/admin/branch': {
+    parameters: {
+      query: {
+        shortName?: string
+        comment?: string
+      }
+    }
     responses: {
       /** OK */
       200: { schema: EnocloudAdminDefinitions['DataResponse«BranchDto»'] }

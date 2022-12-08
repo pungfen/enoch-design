@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "types": "esno swaggle.ts"
   },
   "dependencies": {
     "@enochfe/components": "workspace:*",
@@ -22,6 +23,8 @@
     "@unocss/reset": "^0.46.5",
     "@vitejs/plugin-vue": "^3.2.0",
     "@vue/runtime-core": "^3.2.45",
+    "magic-string": "^0.26.7",
+    "node-fetch": "^3.3.0",
     "sass": "^1.56.1",
     "typescript": "^4.9.3",
     "unocss": "^0.46.5",

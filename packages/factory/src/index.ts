@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, onUnmounted, reactive } from 'vue'
+import { computed, defineComponent, getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue'
 
 import { block } from './convert'
 
@@ -26,9 +26,10 @@ export const factory = <C extends FactoryConfig>(config: C & ThisType<Block<C>>,
     props: options?.props,
 
     setup() {
+      const instance = getCurrentInstance()
       const origin = reactive({})
 
-      assign(origin, block.call(origin, config, '', origin))
+      assign(origin, block.call(origin, config, '', origin), { refs: computed(() => instance?.refs) })
 
       onMounted(() => options?.mounted?.call(origin))
       onUnmounted(() => options?.unmounted?.call(origin))

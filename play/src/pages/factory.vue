@@ -2,7 +2,7 @@
   <fieldset>
     <legend>defineFactory</legend>
 
-    <div>{{ table.paging }}</div>
+    <div ref="paging">{{ table.paging }}</div>
 
     <h1>xxx{{ table.totalCount }}</h1>
   </fieldset>
@@ -17,11 +17,11 @@ export default factory(
       table: {
         ajax: {
           get: {
-            action: 'GET /xx',
+            action: 'GET /enocloud/common/release/note',
             data: 'array',
             pagination: true,
             params(params) {
-              params.query = { name: 'xx' }
+              params.query = { pageIndex: 1 }
             }
           }
         },

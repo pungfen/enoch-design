@@ -2,27 +2,7 @@ type Method = 'GET' | 'POST' | 'PUT' | 'DELETE'
 type DataType = 'array' | 'object' | 'string' | 'number' | 'none'
 type ActionPath = `${Method} /${string}`
 
-export interface DataResponse<T> {
-  confirmations: any[]
-  data: T
-  meta?: { paging?: { pageIndex: number; pageSize: number; itemCount: number; pageCount: number } }
-  errors: { reason: string; code: string; message: string; shouldNotNotification?: boolean }[]
-}
-
-export interface FactoryAjaxActions {
-  'GET /xx': {
-    responses: {
-      200: {
-        schema: {
-          data: { name: string }[]
-        }
-      }
-    }
-    parameters: {
-      query: { name: string }
-    }
-  }
-}
+export interface FactoryAjaxActions {}
 
 interface PathsMap<R, Q, B, P> {
   response: R
@@ -79,18 +59,20 @@ type AjaxActionMap = {
   >
 }
 
-type _AjaxConfig<A extends keyof AjaxActionMap, D> = D extends DataType
-  ? {
-      action: A
-      data?: D
-      loading?: true
-      pagination?: true
-      params?: (params: { query?: AjaxActionMap[A]['query']; body?: AjaxActionMap[A]['body']; path?: AjaxActionMap[A]['path'] }) => void
-      converter?: {
-        client?: (data: any) => void
-        server?: (params: { query?: AjaxActionMap[A]['query']; body?: AjaxActionMap[A]['body']; path?: AjaxActionMap[A]['path'] }) => void
+type _AjaxConfig<A, D> = A extends keyof AjaxActionMap
+  ? D extends DataType
+    ? {
+        action: A
+        data?: D
+        loading?: true
+        pagination?: true
+        params?: (params: { query?: AjaxActionMap[A]['query']; body?: AjaxActionMap[A]['body']; path?: AjaxActionMap[A]['path'] }) => void
+        converter?: {
+          client?: (data: any) => void
+          server?: (params: { query?: AjaxActionMap[A]['query']; body?: AjaxActionMap[A]['body']; path?: AjaxActionMap[A]['path'] }) => void
+        }
       }
-    }
+    : never
   : never
 
 type AjaxConfig = _AjaxConfig<keyof AjaxActionMap, DataType>
@@ -131,7 +113,9 @@ type Ajax<C extends FactoryConfig> = C['ajax'] extends Record<string, infer U>
   ? AjaxData<U> &
       AjaxLoading<U> &
       AjaxPagination<U> & {
-        [K in keyof C['ajax']]: () => Promise<C['ajax'][K] extends { action: infer A; data: infer D } ? DataResponse<BlockData<A, D>> : never>
+        [K in keyof C['ajax']]: (
+          options?: AjaxMethodOptions
+        ) => Promise<C['ajax'][K] extends { action: infer A } ? (A extends keyof AjaxActionMap ? AjaxActionMap[A]['response'] : unknown) : unknown>
       }
   : {}
 
@@ -147,7 +131,11 @@ type Children<C extends FactoryConfig> = {
   [K in keyof C['children']]: C['children'][K] extends FactoryConfig ? Block<C['children'][K]> : {}
 }
 
-export type Block<C extends FactoryConfig> = Index<C> & Children<C> & Ajax<C> & Computed<C>
+export type Block<C extends FactoryConfig> = Index<C> & Children<C> & Ajax<C> & Computed<C> & Internal
+
+export type Internal = {
+  refs: Record<string, any>
+}
 
 export interface AjaxMethodOptions {
   invokedByPagination?: boolean

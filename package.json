@@ -7,7 +7,6 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "pnpm -C play dev",
     "ci:publish": "changeset publish"
   },
   "devDependencies": {
