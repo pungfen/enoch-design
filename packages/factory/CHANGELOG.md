@@ -1,5 +1,11 @@
 # @enochfe/factory
 
+## 1.1.8
+
+### Patch Changes
+
+- c241d68: fix d.ts bugs
+
 ## 1.1.7
 
 ### Patch Changes
