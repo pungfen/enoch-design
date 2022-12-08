@@ -1,5 +1,11 @@
 # @enochfe/factory
 
+## 1.1.7
+
+### Patch Changes
+
+- fix d.ts bugs
+
 ## 1.1.6
 
 ### Patch Changes
