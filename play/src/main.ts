@@ -9,6 +9,7 @@ import 'uno.css'
 import App from './app.vue'
 
 import { axios } from './axios'
+import { store } from './store'
 
 import 'element-plus/theme-chalk/src/message.scss'
 import 'element-plus/theme-chalk/src/loading.scss'
@@ -20,7 +21,8 @@ export const router = createRouter({ history: createWebHashHistory() })
 const factory = createFactory({
   ajax: {
     instance: axios
-  }
+  },
+  store
 })
 
 createApp(App).use(router).use(factory).mount('#app')

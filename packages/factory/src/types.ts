@@ -90,7 +90,13 @@ export interface FactoryOptions {
   unmounted?: () => void
 }
 
-type ClientDto<A> = A extends keyof AjaxActionMap ? AjaxActionMap[A]['response'] : never
+type ClientDto<A> = A extends keyof AjaxActionMap
+  ? AjaxActionMap[A]['response'] extends { data: infer R }
+    ? R extends Array<infer F>
+      ? F
+      : never
+    : never
+  : never
 
 type BlockData<A, D> = D extends 'array' ? ClientDto<A>[] : D extends 'object' ? ClientDto<A> : never
 

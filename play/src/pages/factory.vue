@@ -5,6 +5,8 @@
     <div ref="paging">{{ table.paging }}</div>
 
     <h1>xxx{{ table.totalCount }}</h1>
+
+    <div>{{ table.data }}</div>
   </fieldset>
 </template>
 
@@ -36,6 +38,7 @@ export default factory(
   {
     mounted() {
       this.table.get()
+      this.table.data
     }
   }
 )

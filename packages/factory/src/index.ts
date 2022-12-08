@@ -8,6 +8,7 @@ import { assign } from 'lodash-es'
 
 export interface InstallOptions {
   ajax: { instance: any }
+  store: Record<string, any>
 }
 
 export const createFactory = (options?: InstallOptions) => {
