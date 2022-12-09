@@ -44,10 +44,14 @@ type AjaxActionMap = {
       : never,
     FactoryAjaxActions[Action] extends {
       parameters: {
-        body: infer B
+        body: {
+          data: infer D
+        }
       }
     }
-      ? B
+      ? D extends Array<infer B>
+        ? B
+        : never
       : never,
     FactoryAjaxActions[Action] extends {
       parameters: {
