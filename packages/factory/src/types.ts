@@ -44,13 +44,13 @@ type AjaxActionMap = {
       : never,
     FactoryAjaxActions[Action] extends {
       parameters: {
-        body: {
-          data: infer D
-        }
+        body: infer B
       }
     }
-      ? D extends Array<infer B>
-        ? B
+      ? B extends { data: infer D }
+        ? D extends Array<infer B>
+          ? B
+          : never
         : never
       : never,
     FactoryAjaxActions[Action] extends {
@@ -70,7 +70,7 @@ type _AjaxConfig<A, D> = A extends keyof AjaxActionMap
         data?: D
         loading?: true
         pagination?: true
-        params?: (params: { query?: AjaxActionMap[A]['query']; body?: AjaxActionMap[A]['body']; path?: AjaxActionMap[A]['path'] }) => void
+        params?: (params: { query?: AjaxActionMap[A]['query']; body?: any; path?: AjaxActionMap[A]['path'] }) => void
         converter?: {
           client?: (data: any) => void
           server?: (params: { query?: AjaxActionMap[A]['query']; body?: AjaxActionMap[A]['body']; path?: AjaxActionMap[A]['path'] }) => void
@@ -79,7 +79,17 @@ type _AjaxConfig<A, D> = A extends keyof AjaxActionMap
     : never
   : never
 
-type AjaxConfig = _AjaxConfig<keyof AjaxActionMap, DataType>
+type AjaxConfig = {
+  action: keyof AjaxActionMap
+  data: DataType
+  loading?: true
+  pagination?: true
+  params?: (params: { query?: any; body?: any; path?: any }) => void
+  converter?: {
+    client?: (data: any) => void
+    server?: (data: any) => void
+  }
+}
 
 export interface FactoryConfig {
   ajax?: Record<string, AjaxConfig>
@@ -89,6 +99,7 @@ export interface FactoryConfig {
 }
 
 export interface FactoryOptions {
+  debug?: boolean
   props?: any
   mounted?: () => void
   unmounted?: () => void

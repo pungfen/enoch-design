@@ -29,7 +29,25 @@ export default factory(
         },
         computed: {
           totalCount() {
-            return this.table.paging.itemCount + this.table.paging.pageSize
+            // return this.table.paging.itemCount + this.table.paging.pageSize
+          }
+        }
+      },
+      form: {
+        ajax: {
+          get: {
+            action: 'GET /enocloud/service/:serviceId',
+            data: 'object',
+            params(params) {
+              params.path = { serviceId: this.form.data.id! }
+            }
+          },
+          submit: {
+            action: 'POST /enocloud/service',
+            data: 'none',
+            params(params) {
+              params.body = this.form.data as EnocloudServiceDefinitions['ServiceDto']
+            }
           }
         }
       }
@@ -37,8 +55,7 @@ export default factory(
   },
   {
     mounted() {
-      this.table.get()
-      this.table.data
+      // this.table.get()
     }
   }
 )
