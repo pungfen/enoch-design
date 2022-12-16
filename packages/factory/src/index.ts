@@ -1,46 +1,35 @@
-import { computed, defineComponent, getCurrentInstance, onMounted, onUnmounted, reactive, ref } from 'vue'
+import { computed as vComputed, defineComponent, getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue'
 
-import type { App, Ref } from 'vue'
+import type { App, ComputedGetter } from 'vue'
 import type { Block, FactoryConfig, FactoryOptions } from './types'
-import { assign, chain, entries, forEach, isFunction, isObject, isPlainObject, set } from 'lodash-es'
+import { assign, chain, entries, forEach, get, isFunction, trimStart } from 'lodash-es'
+import { AjaxMethodOptions } from '../dist'
 
 export interface InstallOptions {
-  ajax: { instance: any }
+  axios: any
   store: Record<string, any>
+  plugins?: Record<string, any>
 }
 
 export const createFactory = (options?: InstallOptions) => {
   return {
     install: (app: App) => {
-      app.config.globalProperties.$factory = { ...options }
+      app.config.globalProperties.$factory = { axios: options?.axios, store: options?.store, ...options?.plugins }
     }
   }
 }
 
-export * from './convert'
 export * from './types'
 
-const IS_PROXY = Symbol('is_proxy')
-const PATH = Symbol('path')
-const PARENT = Symbol('parent')
-
-type IProxy<T = any> = T & {
-  [IS_PROXY]?: boolean
-  [PATH]?: string
-  [PARENT]?: any
-}
-
-type MaybeRef<T> = T | Ref<T>
-
-const ajax = (config: FactoryConfig) => {
+const ajax = (config: FactoryConfig, expression: string, state: any) => {
   const origin: any = {}
   if (config.ajax) {
     chain(config.ajax)
       .entries()
       .forEach(([key, value]) => {
-        const { action, converter, data, loading, params, pagination } = value
+        const { action, converter, data: dataType, loading, params, pagination } = value
 
-        switch (data) {
+        switch (dataType) {
           case 'object':
             origin.data = {}
             break
@@ -53,110 +42,129 @@ const ajax = (config: FactoryConfig) => {
           origin.paging = {}
         }
 
-        const method = async function (this: any) {
-          console.log('parent', this)
+        const method = async function (this: any, options?: AjaxMethodOptions) {
+          const instance = getCurrentInstance()
+          const parent = get(state, trimStart(expression, '.'))
+          const [httpMethod, path] = action.split(' ')
+          const _params: { payload?: any; path?: any } = {}
+          params?.call(state, _params)
+          const url = path
+            .split('/')
+            .map((str) => (str.startsWith(':') ? _params.path[str.replace(':', '')] : str))
+            .join('/')
+          let data = (converter?.server as (payload: any) => any)?.call(this, _params.payload) || _params.payload
 
-          // const [httpMethod, path] = action.split(' ')
-          // const _params: { query?: any; body?: any; path?: any } = {}
-          // params?.(_params)
+          if (options?.invokedByScroll && pagination) {
+            assign(parent.paging, { pageIndex: parent.paging.pageIndex++ })
+          }
 
-          // const url = path
-          //   .split('/')
-          //   .map((str) => (str.startsWith(':') ? _params.path[str.replace(':', '')] : str))
-          //   .join('/')
+          if (options?.invokedByPagination && pagination) {
+            data = assign({}, data, parent.paging)
+          }
 
-          // let data = (converter?.server as (body: any) => any)?.call(this, _params.body) || _params.body
+          data = assign({}, data, options?.addition)
 
-          // if (loading) parent.loading = true
+          const requestOptions: any = {}
+          requestOptions.method = httpMethod
+          switch (httpMethod.toLowerCase()) {
+            case 'get':
+              requestOptions.params = data
+              break
+            case 'post':
+            case 'put':
+            case 'delete':
+              requestOptions.data = data
+              break
+          }
 
-          // try {
-          //   const res = await fetch(url)
-          // } finally {
-          //   if (loading) parent.loading = false
-          // }
+          if (loading) parent.loading = true
+          try {
+            const res = await instance?.appContext.config.globalProperties.$factory.axios(url, requestOptions)
+
+            switch (dataType) {
+              case 'array':
+                parent.data = res.data.data
+                if (res.data.meta.paging && pagination) parent.paging = res.data.meta.paging
+                break
+              case 'object':
+                parent.data = res.data.data[0]
+                break
+            }
+
+            return Promise.resolve(res)
+          } catch (err) {
+            return Promise.reject(err)
+          } finally {
+            if (loading) parent.loading = false
+          }
         }
 
-        origin[key] = method
+        origin[key] = method.bind(state)
       })
       .value()
   }
   return origin
 }
 
-const children = (config: FactoryConfig) => {
+const computed = (config: FactoryConfig, expression: string, state: any) => {
+  const origin: any = {}
+  if (config.computed) {
+    chain(config.computed)
+      .entries()
+      .forEach(([key, value]) => {
+        origin[key] = vComputed((isFunction(value) ? value.bind(state) : value) as ComputedGetter<any>)
+      })
+      .value()
+  }
+  return origin
+}
+
+const children = (config: FactoryConfig, expression: string, state: any) => {
   const origin: any = {}
   if (config.children) {
     chain(config.children)
       .entries()
       .forEach(([key, value]) => {
-        origin[key] = block(value)
+        origin[key] = block(value, `${expression}.${key}`, state)
       })
       .value()
   }
   return origin
 }
 
-const index = (config: FactoryConfig) => {
+const index = (config: FactoryConfig, expression: string, state: any) => {
   const origin: any = {}
   forEach(entries(config), ([key, value]) => {
     if (['ajax', 'children', 'computed', 'watch'].includes(key)) return
-    origin[key] = value
+    origin[key] = isFunction(value) ? value.bind(state) : value
   })
   return origin
 }
 
-const block = (config: FactoryConfig) => {
+const block = (config: FactoryConfig, expression: string, state: any) => {
   const origin: any = {}
-  assign(origin, ajax(config), children(config), index(config))
+  assign(
+    origin,
+    ajax(config, expression, state),
+    children(config, expression, state),
+    index(config, expression, state),
+    computed(config, expression, state)
+  )
   return origin
-}
-
-const proxy = <T extends MaybeRef<object>>(target: T, parent: any, state: any, isRoot: boolean): IProxy<T> => {
-  const _proxy = new Proxy(target, {
-    get(target, p, receiver) {
-      const res = Reflect.get(target, p, receiver)
-
-      console.log('get', p)
-
-      if (isObject(res) || (isFunction(res) && p in target)) {
-        return proxy(res, null, state, false)
-      }
-
-      return res
-    },
-    set(target, p, receiver) {
-      const res = Reflect.set(target, p, receiver)
-      console.log('set', p)
-      return res
-    },
-    apply(target, thisArg, argArray) {
-      return Reflect.apply(target as Function, state, argArray)
-    }
-  })
-
-  return isRoot ? target : _proxy
 }
 
 export const factory = <C extends FactoryConfig>(config: C & ThisType<Block<C>>, options?: FactoryOptions & ThisType<Block<C>>) => {
   return defineComponent<any, Block<C>, unknown, {}, {}, any, any, {}, string, {}, string>({
+    components: options?.components,
+
     props: options?.props,
 
     setup() {
       const instance = getCurrentInstance()
-      const _block = block(config)
-      const state = ref()
-
-      proxy(state, null, state, true)
-
-      state.value = { name: 'xx' }
-
-      console.log(state)
-      if (options?.debug) {
-      }
-
-      // onMounted(() => options?.mounted?.call(state))
-      // onUnmounted(() => options?.unmounted?.call(state))
-
+      const state = reactive({})
+      assign(state, block(config, '', state), { store: instance?.appContext.config.globalProperties.$factory.store })
+      onMounted(() => options?.mounted?.call(state))
+      onUnmounted(() => options?.unmounted?.call(state))
       return reactive(state) as Block<C>
     }
   })

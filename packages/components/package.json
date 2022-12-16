@@ -5,7 +5,9 @@
   "version": "0.0.8",
   "type": "module",
   "main": "src/index.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "esno build.ts"
+  },
   "dependencies": {
     "vue": "^3.2.45"
   },
@@ -14,8 +16,10 @@
     "@types/lodash-es": "^4.17.6",
     "@vicons/carbon": "^0.12.0",
     "@vicons/utils": "^0.1.4",
+    "@vitejs/plugin-vue": "^3.2.0",
     "@vueuse/core": "^9.6.0",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "rollup": "^3.7.4"
   },
   "peerDependencies": {
     "vue": "^3.2.0"

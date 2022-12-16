@@ -84,7 +84,7 @@ type AjaxConfig = {
   data: DataType
   loading?: true
   pagination?: true
-  params?: (params: { query?: any; body?: any; path?: any }) => void
+  params?: (params: { payload?: any; path?: any }) => void
   converter?: {
     client?: (data: any) => void
     server?: (data: any) => void
@@ -100,6 +100,7 @@ export interface FactoryConfig {
 
 export interface FactoryOptions {
   debug?: boolean
+  components?: any
   props?: any
   mounted?: () => void
   unmounted?: () => void
