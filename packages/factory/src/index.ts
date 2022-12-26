@@ -1,12 +1,24 @@
 import { computed as vComputed, defineComponent, getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue'
+import Axios from 'axios'
 
 import type { App, ComputedGetter } from 'vue'
-import type { Block, FactoryConfig, FactoryOptions } from './types'
+import type { AxiosResponse, AxiosInterceptorOptions, AxiosRequestConfig } from 'axios'
+import type { AjaxMethodOptions, Block, FactoryConfig, FactoryOptions } from './types'
 import { assign, chain, entries, forEach, get, isFunction, trimStart } from 'lodash-es'
-import { AjaxMethodOptions } from '../dist'
+
+interface InstallOptionsAxios {
+  config?: AxiosRequestConfig
+  interceptors?: {
+    response: {
+      onFulfilled?: (value: AxiosResponse) => Promise<AxiosResponse>
+      onRejected?: (error: any) => any
+      options?: AxiosInterceptorOptions
+    }
+  }
+}
 
 export interface InstallOptions {
-  axios: any
+  ajax: InstallOptionsAxios
   store: Record<string, any>
   plugins?: Record<string, any>
 }
@@ -14,7 +26,15 @@ export interface InstallOptions {
 export const createFactory = (options?: InstallOptions) => {
   return {
     install: (app: App) => {
-      app.config.globalProperties.$factory = { axios: options?.axios, store: options?.store, ...options?.plugins }
+      const axios = Axios.create(options?.ajax.config)
+
+      axios.interceptors.response.use(
+        options?.ajax.interceptors?.response.onFulfilled,
+        options?.ajax.interceptors?.response.onRejected,
+        options?.ajax.interceptors?.response.options
+      )
+
+      app.config.globalProperties.$factory = { axios, store: options?.store, ...options?.plugins }
     }
   }
 }
