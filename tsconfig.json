@@ -1,8 +1,19 @@
 {
-  "extends": "@enochfe/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "module": "ESNext",
     "target": "ESNext",
-    "types": ["vitest", "vitest/globals"]
-  }
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["packages", "play"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "exclude": ["**/node_modules"]
 }

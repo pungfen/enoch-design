@@ -1,12 +1,9 @@
 {
-  "extends": "@enochfe/tsconfig/tsconfig.web.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "sourceMap": true,
-    "types": ["vite/client", "@enochfe/core/client", "@enochfe/factory/client"]
-  },
-  "include": ["src", "definitions"],
-  "references": [{ "path": "./tsconfig.node.json" }],
-  "vueCompilerOptions": {
-    "plugins": []
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

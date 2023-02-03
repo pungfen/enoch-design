@@ -6,20 +6,10 @@
   "configurations": [
     {
       "name": "build",
-      "program": "${workspaceRoot}/cli/dist/bin.js",
-      "args": ["${file}", "build"],
-      "request": "launch",
-      "skipFiles": ["<node_internals>/**"],
       "type": "node",
-      "runtimeArgs": ["--experimental-modules"]
-    },
-    {
-      "name": "test core",
       "program": "${workspaceRoot}/node_modules/esno/esno.js",
       "args": ["${file}"],
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node",
-      "runtimeArgs": ["--experimental-modules"]
+      "request": "launch"
     }
   ]
 }

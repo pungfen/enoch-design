@@ -1,41 +1,41 @@
-import { computed, defineComponent, getCurrentInstance, onMounted, onUnmounted, reactive } from 'vue'
+import { defineComponent, h } from 'vue'
 
-import { block } from './convert'
+import type { DefineComponent, Component } from 'vue'
 
-import type { App } from 'vue'
-import type { Block, FactoryConfig, FactoryOptions } from './types'
-import { assign } from 'lodash-es'
+export * from './config'
 
-export interface InstallOptions {
-  ajax: { instance: any }
-  store: Record<string, any>
+type ChildrenType<T> = keyof any | Array<T>
+
+interface ConfigChildren {
+  is: string | Component
+  class?: string | Array<string>
+  children?: ChildrenType<ConfigChildren>
 }
 
-export const createFactory = (options?: InstallOptions) => {
-  return {
-    install: (app: App) => {
-      app.config.globalProperties.$factory = { ...options }
-    }
+interface Config {
+  [index: string]: any
+  children?: ChildrenType<ConfigChildren>
+}
+
+type OptionsConfig = Record<string, Config>
+
+interface Options {
+  layout: Component
+  mounted?: () => void
+  unmounted?: () => void
+  config?: OptionsConfig
+}
+
+export const factory = <O extends Options>(options: O): DefineComponent<{}, {}> => {
+  const { layout } = options
+
+  const render = () => {
+    return h(layout, null, {
+      default: () => h('div', 'slots')
+    })
   }
-}
 
-export * from './convert'
-export * from './types'
+  const component = defineComponent({ render }) as any
 
-export const factory = <C extends FactoryConfig>(config: C & ThisType<Block<C>>, options?: FactoryOptions & ThisType<Block<C>>) => {
-  return defineComponent<any, Block<C>, unknown, {}, {}, any, any, {}, string, {}, string>({
-    props: options?.props,
-
-    setup() {
-      const instance = getCurrentInstance()
-      const origin = reactive({})
-
-      assign(origin, block.call(origin, config, '', origin), { refs: computed(() => instance?.refs) })
-
-      onMounted(() => options?.mounted?.call(origin))
-      onUnmounted(() => options?.unmounted?.call(origin))
-
-      return origin as Block<C>
-    }
-  })
+  return component
 }

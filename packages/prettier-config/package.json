@@ -2,6 +2,7 @@
   "name": "@enochfe/prettier-config",
   "author": "pung <fp94214@gmail.com>",
   "description": "Enoch frontend Prettier config",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "index.json",
   "repository": {
@@ -13,7 +14,6 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "version": "0.0.7",
   "peerDependencies": {
     "prettier": "*"
   },

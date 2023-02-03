@@ -1,45 +1,35 @@
-<template>
-  <fieldset>
-    <legend>defineFactory</legend>
-
-    <div ref="paging">{{ table.paging }}</div>
-
-    <h1>xxx{{ table.totalCount }}</h1>
-
-    <div>{{ table.data }}</div>
-  </fieldset>
-</template>
-
 <script lang="ts">
 import { factory } from '@enochfe/factory'
+import ViewItem from '@/components/view-item.vue'
 
-export default factory(
-  {
-    children: {
-      table: {
-        ajax: {
-          get: {
-            action: 'GET /enocloud/common/release/note',
-            data: 'array',
-            pagination: true,
-            params(params) {
-              params.query = { pageIndex: 1 }
-            }
-          }
+export default factory({
+  layout: ViewItem,
+
+  config: {
+    header: {
+      children: [
+        {
+          is: 'button',
+          class: 'm-button',
+          children: '按钮'
         },
-        computed: {
-          totalCount() {
-            return this.table.paging.itemCount + this.table.paging.pageSize
-          }
+        {
+          is: 'span',
+          class: 'm-span',
+          children: 'span'
         }
-      }
-    }
-  },
-  {
-    mounted() {
-      this.table.get()
-      this.table.data
+      ]
     }
   }
-)
+})
 </script>
+
+<style scoped>
+.m-button {
+  border: 1px solid teal;
+}
+
+.m-span {
+  border: 1px solid springgreen;
+}
+</style>
