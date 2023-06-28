@@ -1,10 +1,8 @@
 {
+  "name": "enoch-design",
   "private": true,
   "author": "pung <fp94214@gmail.com>",
   "type": "module",
-  "scripts": {
-    "play": "pnpm -C play dev"
-  },
   "devDependencies": {
     "@enochfe/prettier-config": "workspace:*",
     "@enochfe/tsconfig": "workspace:*",
