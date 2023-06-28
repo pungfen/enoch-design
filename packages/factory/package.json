@@ -9,6 +9,6 @@
     "build": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "vue": "^3.2.45"
+    "vue": "^3.3.4"
   }
 }

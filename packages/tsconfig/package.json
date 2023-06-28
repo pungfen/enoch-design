@@ -1,0 +1,22 @@
+{
+  "name": "@enochfe/tsconfig",
+  "author": "pung <fp94214@gmail.com>",
+  "description": "Enoch frontend tsconfig",
+  "license": "MIT",
+  "version": "0.0.1",
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "directory": "packages/tsconfig",
+    "url": "git+https://github.com/pungfen/enoch-design.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@vue/tsconfig": "^0.4.0"
+  }
+}
