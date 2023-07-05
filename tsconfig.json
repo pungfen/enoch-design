@@ -1,3 +1,4 @@
 {
-  "extends": "@enochfe/tsconfig.base.json"
+  "extends": "@enochfe/tsconfig/tsconfig.base.json",
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,10 +1,22 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
+    // Force Consistent Casing In File Names
     "forceConsistentCasingInFileNames": true,
+
+    // As long as you are using a build tool, we recommend you to author and ship in ES modules.
+    // Even if you are targeting Node.js, because
+    //  - `CommonJS` is too outdated
+    //  - the ecosystem hasn't fully caught up with `Node16`/`NodeNext`
+    // This recommendation includes environments like Vitest, Vite Config File, Vite SSR, etc.
     "module": "ESNext",
+
+    // We expect users to use bundlers.
+    // So here we enable some resolution features that are only available in bundlers.
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "skipLibCheck": true
+
+    "skipLibCheck": true,
+    "target": "ESNext"
   }
 }

@@ -1,9 +1,10 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "@enochfe/tsconfig/tsconfig.vue.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["vite-plugin-pages/client"]
   }
 }

@@ -2,12 +2,12 @@
   "name": "enoch-design",
   "private": true,
   "author": "pung <fp94214@gmail.com>",
-  "type": "module",
   "devDependencies": {
     "@enochfe/prettier-config": "workspace:*",
     "@enochfe/tsconfig": "workspace:*",
+    "@types/node": "^20.3.3",
     "prettier": "^2.8.8",
-    "typescript": "^5.1.5"
+    "typescript": "^5.1.6"
   },
   "prettier": "@enochfe/prettier-config"
 }

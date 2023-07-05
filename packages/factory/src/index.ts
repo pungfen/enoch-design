@@ -1,41 +1,22 @@
-import { defineComponent, h } from 'vue'
+import { defineComponent, type DefineComponent, type App } from 'vue'
 
-import type { DefineComponent, Component } from 'vue'
+import { Context } from './context'
 
-export * from './config'
+import type { Children, Options, Props } from './types'
 
-type ChildrenType<T> = keyof any | Array<T>
-
-interface ConfigChildren {
-  is: string | Component
-  class?: string | Array<string>
-  children?: ChildrenType<ConfigChildren>
+export const factory = <PropsOptions extends Props, ChildrenOptions extends Children>(
+  options: Options<PropsOptions, ChildrenOptions>
+): DefineComponent<any, any, any> => {
+  const { setup } = new Context(options)
+  return defineComponent({ setup })
 }
 
-interface Config {
-  [index: string]: any
-  children?: ChildrenType<ConfigChildren>
-}
-
-type OptionsConfig = Record<string, Config>
-
-interface Options {
-  layout: Component
-  mounted?: () => void
-  unmounted?: () => void
-  config?: OptionsConfig
-}
-
-export const factory = <O extends Options>(options: O): DefineComponent<{}, {}> => {
-  const { layout } = options
-
-  const render = () => {
-    return h(layout, null, {
-      default: () => h('div', 'slots')
-    })
+export const createFactory = () => {
+  return {
+    install(app: App) {
+      app.config.globalProperties.$factory ??= {}
+    }
   }
-
-  const component = defineComponent({ render }) as any
-
-  return component
 }
+
+export * from './types'
